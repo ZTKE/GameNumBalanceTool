@@ -44,8 +44,8 @@ class WeaponDesignParams:
     hard_attack_stages: List[float] = field(default_factory=lambda: [0.0] * 10)
     # 10阶段防御
     defense_stages: List[float] = field(default_factory=lambda: [0.0] * 10)
-    # 10阶段突破
-    breakthrough_stages: List[float] = field(default_factory=lambda: [0.0] * 10)
+    # 突破（单值格式，进攻时的防御值）
+    breakthrough: float = 0.0
     # 10阶段压制
     suppression_stages: List[float] = field(default_factory=lambda: [0.0] * 10)
     # 装甲厚度
@@ -155,7 +155,7 @@ def generate_weapon_stats(
             air_interception=base_template.air_interception.copy() if base_template.air_interception else [0.0] * 10,
             sea_accuracy=base_template.sea_accuracy.copy() if base_template.sea_accuracy else [0.0] * 10,
             sea_penetration=base_template.sea_penetration.copy() if base_template.sea_penetration else [0.0] * 10,
-            breakthrough=sum(params.breakthrough_stages) / 10,  # 取平均值
+            breakthrough=params.breakthrough,  # 突破是单值格式
             trench_defense=params.trench_defense,
             environment_adaptations=base_template.environment_adaptations.copy() if base_template.environment_adaptations else {},
         )
@@ -179,7 +179,7 @@ def generate_weapon_stats(
             ground_suppression=params.suppression_stages,
             ground_soft_attack=params.soft_attack_stages,
             ground_hard_attack=params.hard_attack_stages,
-            breakthrough=sum(params.breakthrough_stages) / 10,
+            breakthrough=params.breakthrough,  # 突破是单值格式
             trench_defense=params.trench_defense,
             environment_adaptations={},
         )
@@ -532,7 +532,7 @@ def generate_ww2_weapon_templates() -> Dict[str, WeaponDesignParams]:
             decay_rate=0.3,
             min_value=0.5
         ),
-        breakthrough_stages=[0.5] * 10,
+        breakthrough=0.5,
         suppression_stages=generate_distance_profile(
             peak_stage=4,
             peak_value=0.3,
@@ -568,7 +568,7 @@ def generate_ww2_weapon_templates() -> Dict[str, WeaponDesignParams]:
             decay_rate=0.3,
             min_value=0.6
         ),
-        breakthrough_stages=[0.6] * 10,
+        breakthrough=0.6,
         suppression_stages=generate_distance_profile(
             peak_stage=4,
             peak_value=0.5,
@@ -604,7 +604,7 @@ def generate_ww2_weapon_templates() -> Dict[str, WeaponDesignParams]:
             decay_rate=0.25,
             min_value=0.5
         ),
-        breakthrough_stages=[0.4] * 10,
+        breakthrough=0.4,
         suppression_stages=generate_distance_profile(
             peak_stage=5,
             peak_value=1.2,  # 高压制
@@ -647,12 +647,7 @@ def generate_ww2_weapon_templates() -> Dict[str, WeaponDesignParams]:
             decay_rate=0.2,
             min_value=4.0
         ),
-        breakthrough_stages=generate_distance_profile(
-            peak_stage=5,
-            peak_value=6.0,  # 突破略低于防御
-            decay_rate=0.25,
-            min_value=2.0
-        ),
+        breakthrough=6.0,  # 突破略低于防御（单值格式）
         suppression_stages=generate_distance_profile(
             peak_stage=6,
             peak_value=0.5,
@@ -693,7 +688,7 @@ def generate_ww2_weapon_templates() -> Dict[str, WeaponDesignParams]:
             decay_rate=0.3,
             min_value=0.5
         ),
-        breakthrough_stages=[0.3] * 10,
+        breakthrough=0.3,
         suppression_stages=[0.2] * 10,
         armor_thickness=0.0,
         penetration_stages=generate_distance_profile(
@@ -731,7 +726,7 @@ def generate_ww2_weapon_templates() -> Dict[str, WeaponDesignParams]:
             min_value=0.1
         ),
         defense_stages=[0.5] * 10,
-        breakthrough_stages=[0.2] * 10,
+        breakthrough=0.2,
         suppression_stages=generate_distance_profile(
             peak_stage=4,
             peak_value=0.8,  # 高压制

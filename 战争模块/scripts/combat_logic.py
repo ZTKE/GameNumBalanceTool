@@ -157,9 +157,9 @@ class WeaponStats:
     sonar_strength: List[float] = field(default_factory=list)   # 声呐强度（10阶段）
     submarine_stealth: List[float] = field(default_factory=list) # 潜艇隐身（10阶段）
     stealth: List[float] = field(default_factory=list)          # 隐身（10阶段）
-    ground_detection: float = 0                                  # 对地探测（空军专用）
+    ground_detection: List[float] = field(default_factory=list) # 对地探测（10阶段，空军专用）
     radar_strength: List[float] = field(default_factory=list)   # 雷达强度（10阶段）
-    radar_radius: float = 0                                      # 雷达半径（km）
+    radar_radius: float = 0                                      # 雷达半径（km，单值）
 
     # 燃料与核动力属性
     fuel_capacity: float = 0         # 燃料容量
@@ -218,6 +218,7 @@ class Formation:
     # 战斗状态
     is_defending: bool = False                # 是否处于防御状态
     current_distance_stage: int = 6           # 当前交战距离阶段（默认6=20-40km）
+    damage_penalty_ratio: float = 1.0         # 血量损失导致的面板惩罚系数（1.0=无惩罚）
 
     def __post_init__(self):
         """初始化后计算总宽度"""
@@ -278,7 +279,7 @@ class Formation:
             panel_name: 面板属性名称
 
         返回:
-            加权面板总值
+            加权面板总值（已应用血量惩罚）
         """
         total = 0
         for weapon in self.weapons:
@@ -289,7 +290,9 @@ class Formation:
             else:
                 value = stage_attr
             total += value * weapon.quantity
-        return total
+
+        # 应用血量损失的面板惩罚
+        return total * self.damage_penalty_ratio
 
     def get_recon_value(self) -> float:
         """
@@ -324,25 +327,22 @@ class Formation:
         应用血量损失的面板惩罚
 
         规则：血量每损失1%，所有面板属性下降1%
-        计算方式：(当前血量 / 初始血量) 作为面板系数
+        实现方式：计算当前血量/初始血量的比例作为面板系数
         """
         if self.force_type == ForceType.NAVY:
             # 海军用结构值计算损失比例
             if self.current_structure <= 0:
-                penalty_ratio = 0
+                self.damage_penalty_ratio = 0
             else:
                 initial_structure = sum(w.structure * w.width * w.quantity for w in self.weapons)
-                penalty_ratio = self.current_structure / initial_structure if initial_structure > 0 else 0
+                self.damage_penalty_ratio = self.current_structure / initial_structure if initial_structure > 0 else 0
         else:
+            # 陆军/空军用血量计算损失比例
             if self.current_hp <= 0:
-                penalty_ratio = 0
+                self.damage_penalty_ratio = 0
             else:
-                penalty_ratio = self.current_hp / sum(w.hp * w.width * w.quantity for w in self.weapons)
-
-        # 将惩罚系数应用到所有武器
-        for weapon in self.weapons:
-            # 应用到所有数值属性（简化处理，实际实现需要更细致）
-            weapon.quantity = max(1, int(weapon.quantity * penalty_ratio))
+                initial_hp = sum(w.hp * w.width * w.quantity for w in self.weapons)
+                self.damage_penalty_ratio = self.current_hp / initial_hp if initial_hp > 0 else 0
 
 
 @dataclass
@@ -972,8 +972,8 @@ def air_to_ground_damage(
     base_guidance = attacker_ground_accuracy + attacker_fire_control * ecm_effect
 
     # 2. 计算命中率（考虑对地探测）
-    # 对地探测可以是固定值或从侦察机获取
-    ground_detection = sum(w.ground_detection for w in attacker.weapons) or 1.0
+    # 对地探测是10阶段格式，需要取当前阶段的值
+    ground_detection = attacker.get_total_panel_at_stage(stage, 'ground_detection') or 1.0
 
     if has_friendly_ground:
         accuracy = calculate_accuracy(base_guidance * ground_detection)
@@ -1189,9 +1189,102 @@ def navy_to_navy_damage(
         # 计算最终损耗
         buoyancy_damage = penetration_efficiency * accuracy * buoyancy_base_damage
         structure_damage = penetration_efficiency * accuracy * structure_base_damage
-        org_damage = (buoyancy_damage + structure_damage) / 2  # 组织度损耗取平均值
+        # 组织度损耗：根据需求，敌方组织度 - 最终伤害
+        # "最终伤害"在此处指的是结构伤害计算后的值
+        org_damage = structure_damage
 
     return structure_damage, buoyancy_damage, org_damage
+
+
+def navy_to_ground_damage(
+    attacker: Formation,
+    defender: Formation,
+    stage: int,
+    active_environments: List[str]
+) -> Tuple[float, float]:
+    """
+    计算海军岸轰对地面单位伤害
+
+    流程：
+    1. 基础导引 = 对地命中 + 火控 * max(0, 1-敌方电子干扰/(1+电子抗性))
+    2. 命中率 = min(1.0, max(0.05, 基础导引))
+    3. 有效攻击 = 轻炮+重炮的总和（对地岸轰）
+    4. 基础伤害 = 全局公式计算
+    5. 击穿判定
+    6. 最终伤害 = 基础伤害 * 击穿效率 * 命中率 * 环境系数
+    7. 结算：敌方血量 - 最终伤害 * 0.1；敌方组织度 - 最终伤害
+
+    注意：
+    - 海军岸轰主要使用轻炮和重炮对地伤害
+    - 陆军的堑壕防御对岸轰无效（海军火力无法被堑壕阻挡）
+
+    参数:
+        attacker: 进攻方编制（海军）
+        defender: 防守方编制（陆军）
+        stage: 当前交战阶段
+        active_environments: 当前生效的环境
+
+    返回:
+        (血量伤害, 组织度伤害)
+    """
+    # 1. 计算基础导引
+    attacker_ground_accuracy = attacker.get_total_panel_at_stage(stage, 'ground_accuracy')
+    attacker_fire_control = attacker.get_total_panel_at_stage(stage, 'fire_control')
+
+    defender_ecm = defender.get_total_panel_at_stage(stage, 'electronic_jammer')
+    defender_eccm = defender.get_total_panel_at_stage(stage, 'electronic_resistance')
+
+    ecm_effect = max(0, 1 - defender_ecm / (1 + defender_eccm))
+    base_guidance = attacker_ground_accuracy + attacker_fire_control * ecm_effect
+
+    # 2. 计算命中率
+    accuracy = calculate_accuracy(base_guidance)
+
+    # 3. 计算有效攻击（轻炮+重炮岸轰）
+    light_cannon = attacker.get_total_panel_at_stage(stage, 'light_cannon_damage')
+    heavy_cannon = attacker.get_total_panel_at_stage(stage, 'heavy_cannon_damage')
+    missile = attacker.get_total_panel_at_stage(stage, 'missile_damage')
+
+    # 岸轰攻击值：轻炮+重炮+导弹（导弹对地也有效）
+    effective_attack = light_cannon * 0.8 + heavy_cannon * 1.5 + missile * 0.5
+
+    # 4. 计算敌方防御（岸轰无视堑壕）
+    if defender.is_defending:
+        defender_defense = defender.get_total_panel_at_stage(stage, 'defense')
+    else:
+        defender_defense = sum(w.breakthrough * w.width * w.quantity for w in defender.weapons)
+
+    # 堑壕对岸轰无效，不加入计算
+
+    # 5. 计算基础伤害
+    base_damage = calculate_base_damage(effective_attack, defender_defense)
+
+    # 6. 计算击穿效率（海军岸轰穿透）
+    attacker_penetration = attacker.get_total_panel_at_stage(stage, 'ground_penetration')
+    defender_armor_thickness = sum(
+        w.armor_thickness * w.width * w.quantity
+        for w in defender.weapons
+        if w.weapon_position == WeaponPositionType.ARMORED.value
+    )
+    armored_count = sum(w.quantity for w in defender.weapons if w.weapon_position == WeaponPositionType.ARMORED.value)
+    if armored_count > 0:
+        defender_armor_thickness = defender_armor_thickness / armored_count
+    else:
+        defender_armor_thickness = 0
+
+    penetration_efficiency = calculate_penetration_efficiency(attacker_penetration, defender_armor_thickness)
+
+    # 7. 计算环境适应系数
+    env_coefficient = calculate_environment_coefficient(attacker, active_environments, stage)
+
+    # 8. 计算最终伤害
+    final_damage = base_damage * penetration_efficiency * accuracy * env_coefficient
+
+    # 9. 结算（地对地系数）
+    hp_damage = final_damage * 0.1
+    org_damage = final_damage
+
+    return hp_damage, org_damage
 
 
 # =============================================================================
@@ -1322,8 +1415,10 @@ def execute_navy_combat_round(
     total_defender_damage = 0
 
     # 海战：每船独立开火
-    # 这里简化处理，将整个舰队视为一个编制进行计算
-    # 实际实现时应该遍历每个船只
+    # 修正：navy_to_navy_damage计算整个编制的伤害，需要按武器类型数量分摊
+    # 避免伤害被武器类型数量倍增
+    attacker_weapon_types = len(attacker.weapons)
+    defender_weapon_types = len(defender.weapons) if defender.weapons else 1
 
     if attacker_first:
         # 进攻方先开火
@@ -1336,10 +1431,15 @@ def execute_navy_combat_round(
                 target_is_submarine = '潜艇' in target_ship.weapon_type.lower() if hasattr(target_ship, 'weapon_type') else False
 
                 # 计算伤害（单船对单船）
-                # 这里需要单独处理，简化版本使用整个编制的计算
+                # 修正：将整个编制的伤害分摊到每个武器类型
                 structure_damage, buoyancy_damage, org_damage = navy_to_navy_damage(
                     attacker, defender, stage, target_is_submarine
                 )
+
+                # 分摊伤害到单个武器类型
+                structure_damage /= attacker_weapon_types
+                buoyancy_damage /= attacker_weapon_types
+                org_damage /= attacker_weapon_types
 
                 # 应用伤害
                 defender.current_structure -= structure_damage
@@ -1363,6 +1463,11 @@ def execute_navy_combat_round(
                         defender, attacker, stage, target_is_submarine
                     )
 
+                    # 分摊伤害到单个武器类型
+                    structure_damage /= defender_weapon_types
+                    buoyancy_damage /= defender_weapon_types
+                    org_damage /= defender_weapon_types
+
                     attacker.current_structure -= structure_damage
                     attacker.current_buoyancy -= buoyancy_damage
                     attacker.current_organization -= org_damage
@@ -1371,8 +1476,55 @@ def execute_navy_combat_round(
 
             attacker.apply_damage_penalty()
     else:
-        # 防守方先开火（类似逻辑）
-        pass
+        # 防守方先开火
+        if defender.weapons:
+            for defender_ship in defender.weapons:
+                if attacker.weapons:
+                    target_ship = random.choice(attacker.weapons)
+
+                    target_is_submarine = '潜艇' in target_ship.weapon_type.lower() if hasattr(target_ship, 'weapon_type') else False
+
+                    structure_damage, buoyancy_damage, org_damage = navy_to_navy_damage(
+                        defender, attacker, stage, target_is_submarine
+                    )
+
+                    # 分摊伤害到单个武器类型
+                    structure_damage /= defender_weapon_types
+                    buoyancy_damage /= defender_weapon_types
+                    org_damage /= defender_weapon_types
+
+                    attacker.current_structure -= structure_damage
+                    attacker.current_buoyancy -= buoyancy_damage
+                    attacker.current_organization -= org_damage
+
+                    total_defender_damage += org_damage
+
+            attacker.apply_damage_penalty()
+
+        # 进攻方反击
+        if not attacker.is_defeated():
+            for attacker_ship in attacker.weapons:
+                if defender.weapons:
+                    target_ship = random.choice(defender.weapons)
+
+                    target_is_submarine = '潜艇' in target_ship.weapon_type.lower() if hasattr(target_ship, 'weapon_type') else False
+
+                    structure_damage, buoyancy_damage, org_damage = navy_to_navy_damage(
+                        attacker, defender, stage, target_is_submarine
+                    )
+
+                    # 分摊伤害到单个武器类型
+                    structure_damage /= attacker_weapon_types
+                    buoyancy_damage /= attacker_weapon_types
+                    org_damage /= attacker_weapon_types
+
+                    defender.current_structure -= structure_damage
+                    defender.current_buoyancy -= buoyancy_damage
+                    defender.current_organization -= org_damage
+
+                    total_attacker_damage += org_damage
+
+            defender.apply_damage_penalty()
 
     # 计算推进度
     attacker_speed = sum(w.speed * w.quantity for w in attacker.weapons) / attacker.total_width
@@ -1384,6 +1536,139 @@ def execute_navy_combat_round(
     return CombatResult(
         attacker_damage=total_attacker_damage,
         defender_damage=total_defender_damage,
+        attacker_first=attacker_first,
+        distance_change=new_stage - stage,
+        stage=stage
+    )
+
+
+def execute_air_combat_round(
+    attacker: Formation,
+    defender: Formation,
+    stage: int,
+    active_environments: List[str]
+) -> CombatResult:
+    """
+    执行空军战斗回合
+
+    流程：
+    1. 判定先手方（侦查值对比）
+    2. 空对空伤害计算（无击穿判定）
+    3. 结算：敌方血量 - 最终伤害 * 0.3；敌方组织度 - 最终伤害
+    4. 应用血量惩罚
+
+    注意：
+    - 空战没有击穿判定
+    - 空军防御值固定为0
+    - 血量伤害系数是0.3而非陆军的0.1
+
+    参数:
+        attacker: 进攻方编制（空军）
+        defender: 防守方编制（空军）
+        stage: 当前交战阶段
+        active_environments: 当前生效的环境
+
+    返回:
+        战斗结果
+    """
+    # 获取侦查值
+    attacker_recon = attacker.get_recon_value()
+    defender_recon = defender.get_recon_value()
+
+    # 判定先手
+    attacker_first = determine_first_strike(attacker_recon, defender_recon)
+
+    attacker_damage = 0
+    defender_damage = 0
+
+    def calculate_air_to_air_damage(attacker: Formation, defender: Formation, stage: int) -> Tuple[float, float]:
+        """
+        计算空对空伤害（无击穿判定）
+
+        流程：
+        1. 基础导引 = 对空命中 + 火控*(1-敌方干扰/(1+电子抗性)) - 敌方拦截
+        2. 命中率 = min(1.0, max(0.05, 基础导引))
+        3. 最终伤害 = 对空伤害 * 命中率
+        4. 结算：敌方血量 - 最终伤害*0.3；敌方组织度 - 最终伤害
+
+        返回:
+            (血量伤害, 组织度伤害)
+        """
+        # 1. 计算基础导引
+        attacker_air_accuracy = attacker.get_total_panel_at_stage(stage, 'air_accuracy')
+        attacker_fire_control = attacker.get_total_panel_at_stage(stage, 'fire_control')
+
+        defender_interference = defender.get_total_panel_at_stage(stage, 'electronic_jammer')
+        defender_eccm = defender.get_total_panel_at_stage(stage, 'electronic_resistance')
+        defender_interception = defender.get_total_panel_at_stage(stage, 'air_interception')
+
+        # 电子干扰效果
+        ecm_effect = max(0, 1 - defender_interference / (1 + defender_eccm))
+        base_guidance = attacker_air_accuracy + \
+                        attacker_fire_control * ecm_effect - \
+                        defender_interception
+
+        # 2. 计算命中率
+        accuracy = calculate_accuracy(base_guidance)
+
+        # 3. 计算最终伤害（对空伤害，无击穿）
+        attacker_air_damage = attacker.get_total_panel_at_stage(stage, 'air_damage')
+        final_damage = attacker_air_damage * accuracy
+
+        # 4. 结算（空军血量系数为0.3）
+        hp_damage = final_damage * 0.3
+        org_damage = final_damage
+
+        return hp_damage, org_damage
+
+    if attacker_first:
+        # 进攻方先手
+        hp_damage, org_damage = calculate_air_to_air_damage(attacker, defender, stage)
+        attacker_damage = org_damage
+
+        # 应用伤害
+        defender.current_hp -= hp_damage
+        defender.current_organization -= org_damage
+
+        # 应用血量惩罚
+        defender.apply_damage_penalty()
+
+        # 防守方反击（使用扣血后的面板）
+        if not defender.is_defeated():
+            hp_damage, org_damage = calculate_air_to_air_damage(defender, attacker, stage)
+            defender_damage = org_damage
+
+            attacker.current_hp -= hp_damage
+            attacker.current_organization -= org_damage
+            attacker.apply_damage_penalty()
+    else:
+        # 防守方先手
+        hp_damage, org_damage = calculate_air_to_air_damage(defender, attacker, stage)
+        defender_damage = org_damage
+
+        attacker.current_hp -= hp_damage
+        attacker.current_organization -= org_damage
+        attacker.apply_damage_penalty()
+
+        # 进攻方反击
+        if not attacker.is_defeated():
+            hp_damage, org_damage = calculate_air_to_air_damage(attacker, defender, stage)
+            attacker_damage = org_damage
+
+            defender.current_hp -= hp_damage
+            defender.current_organization -= org_damage
+            defender.apply_damage_penalty()
+
+    # 计算推进度（空军用速度差）
+    attacker_speed = sum(w.speed * w.quantity for w in attacker.weapons) / attacker.total_width
+    defender_speed = sum(w.speed * w.quantity for w in defender.weapons) / defender.total_width
+
+    progress = calculate_navy_air_advance_progress(attacker_speed, defender_speed)
+    new_stage = determine_distance_change(progress, stage, ForceType.AIR)
+
+    return CombatResult(
+        attacker_damage=attacker_damage,
+        defender_damage=defender_damage,
         attacker_first=attacker_first,
         distance_change=new_stage - stage,
         stage=stage
@@ -1444,9 +1729,8 @@ def run_combat_loop(
             result = execute_army_combat_round(attacker, defender, current_stage, active_environments)
         elif force_type == ForceType.NAVY:
             result = execute_navy_combat_round(attacker, defender, current_stage)
-        else:  # AIR
-            # 空战逻辑类似陆军
-            result = execute_army_combat_round(attacker, defender, current_stage, active_environments)
+        else:  # AIR - 使用独立的空战逻辑
+            result = execute_air_combat_round(attacker, defender, current_stage, active_environments)
 
         total_attacker_damage += result.attacker_damage
         total_defender_damage += result.defender_damage
@@ -2155,7 +2439,7 @@ def create_formation_from_war_csv(
                 sonar_strength=weapon.sonar_strength.copy(),
                 submarine_stealth=weapon.submarine_stealth.copy(),
                 stealth=weapon.stealth.copy(),
-                ground_detection=weapon.ground_detection,
+                ground_detection=weapon.ground_detection.copy() if isinstance(weapon.ground_detection, list) else [weapon.ground_detection],
                 radar_strength=weapon.radar_strength.copy(),
                 radar_radius=weapon.radar_radius,
                 breakthrough=weapon.breakthrough,

@@ -3,10 +3,11 @@
 ==================
 
 设计原则：
-- 空军：防御填0，速度决定距离优势，代差碾压明显
-- 海军：装甲厚度重要，轻炮/重炮/鱼雷/导弹分类
+- 空军：防御填0，高爆发性（1-2小时结算），高伤低防
+- 海军：装甲厚度重要，轻炮/重炮/鱼雷/导弹分类，鱼雷近程致命
 - 时代缩放：一战0.6x, 二战1.0x, 冷战1.5x, 现代2.5x
-- 战斗节奏：钢四风格，空战快速(2-6小时)，海战中等(4-12小时)
+- 战斗节奏：空战高爆发(1-2小时)，海战决战(6-8小时)
+- 跨维度：空对地/海一波次(1小时)显著伤害，地对空3-6小时重创空军
 """
 
 import csv
@@ -20,24 +21,36 @@ from dataclasses import dataclass, field
 # 基准数值
 # =============================================================================
 
-# 空军基准值（每宽度）- 基于验证调整
-# 第一次测试: 50.0 -> 100回合(太慢)
-# 调整目标: 空战2-6小时（空军需要有韧性）
-BASE_AIR_HP = 40.0                 # 空军血量基准（每宽度，适当降低）
-BASE_AIR_ORGANIZATION = 35.0       # 空军组织度基准（每宽度，适当降低）
-BASE_AIR_TO_GROUND_DAMAGE = 50.0   # 空对地伤害基准（提高缩短战斗）
-BASE_AIR_TO_AIR_DAMAGE = 70.0      # 空对空伤害基准（提高缩短战斗）
-BASE_AIR_TO_SEA_DAMAGE = 100.0     # 空对海伤害基准
+# 空军基准值（每宽度）- 基于高爆发目标设计
+# 目标时长：空战1-2小时（高爆发结算）
+# 特性：高伤害、低生存（血量35、防御0）
+#
+# 验证历程：
+# - 25.0 → 32小时（太慢）
+# - 400.0 → 5小时（仍慢）
+# - 需要提高到约1000才能达到1-2小时目标
+# 调整到1000.0 → 预期空战约1小时
+BASE_AIR_HP = 35.0                 # 空军血量基准（脆弱设计）
+BASE_AIR_ORGANIZATION = 35.0       # 空军组织度基准
+BASE_AIR_TO_GROUND_DAMAGE = 200.0  # 空对地伤害基准（高爆发，一波次6%组织度损伤）
+BASE_AIR_TO_AIR_DAMAGE = 1200.0    # 空对空伤害基准（高爆发，缩短空战到1-2h）
+BASE_AIR_TO_SEA_DAMAGE = 150.0     # 空对海伤害基准（对舰高爆发）
 BASE_AIR_SPEED = 500               # 空军速度基准(km/h)
 
-# 海军基准值（每宽度）- 基于验证调整
-# 目标: 海战6-12小时（攻击随机，全部击沉时间较长）
-BASE_NAVY_LIGHT_GUN_DAMAGE = 6.0    # 轻炮对海伤害（降低延长战斗）
-BASE_NAVY_HEAVY_GUN_DAMAGE = 15.0   # 重炮对海伤害（降低延长战斗）
-BASE_NAVY_TORPEDO_DAMAGE = 35.0     # 鱼雷对海伤害（降低延长战斗）
-BASE_NAVY_MISSILE_DAMAGE = 25.0     # 导弹对海伤害（降低延长战斗）
-BASE_NAVY_DEFENSE = 20.0            # 海军防御基准
-BASE_NAVY_STRUCTURE = 100.0         # 结构值基准
+# 海军基准值（每宽度）- 基于舰队决战目标设计
+# 目标时长：6-8小时决战
+# 特性：鱼雷近程致命，导弹远程压制
+#
+# 验证历程：
+# - 50.0鱼雷/100结构 → 3小时（太快）
+# - 25.0鱼雷/150结构 → 2小时（仍快）
+# 调整：进一步降低伤害，大幅提高结构值
+BASE_NAVY_LIGHT_GUN_DAMAGE = 4.5    # 轻炮对海伤害（提高缩短战斗）
+BASE_NAVY_HEAVY_GUN_DAMAGE = 9.0    # 重炮对海伤害（提高缩短战斗）
+BASE_NAVY_TORPEDO_DAMAGE = 25.0     # 鱼雷对海伤害（提高缩短战斗）
+BASE_NAVY_MISSILE_DAMAGE = 15.0     # 导弹对海伤害（提高缩短战斗）
+BASE_NAVY_DEFENSE = 25.0            # 海军防御基准
+BASE_NAVY_STRUCTURE = 120.0         # 结构值基准（调整到目标6-8h）
 BASE_NAVY_SPEED = 30                # 海军速度基准(km/h)
 
 # 时代缩放
@@ -134,6 +147,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'speed_mult': 1.0,
         'accuracy_peak': 0.85,
         'fire_control_mult': 1.0,
+        'radar_strength': 0.2,         # 战斗机雷达（二战0.2→冷战0.3→现代0.5）
+        'radar_radius': 50,            # 雷达探测半径
         'range_km': 500,
         'altitude_peak': 5,            # 中高空
         'hp_mult': 1.0,                # 战斗机血量基准
@@ -151,6 +166,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'speed_mult': 1.2,
         'accuracy_peak': 0.85,
         'fire_control_mult': 1.2,
+        'radar_strength': 0.4,         # 多用途战斗机雷达更强
+        'radar_radius': 80,
         'range_km': 800,
         'altitude_peak': 6,
         'decay_rate': 0.25,
@@ -166,6 +183,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'speed_mult': 1.5,
         'accuracy_peak': 0.8,
         'fire_control_mult': 1.0,
+        'radar_strength': 0.3,         # 早期喷气机雷达
+        'radar_radius': 60,
         'range_km': 600,
         'altitude_peak': 7,
         'decay_rate': 0.2,
@@ -181,6 +200,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'speed_mult': 1.0,
         'accuracy_peak': 0.75,
         'fire_control_mult': 1.0,
+        'radar_strength': 0.35,        # 对海战斗机雷达偏向海面探测
+        'radar_radius': 70,
         'range_km': 400,
         'altitude_peak': 4,
         'decay_rate': 0.3,
@@ -198,6 +219,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'speed_mult': 0.8,
         'accuracy_peak': 0.7,
         'fire_control_mult': 0.8,
+        'radar_strength': 0.3,         # 战术轰炸机雷达
+        'radar_radius': 60,
         'range_km': 1000,
         'altitude_peak': 6,
         'ground_damage_mult': 2.0,     # 对地伤害高
@@ -215,6 +238,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'speed_mult': 0.6,
         'accuracy_peak': 0.5,
         'fire_control_mult': 0.6,
+        'radar_strength': 0.4,         # 战略轰炸机雷达较强
+        'radar_radius': 100,
         'range_km': 2000,
         'altitude_peak': 8,
         'ground_damage_mult': 5.0,     # 对地伤害极高
@@ -233,6 +258,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'speed_mult': 0.9,
         'accuracy_peak': 0.9,          # 近距离高命中
         'fire_control_mult': 1.0,
+        'radar_strength': 0.15,        # 强击机雷达较弱（低空突防为主）
+        'radar_radius': 30,
         'range_km': 500,
         'altitude_peak': 3,            # 低空突防
         'ground_damage_mult': 2.5,
@@ -250,6 +277,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'speed_mult': 0.7,
         'accuracy_peak': 0.75,
         'fire_control_mult': 0.8,
+        'radar_strength': 0.35,        # 对海轰炸机雷达偏向海面
+        'radar_radius': 70,
         'range_km': 800,
         'altitude_peak': 5,
         'sea_damage_mult': 2.0,
@@ -264,7 +293,7 @@ AIR_WEAPON_DESIGN_RULES = {
         'air_to_air_mult': 0.0,
         'air_to_ground_mult': 0.0,
         'recon_mult': 2.0,             # 高侦察
-        'radar_strength': 0.8,
+        'radar_strength': 0.8,         # 侦察机雷达最强
         'radar_radius': 200,
         'ground_detection': 0.7,
         'speed_mult': 1.1,
@@ -278,6 +307,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'peak_stage': 5,
         'air_to_air_mult': 0.0,
         'air_to_ground_mult': 0.0,
+        'radar_strength': 0.1,         # 运输机雷达较弱
+        'radar_radius': 20,
         'speed_mult': 0.5,
         'range_km': 2000,
         'altitude_peak': 6,
@@ -290,6 +321,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'air_to_air_mult': 0.0,
         'air_to_ground_mult': 0.0,
         'electronic_jammer_mult': 2.0,
+        'radar_strength': 0.6,         # 电子战飞机雷达强
+        'radar_radius': 150,
         'electronic_resistance_mult': 2.0,
         'speed_mult': 0.8,
         'range_km': 1000,
@@ -302,6 +335,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'peak_stage': 5,
         'air_to_air_mult': 0.0,
         'air_to_ground_mult': 0.0,
+        'radar_strength': 0.1,         # 加油机雷达较弱
+        'radar_radius': 30,
         'speed_mult': 0.6,
         'range_km': 3000,
         'altitude_peak': 6,
@@ -315,6 +350,8 @@ AIR_WEAPON_DESIGN_RULES = {
         'air_to_ground_mult': 0.2,
         'air_to_sea_mult': 0.5,
         'sub_detection_mult': 1.5,     # 反潜能力强
+        'radar_strength': 0.25,        # 直升机雷达（海面探测）
+        'radar_radius': 40,
         'speed_mult': 0.2,
         'range_km': 200,
         'altitude_peak': 2,
@@ -363,6 +400,9 @@ NAVY_WEAPON_DESIGN_RULES = {
         'fire_control_mult': 1.0,
         'accuracy_peak': 0.6,
         'armor_type': 1,               # 重甲船
+        'radar_strength': 0.5,         # 战列舰雷达
+        'radar_radius': 100,
+        'ground_detection': 0.2,       # 对地探测较弱
         'decay_rate': 0.2,
         'description': '战列舰'
     },
@@ -380,6 +420,9 @@ NAVY_WEAPON_DESIGN_RULES = {
         'fire_control_mult': 1.2,
         'accuracy_peak': 0.65,
         'armor_type': 1,
+        'radar_strength': 0.4,         # 战列巡洋舰雷达
+        'radar_radius': 80,
+        'ground_detection': 0.15,
         'decay_rate': 0.2,
         'description': '战列巡洋舰'
     },
@@ -397,8 +440,9 @@ NAVY_WEAPON_DESIGN_RULES = {
         'fire_control_mult': 1.5,
         'accuracy_peak': 0.5,
         'armor_type': 1,
-        'radar_strength': 1.0,
+        'radar_strength': 1.0,         # 航母雷达最强
         'radar_radius': 300,
+        'ground_detection': 0.5,       # 航母对地探测较强
         'decay_rate': 0.15,
         'description': '航空母舰'
     },
@@ -418,6 +462,7 @@ NAVY_WEAPON_DESIGN_RULES = {
         'armor_type': 1,
         'radar_strength': 0.8,
         'radar_radius': 200,
+        'ground_detection': 0.4,
         'decay_rate': 0.2,
         'description': '轻型航空母舰'
     },
@@ -435,6 +480,9 @@ NAVY_WEAPON_DESIGN_RULES = {
         'fire_control_mult': 2.0,
         'accuracy_peak': 0.8,
         'armor_type': 1,
+        'radar_strength': 0.9,         # 导弹巡洋舰雷达强
+        'radar_radius': 250,
+        'ground_detection': 0.6,       # 导弹需要强对地探测
         'decay_rate': 0.15,
         'description': '导弹巡洋舰'
     },
@@ -454,6 +502,9 @@ NAVY_WEAPON_DESIGN_RULES = {
         'fire_control_mult': 1.2,
         'accuracy_peak': 0.65,
         'armor_type': 1,
+        'radar_strength': 0.5,
+        'radar_radius': 100,
+        'ground_detection': 0.2,
         'decay_rate': 0.2,
         'description': '重型巡洋舰'
     },
@@ -461,7 +512,7 @@ NAVY_WEAPON_DESIGN_RULES = {
         'category': 'cruiser',
         'peak_stage': 5,
         'heavy_gun_mult': 0.5,
-        'light_gun_mult': 2.0,         # 轻炮主力
+        'light_gun_mult': 2.0,         # 炮主力
         'torpedo_mult': 1.5,
         'missile_mult': 0.0,
         'defense_mult': 1.5,
@@ -471,6 +522,9 @@ NAVY_WEAPON_DESIGN_RULES = {
         'fire_control_mult': 1.3,
         'accuracy_peak': 0.7,
         'armor_type': 0,               # 轻甲船
+        'radar_strength': 0.4,
+        'radar_radius': 80,
+        'ground_detection': 0.15,
         'decay_rate': 0.25,
         'description': '轻型巡洋舰'
     },
@@ -490,6 +544,9 @@ NAVY_WEAPON_DESIGN_RULES = {
         'fire_control_mult': 1.5,
         'accuracy_peak': 0.75,
         'armor_type': 0,
+        'radar_strength': 0.3,
+        'radar_radius': 60,
+        'ground_detection': 0.1,
         'sub_detection_mult': 1.0,
         'decay_rate': 0.25,
         'description': '驱逐舰'
@@ -508,6 +565,9 @@ NAVY_WEAPON_DESIGN_RULES = {
         'fire_control_mult': 1.5,
         'accuracy_peak': 0.75,
         'armor_type': 0,
+        'radar_strength': 0.25,
+        'radar_radius': 50,
+        'ground_detection': 0.1,
         'sub_detection_mult': 1.5,     # 反潜强
         'decay_rate': 0.25,
         'description': '护卫舰'
@@ -516,19 +576,22 @@ NAVY_WEAPON_DESIGN_RULES = {
     # ===== 潜艇 =====
     '常规潜艇': {
         'category': 'submarine',
-        'peak_stage': 4,
-        'torpedo_mult': 3.0,           # 鱼雷极高
+        'peak_stage': 4,               # 近程峰值（0.5-4km）
+        'torpedo_mult': 4.0,           # 鱼雷极高（近程致命）
         'missile_mult': 0.0,
         'defense_mult': 0.3,
         'armor_thickness': 0,
         'structure_mult': 0.5,
         'speed_mult': 0.3,             # 潜艇慢
         'fire_control_mult': 0.8,
-        'accuracy_peak': 0.8,
+        'accuracy_peak': 0.85,         # 近程高命中
         'sub_stealth': 0.8,            # 高隐身
         'armor_type': 0,
-        'decay_rate': 0.3,
-        'description': '常规潜艇'
+        'radar_strength': 0.0,         # 潜艇无雷达（用声呐）
+        'radar_radius': 0,
+        'ground_detection': 0.0,
+        'decay_rate': 0.35,            # 近程衰减快
+        'description': '常规潜艇（近程致命）'
     },
     '攻击核潜艇': {
         'category': 'submarine',
@@ -817,6 +880,13 @@ def generate_navy_weapon_values(
     # 雷达
     radar_strength = rules.get('radar_strength', 0.0) * era_scale
     radar_radius = rules.get('radar_radius', 0)
+    ground_detection = rules.get('ground_detection', 0.0) * era_scale
+
+    # 雷达强度10阶段（峰值在阶段5-6）
+    radar_strength_stages = [radar_strength * (1 - 0.1 * abs(s - 6)) for s in range(1, 11)]
+
+    # 对地探测10阶段（峰值在阶段5-6）
+    ground_detection_stages = [ground_detection * (1 - 0.1 * abs(s - 6)) for s in range(1, 11)]
 
     return {
         'weapon_type': weapon_type,
@@ -847,9 +917,10 @@ def generate_navy_weapon_values(
         'armor_thickness': rules.get('armor_thickness', 0) * era_scale,
         'armor_type': rules.get('armor_type', 0),
 
-        # 雷达
-        'radar_strength': radar_strength,
+        # 雷达（10阶段格式）
+        'radar_strength': radar_strength_stages,
         'radar_radius': radar_radius,
+        'ground_detection': ground_detection_stages,
 
         # 潜艇隐身
         'sub_stealth': [sub_stealth] * 10,
@@ -1028,16 +1099,16 @@ def generate_new_navy_csv(input_csv: str, output_csv: str) -> Dict:
         new_row[51] = "0=0=0=0=0=0=0=0=0=0"
         # 列53: 潜艇隐身
         new_row[52] = format_10_stage_value(values['sub_stealth'])
-        # 列54: 雷达强度
-        new_row[53] = f"{values['radar_strength']:.3f}"
+        # 列54: 雷达强度（10阶段）
+        new_row[53] = format_10_stage_value(values['radar_strength'])
         # 列55: 雷达半径
         new_row[54] = f"{values['radar_radius']}"
         # 列56: 声呐强度
         new_row[55] = "0=0=0=0=0=0=0=0=0=0"
         # 列60: 对地伤害
         new_row[59] = format_10_stage_value(values['ground_damage'])
-        # 列61: 对地探测
-        new_row[60] = "0"
+        # 列61: 对地探测（10阶段）
+        new_row[60] = format_10_stage_value(values['ground_detection'])
         # 列62: 轻炮对海伤害
         new_row[61] = format_10_stage_value(values['light_gun_damage'])
         # 列63: 重炮对海伤害

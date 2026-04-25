@@ -3,8 +3,9 @@
 ========================================
 
 核心原理：
-- 基准软攻（每宽度）= 23.42（基于18小时击溃步兵团）
-- 基准硬攻（每宽度）= 3.5 × 软攻（坦克对装甲目标）
+- 基准软攻（每宽度）= 12.0（目标常规战6-12小时）
+- 堑壕防御加成约5000，可延长战斗到12-24小时
+- 基准硬攻（每宽度）= 2.0 × 软攻（坦克对装甲目标）
 - 时代缩放：一战0.6x，二战1.0x，冷战1.5x，现代2.5x
 - 距离曲线：峰值阶段递减衰减
 
@@ -24,16 +25,17 @@ from pathlib import Path
 # 数值设计基准
 # =============================================================================
 
-# 核心基准值（来自战斗模拟验证）
-# 验证历程：
-# - 23.42 → 1小时战斗 (太快)
-# - 2.93 → 25-28小时战斗 (太慢)
-# - 7.5 → 4-5小时战斗 (太快)
-# - 4.5 → 17小时战斗 (达标！)
+# 核心基准值（基于全维度战斗时长目标）
+# 目标时长：
+# - 常规战：6-12小时
+# - 堑壕战：12-24小时（堑壕防御加成约5000延长战斗）
 #
-# 最终值：4.5，确保装甲团 vs 步兵团战斗时长约17小时
-# 符合目标：有堑壕12-24小时区间
-BASE_SOFT_ATTACK_PER_WIDTH = 4.5  # 二战基准软攻每宽度（最终验证值）
+# 验证历程：
+# - 4.5 → 17小时（堑壕战达标，常规战偏慢）
+# - 12.0 → 17小时（验证器可能未正确使用新生成数值）
+# - 18.0 → 1小时（太快，数值过高）
+# 调整到6.0 → 预期常规战约10小时，堑壕战约20小时
+BASE_SOFT_ATTACK_PER_WIDTH = 6.0  # 二战基准软攻每宽度
 BASE_HARD_ATTACK_RATIO = 2.0  # 坦克硬攻=软攻×2
 BASE_DEFENSE_PER_WIDTH = 3.0  # 二战坦克防御每宽度
 BASE_BREAKTHROUGH_RATIO = 0.8  # 突破=防御×0.8
@@ -390,8 +392,8 @@ WEAPON_DESIGN_RULES = {
         'penetration_mult': 0.2,
         'armor_thickness': 0.0,
         'accuracy_peak': 0.5,
-        'air_accuracy_peak': 0.7,
-        'air_damage_mult': 3.0,
+        'air_accuracy_peak': 0.25,  # 大幅降低防空命中率（目标3-6小时）
+        'air_damage_mult': 0.05,    # 大幅降低防空伤害（目标3-6小时）
         'trench_defense_mult': 0.5,
         'decay_rate': 0.2,
         'description': '防空火力'
@@ -407,8 +409,8 @@ WEAPON_DESIGN_RULES = {
         'penetration_mult': 0.3,
         'armor_thickness': 0.3,
         'accuracy_peak': 0.5,
-        'air_accuracy_peak': 0.75,
-        'air_damage_mult': 5.0,
+        'air_accuracy_peak': 0.2,   # 大幅降低防空命中率（目标3-6小时）
+        'air_damage_mult': 0.08,    # 大幅降低防空伤害（目标3-6小时）
         'trench_defense_mult': 0.0,
         'decay_rate': 0.2,
         'description': '机动防空'
@@ -441,8 +443,8 @@ WEAPON_DESIGN_RULES = {
         'penetration_mult': 0.3,
         'armor_thickness': 0.0,
         'accuracy_peak': 0.6,
-        'air_accuracy_peak': 0.9,
-        'air_damage_mult': 8.0,
+        'air_accuracy_peak': 0.25,  # 大幅降低防空命中率（目标3-6小时）
+        'air_damage_mult': 0.15,    # 大幅降低防空伤害（目标3-6小时）
         'trench_defense_mult': 0.5,
         'decay_rate': 0.25,
         'description': '单兵防空导弹'
@@ -687,13 +689,9 @@ def generate_weapon_values(
         min_ratio=0.5
     )
 
-    breakthrough_stages = generate_distance_curve(
-        rules['peak_stage'],
-        peak_breakthrough,
-        decay_type='linear',
-        decay_rate=0.2,
-        min_ratio=0.4
-    )
+    # 突破是单值格式，不是10阶段（进攻时使用的防御值）
+    # 突破值应略低于防御峰值
+    breakthrough = peak_breakthrough
 
     suppression_stages = generate_distance_curve(
         rules['peak_stage'],
@@ -728,6 +726,31 @@ def generate_weapon_values(
 
     armor_thickness = rules.get('armor_thickness', 0.0) * era_scale
 
+    # 对空能力（仅防空武器）
+    air_accuracy_peak = rules.get('air_accuracy_peak', 0.0)
+    air_damage_mult = rules.get('air_damage_mult', 0.0)
+
+    if rules['category'] == 'anti_air' and air_damage_mult > 0:
+        # 对空伤害基准值 = 基准软攻 × 对空伤害倍率
+        base_air_damage = BASE_SOFT_ATTACK_PER_WIDTH * era_scale * width * air_damage_mult
+        air_damage_stages = generate_distance_curve(
+            rules.get('peak_stage', 8),  # 防空武器通常远距离峰值
+            base_air_damage,
+            decay_type='linear',
+            decay_rate=rules.get('decay_rate', 0.2),
+            min_ratio=0.3
+        )
+        air_accuracy_stages = generate_distance_curve(
+            rules.get('peak_stage', 8),
+            air_accuracy_peak,
+            decay_type='linear',
+            decay_rate=0.15,
+            min_ratio=0.4
+        )
+    else:
+        air_damage_stages = [0.0] * 10
+        air_accuracy_stages = [0.0] * 10
+
     return {
         'weapon_type': weapon_type,
         'era': era,
@@ -742,12 +765,12 @@ def generate_weapon_values(
         'soft_attack': soft_attack_stages,
         'hard_attack': hard_attack_stages,
         'defense': defense_stages,
-        'breakthrough': breakthrough_stages,
         'suppression': suppression_stages,
         'penetration': penetration_stages,
         'accuracy': accuracy_stages,
 
         # 单值属性
+        'breakthrough': breakthrough,  # 突破是单值格式
         'armor_thickness': armor_thickness,
         'trench_defense': trench_defense,
 
@@ -764,9 +787,9 @@ def generate_weapon_values(
         # 环境适应性（全部设为1.0基准）
         'environment_adaptations': {},
 
-        # 对空/对海（默认0）
-        'air_accuracy': [0.0] * 10,
-        'air_damage': [0.0] * 10,
+        # 对空/对海（防空武器有对空能力）
+        'air_accuracy': air_accuracy_stages,
+        'air_damage': air_damage_stages,
         'sea_accuracy': [0.0] * 10,
         'sea_penetration': [0.0] * 10,
         'sea_damage': [0.0] * 10,
@@ -849,15 +872,18 @@ def generate_new_army_csv(
         new_row[17] = format_10_stage_value(values['penetration'])
         # 列20: 对地压制
         new_row[18] = format_10_stage_value(values['suppression'])
+        # 列20: 对空命中
+        new_row[19] = format_10_stage_value(values['air_accuracy'])
+        # 列21: 对空伤害
+        new_row[20] = format_10_stage_value(values['air_damage'])
         # 列52: 堑壕防御
         new_row[52] = f"{values['trench_defense']:.2f}"
         # 列53: 对地硬攻
         new_row[53] = format_10_stage_value(values['hard_attack'])
         # 列54: 对地软攻
         new_row[54] = format_10_stage_value(values['soft_attack'])
-        # 列55: 突破（取平均值）
-        avg_breakthrough = sum(values['breakthrough']) / 10
-        new_row[51] = f"{avg_breakthrough:.3f}"
+        # 列51: 突破（单值格式，直接写入）
+        new_row[51] = f"{values['breakthrough']:.3f}"
 
         new_rows.append(new_row)
 

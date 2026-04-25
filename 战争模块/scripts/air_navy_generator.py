@@ -1066,6 +1066,7 @@ def generate_new_navy_csv(input_csv: str, output_csv: str) -> Dict:
         buoyancy = float(row[49]) if len(row) > 49 and row[49] else 100.0
 
         values = generate_navy_weapon_values(weapon_type, era, cost, width, speed, org, structure, buoyancy)
+        rules = NAVY_WEAPON_DESIGN_RULES.get(weapon_type, {})
 
         stats['total_weapons'] += 1
         stats['weapons_by_era'][era] = stats['weapons_by_era'].get(era, 0) + 1
@@ -1103,8 +1104,15 @@ def generate_new_navy_csv(input_csv: str, output_csv: str) -> Dict:
         new_row[53] = format_10_stage_value(values['radar_strength'])
         # 列55: 雷达半径
         new_row[54] = f"{values['radar_radius']}"
-        # 列56: 声呐强度
-        new_row[55] = "0=0=0=0=0=0=0=0=0=0"
+        # 列56: 声呐强度（驱逐舰/护卫舰等反潜舰船有值）
+        sub_detection_mult = rules.get('sub_detection_mult', 0.0) if rules else 0.0
+        era_scale = ERA_SCALING.get(era, 1.0)
+        if sub_detection_mult > 0:
+            sonar_peak = 0.1 * era_scale * sub_detection_mult * width
+            sonar_stages = [sonar_peak * (1 - 0.1 * abs(s - 5)) for s in range(1, 11)]
+            new_row[55] = format_10_stage_value(sonar_stages)
+        else:
+            new_row[55] = "0=0=0=0=0=0=0=0=0=0"
         # 列60: 对地伤害
         new_row[59] = format_10_stage_value(values['ground_damage'])
         # 列61: 对地探测（10阶段）

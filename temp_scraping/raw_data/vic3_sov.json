@@ -1,0 +1,63 @@
+{
+  "game": "Victoria 3",
+  "country_code": "SOV",
+  "country_name": "Russia",
+  "scrape_time": "2026-04-12 14:54:00",
+  "pages": {
+    "country_main": {
+      "url": "https://vic3.paradoxwikis.com/Russia",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Government": {
+      "url": "https://vic3.paradoxwikis.com/Government",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Laws": {
+      "url": "https://vic3.paradoxwikis.com/Laws",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Voting_system": {
+      "url": "https://vic3.paradoxwikis.com/Voting_system",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Political_Parties": {
+      "url": "https://vic3.paradoxwikis.com/Political_Parties",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Interest_Groups": {
+      "url": "https://vic3.paradoxwikis.com/Interest_Groups",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Ideologies": {
+      "url": "https://vic3.paradoxwikis.com/Ideologies",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Population": {
+      "url": "https://vic3.paradoxwikis.com/Population",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Pop_Needs": {
+      "url": "https://vic3.paradoxwikis.com/Pop_Needs",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Radicals_and_Loyalists": {
+      "url": "https://vic3.paradoxwikis.com/Radicals_and_Loyalists",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    },
+    "Social_Mobility": {
+      "url": "https://vic3.paradoxwikis.com/Social_Mobility",
+      "text": "JavaScript is disabled in your browser.\nPlease enable JavaScript to proceed.\nA required part of this site couldn’t load. This may be due to a browser\n      extension, network issues, or browser settings. Please check your\n      connection, disable any ad blockers, or try using a different browser.",
+      "tables": []
+    }
+  }
+}

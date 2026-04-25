@@ -1,0 +1,225 @@
+{
+  "main": {
+    "id": "a260a9341bebfbbc",
+    "type": "split",
+    "children": [
+      {
+        "id": "b83e870de7f64965",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a5e0ed7277f281a6",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "经济策划/经济系统设计.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "经济系统设计"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "b30d58d240c5359f",
+    "type": "split",
+    "children": [
+      {
+        "id": "f77548d4f7479bdd",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "8da5b19362ff45d8",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "文件列表"
+            }
+          },
+          {
+            "id": "4f1b9b293915e630",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "搜索"
+            }
+          },
+          {
+            "id": "92161e00f290ad78",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "书签"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "e2165152629c2ef9",
+    "type": "split",
+    "children": [
+      {
+        "id": "2f0a87d2c0245c5d",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "e2689fb6895a45f2",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "reference_data/v3_game_design/Master_Action_Table.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Master_Action_Table 的反向链接列表"
+            }
+          },
+          {
+            "id": "b8e29bcbf1fca060",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "reference_data/v3_game_design/Master_Action_Table.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Master_Action_Table 的出链列表"
+            }
+          },
+          {
+            "id": "c1a4ccc2b06f0ecf",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "标签"
+            }
+          },
+          {
+            "id": "12e99de5fbedf88a",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "添加笔记属性"
+            }
+          },
+          {
+            "id": "74e8c421312d6252",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "reference_data/v3_game_design/Master_Action_Table.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Master_Action_Table 的大纲"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:打开快速切换": false,
+      "graph:查看关系图谱": false,
+      "canvas:新建白板": false,
+      "daily-notes:打开/创建今天的日记": false,
+      "templates:插入模板": false,
+      "command-palette:打开命令面板": false,
+      "bases:新建数据库": false
+    }
+  },
+  "active": "a5e0ed7277f281a6",
+  "lastOpenFiles": [
+    "战争模块/army.csv",
+    "战争模块/army (2).csv",
+    "战争模块/scripts/value_iterator.py",
+    "战争模块/scripts/value_generator.py",
+    "战争模块/scripts/value_calculator.py",
+    "战争模块/scripts/validation_workflow.py",
+    "战争模块/scripts/validate_air_navy.py",
+    "战争模块/scripts/test_ww2_german.py",
+    "战争模块/scripts/simple_validate.py",
+    "战争模块/scripts/final_balance_report.py",
+    "战争模块/scripts/compare_csv.py",
+    "战争模块/README.md",
+    "reference_data/v3_game_design/政体2_极权_部门操作指令.md",
+    "reference_data/v3_game_design/政体1_民主_部门操作指令.md",
+    "reference_data/v3_game_design/政体0_威权_部门操作指令.md",
+    "reference_data/v2_departmental_actions/Civ6_完整政策卡数据表.md",
+    "reference_data/v2_departmental_actions/政府行动指南_部门分类版本.md",
+    "reference_data/v2_departmental_actions/政府行动指南_国家分类版本.md",
+    "reference_data/v2_departmental_actions/Victoria3_All_Movements_List.md",
+    "reference_data/v1_overview/德国.md",
+    "reference_data/v1_overview/法国.md",
+    "reference_data/v1_overview/俄罗斯_苏联.md",
+    "reference_data/v3_game_design/Master_Action_Table.md",
+    "reference_data/v3_game_design/政体6_中立_部门操作指令.md",
+    "reference_data/v3_game_design/政体5_独裁_部门操作指令.md",
+    "reference_data/v3_game_design/政体4_宗教_部门操作指令.md",
+    "reference_data/v3_game_design/政体3_君主_部门操作指令.md",
+    "reference_data/v3_game_design/政体3-6合集_部门操作指令.md",
+    "reference_data/v1_overview/其他国家概览.md",
+    "reference_data/v1_overview/中国_大清.md",
+    "reference_data/v2_departmental_actions/V3_完整法案与机构数据表.md",
+    "reference_data/v2_departmental_actions/Civ6_完整宗教信条数据表.md",
+    "reference_data/v1_overview/核心机制全景对比.md",
+    "reference_data/political_mechanics/其他国家概览.md",
+    "reference_data/v1_overview/英国.md",
+    "reference_data/v1_overview/美国.md"
+  ]
+}

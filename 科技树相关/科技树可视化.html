@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>海陆空武器模块化科技树（完整版）</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            min-height: 100vh;
+        }
+
+        .header {
+            padding: 12px 20px;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .header h1 { color: #e94560; font-size: 16px; }
+        .era-filter { display: flex; gap: 6px; }
+        .era-btn {
+            padding: 5px 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .era-btn:hover { background: rgba(255,255,255,0.2); }
+        .era-btn.active { background: #e94560; border-color: #e94560; }
+
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            height: calc(100vh - 50px);
+            gap: 2px;
+        }
+
+        .panel {
+            background: rgba(0,0,0,0.25);
+            display: flex;
+            flex-direction: column;
+        }
+        .panel-header {
+            padding: 10px 15px;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .panel-icon { width: 20px; height: 20px; border-radius: 4px; }
+        .panel-land .panel-icon { background: #e74c3c; }
+        .panel-sea .panel-icon { background: #3498db; }
+        .panel-air .panel-icon { background: #f1c40f; }
+        .panel-title { font-size: 14px; font-weight: bold; }
+        .panel-count { font-size: 11px; color: #888; margin-left: auto; }
+
+        .tree-scroll {
+            flex: 1;
+            overflow: auto;
+            position: relative;
+        }
+
+        .tree-content {
+            padding: 30px 20px 50px 20px;
+            min-width: 600px;
+            position: relative;
+        }
+
+        .svg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .link {
+            stroke: rgba(255,255,255,0.25);
+            stroke-width: 2;
+            fill: none;
+        }
+        .link.highlighted {
+            stroke: #e94560;
+            stroke-width: 3;
+        }
+
+        .level-row {
+            display: flex;
+            justify-content: flex-start;
+            gap: 12px;
+            margin-bottom: 45px;
+            padding-left: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .node {
+            width: 85px;
+            padding: 8px 5px;
+            border-radius: 6px;
+            text-align: center;
+            cursor: grab;
+            transition: box-shadow 0.2s;
+            position: relative;
+            font-size: 10px;
+            user-select: none;
+        }
+        .node:hover {
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+        }
+        .node.dragging {
+            cursor: grabbing;
+            opacity: 0.8;
+            z-index: 1000;
+        }
+        .node.highlighted {
+            box-shadow: 0 0 15px #e94560;
+        }
+
+        .node-land { background: #e74c3c; border: 2px solid #c0392b; }
+        .node-sea { background: #3498db; border: 2px solid #2980b9; }
+        .node-air { background: #f1c40f; border: 2px solid #d4a500; color: #1a1a2e; }
+
+        .node-module { border-radius: 4px; opacity: 0.85; }
+        .node-upgrade { border-radius: 0; }
+        .node-unit { border-radius: 8px; }
+
+        .node-era-dot {
+            position: absolute;
+            top: -5px;
+            right: -5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            border: 2px solid rgba(0,0,0,0.5);
+        }
+        .era-ww2 { background: #f39c12; }
+        .era-coldWarEarly { background: #3498db; }
+        .era-coldWarLate { background: #9b59b6; }
+        .era-modern { background: #1abc9c; }
+
+        .node-name {
+            font-weight: bold;
+            margin-bottom: 2px;
+            word-break: break-all;
+            line-height: 1.2;
+        }
+        .node-type { font-size: 9px; opacity: 0.7; }
+
+        /* 详情面板 */
+        .detail-panel {
+            position: fixed;
+            background: rgba(20,30,50,0.95);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            padding: 12px;
+            max-width: 280px;
+            z-index: 2000;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+            display: none;
+        }
+        .detail-panel.visible { display: block; }
+        .detail-title { font-size: 14px; font-weight: bold; margin-bottom: 5px; }
+        .detail-era { font-size: 10px; padding: 2px 6px; border-radius: 3px; display: inline-block; margin-left: 5px; }
+        .detail-meta { font-size: 11px; color: #888; margin-bottom: 8px; }
+        .detail-desc { font-size: 12px; background: rgba(255,255,255,0.05); padding: 8px; border-radius: 4px; margin-bottom: 8px; line-height: 1.4; }
+        .detail-prereq-title { font-size: 11px; color: #e94560; margin-bottom: 5px; }
+        .detail-prereq-list { display: flex; flex-wrap: wrap; gap: 4px; }
+        .detail-prereq-item { padding: 3px 6px; background: rgba(255,255,255,0.1); border-radius: 3px; font-size: 10px; }
+        .detail-id { font-size: 10px; color: #666; margin-top: 8px; }
+
+        .legend {
+            padding: 8px;
+            background: rgba(0,0,0,0.3);
+            margin: 10px;
+            border-radius: 4px;
+            position: absolute;
+            bottom: 0;
+        }
+        .legend-row { display: flex; gap: 8px; font-size: 10px; }
+        .legend-item { display: flex; align-items: center; gap: 4px; }
+        .legend-dot { width: 10px; height: 10px; border-radius: 50%; }
+
+        .hint {
+            position: fixed;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px 12px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 4px;
+            font-size: 11px;
+            color: #888;
+            z-index: 100;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>海陆空武器模块化科技树（完整版）</h1>
+        <div class="era-filter">
+            <button class="era-btn active" data-era="all">全部</button>
+            <button class="era-btn" data-era="ww2">二战</button>
+            <button class="era-btn" data-era="coldWarEarly">冷战前</button>
+            <button class="era-btn" data-era="coldWarLate">冷战后</button>
+            <button class="era-btn" data-era="modern">现代</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="panel panel-land">
+            <div class="panel-header">
+                <div class="panel-icon"></div>
+                <div class="panel-title">陆军 Land</div>
+                <div class="panel-count" id="count-land">0节点</div>
+            </div>
+            <div class="tree-scroll"><div class="tree-content" id="tree-land"></div></div>
+        </div>
+
+        <div class="panel panel-sea">
+            <div class="panel-header">
+                <div class="panel-icon"></div>
+                <div class="panel-title">海军 Sea</div>
+                <div class="panel-count" id="count-sea">0节点</div>
+            </div>
+            <div class="tree-scroll"><div class="tree-content" id="tree-sea"></div></div>
+        </div>
+
+        <div class="panel panel-air">
+            <div class="panel-header">
+                <div class="panel-icon"></div>
+                <div class="panel-title">空军 Air</div>
+                <div class="panel-count" id="count-air">0节点</div>
+            </div>
+            <div class="tree-scroll"><div class="tree-content" id="tree-air"></div></div>
+        </div>
+    </div>
+
+    <div class="detail-panel" id="detailPanel">
+        <div class="detail-title" id="detailTitle"></div>
+        <div class="detail-era" id="detailEra"></div>
+        <div class="detail-meta" id="detailMeta"></div>
+        <div class="detail-desc" id="detailDesc"></div>
+        <div class="detail-prereq-title">前置科技</div>
+        <div class="detail-prereq-list" id="detailPrereq"></div>
+        <div class="detail-id" id="detailId"></div>
+    </div>
+
+    <div class="hint">悬停查看详情 | 点击高亮路径 | 拖拽节点调整位置</div>
+
+    <script>
+        // ========== 完整科技树数据 ==========
+        const techData = [
+            // ===== 陆军武器 ID 0-28 =====
+            {id:"w0",name:"栓动步枪",cat:"Land",era:"ww2",type:"Unit",desc:"ID0 基础步兵武器",pre:[],lv:1,wid:0},
+            {id:"w1",name:"突击步枪",cat:"Land",era:"coldWarEarly",type:"Unit",desc:"ID1 AK-47/StG44",pre:["w0","w2"],lv:4,wid:1},
+            {id:"w2",name:"冲锋枪",cat:"Land",era:"ww2",type:"Unit",desc:"ID2 近距离压制",pre:["w0"],lv:2,wid:2},
+            {id:"w3",name:"机枪",cat:"Land",era:"ww2",type:"Unit",desc:"ID3 中距离压制",pre:["w0"],lv:2,wid:3},
+            {id:"w4",name:"反坦克步枪",cat:"Land",era:"ww2",type:"Unit",desc:"ID4 早期反坦克",pre:["w0"],lv:2,wid:4},
+            {id:"w5",name:"反坦克炮",cat:"Land",era:"ww2",type:"Unit",desc:"ID5 牵引式反坦克炮",pre:["w4"],lv:3,wid:5},
+            {id:"w6",name:"反坦克歼击车",cat:"Land",era:"ww2",type:"Unit",desc:"ID6 自行反坦克",pre:["w5","w23"],lv:4,wid:6},
+            {id:"w7",name:"单兵反坦克导弹",cat:"Land",era:"coldWarLate",type:"Unit",desc:"ID7 RPG/ATGM",pre:["w5","w10"],lv:6,wid:7},
+            {id:"w8",name:"迫击炮",cat:"Land",era:"ww2",type:"Unit",desc:"ID8 轻型曲射火力",pre:[],lv:1,wid:8},
+            {id:"w9",name:"步兵炮",cat:"Land",era:"ww2",type:"Unit",desc:"ID9 直射支援",pre:["w8"],lv:2,wid:9},
+            {id:"w10",name:"无后坐力炮",cat:"Land",era:"coldWarEarly",type:"Unit",desc:"ID10 轻型反坦克",pre:["w9"],lv:4,wid:10},
+            {id:"w11",name:"自行突击炮",cat:"Land",era:"ww2",type:"Unit",desc:"ID11 StuG类型",pre:["w9","w23"],lv:4,wid:11},
+            {id:"w12",name:"野战火炮",cat:"Land",era:"ww2",type:"Unit",desc:"ID12 师属火炮",pre:[],lv:2,wid:12},
+            {id:"w13",name:"重型火炮",cat:"Land",era:"ww2",type:"Unit",desc:"ID13 军属重炮",pre:["w12"],lv:4,wid:13},
+            {id:"w14",name:"自行火炮",cat:"Land",era:"coldWarEarly",type:"Unit",desc:"ID14 自行榴弹炮",pre:["w12","w24"],lv:5,wid:14},
+            {id:"w15",name:"火箭炮",cat:"Land",era:"ww2",type:"Unit",desc:"ID15 师属火箭炮",pre:["w12"],lv:4,wid:15},
+            {id:"w16",name:"防空炮",cat:"Land",era:"ww2",type:"Unit",desc:"ID16 地面防空",pre:[],lv:2,wid:16},
+            {id:"w17",name:"防空自行火炮",cat:"Land",era:"coldWarEarly",type:"Unit",desc:"ID17 自行防空",pre:["w16","w24"],lv:5,wid:17},
+            {id:"w18",name:"便携式防空导弹",cat:"Land",era:"coldWarLate",type:"Unit",desc:"ID18 Stinger",pre:["w16"],lv:6,wid:18},
+            {id:"w19",name:"轮式装甲车",cat:"Land",era:"ww2",type:"Unit",desc:"ID19 轮式装甲",pre:[],lv:2,wid:19},
+            {id:"w20",name:"步兵战车",cat:"Land",era:"coldWarEarly",type:"Unit",desc:"ID20 BMP/Bradley",pre:["w19","w24"],lv:5,wid:20},
+            {id:"w21",name:"无人机",cat:"Land",era:"modern",type:"Unit",desc:"ID21 师属无人机",pre:["w22"],lv:8,wid:21},
+            {id:"w22",name:"陆军直升机",cat:"Land",era:"coldWarEarly",type:"Unit",desc:"ID22 运输直升机",pre:[],lv:4,wid:22},
+            {id:"w23",name:"轻型坦克",cat:"Land",era:"ww2",type:"Unit",desc:"ID23 Stuart",pre:["w19"],lv:3,wid:23},
+            {id:"w24",name:"中型坦克",cat:"Land",era:"ww2",type:"Unit",desc:"ID24 Sherman/T-34",pre:["w23"],lv:4,wid:24},
+            {id:"w25",name:"重型坦克",cat:"Land",era:"ww2",type:"Unit",desc:"ID25 Tiger/IS",pre:["w24","w26"],lv:5,wid:25},
+            {id:"w26",name:"主战坦克",cat:"Land",era:"coldWarLate",type:"Unit",desc:"ID26 Abrams/T72",pre:["w24","w25"],lv:7,wid:26},
+            {id:"w27",name:"支援器材",cat:"Land",era:"ww2",type:"Module",desc:"ID27 工兵支援",pre:[],lv:1,wid:27},
+            {id:"w28",name:"通用军车",cat:"Land",era:"ww2",type:"Module",desc:"ID28 运输车辆",pre:[],lv:1,wid:28},
+
+            // ===== 陆军技术模块 =====
+            {id:"land_engine",name:"基础内燃机",cat:"Land",era:"ww2",type:"Module",desc:"坦克动力基础",pre:[],lv:1},
+            {id:"land_diesel",name:"大功率柴油机",cat:"Land",era:"ww2",type:"Module",desc:"重型坦克动力",pre:["land_engine"],lv:2},
+            {id:"land_gasoline",name:"高功率汽油机",cat:"Land",era:"ww2",type:"Module",desc:"轻中型坦克动力",pre:["land_engine"],lv:2},
+            {id:"land_rifled",name:"线膛炮技术",cat:"Land",era:"ww2",type:"Module",desc:"精准射击",pre:[],lv:1},
+            {id:"land_smoothbore",name:"滑膛炮技术",cat:"Land",era:"coldWarEarly",type:"Module",desc:"高穿深",pre:["land_rifled"],lv:3},
+            {id:"land_armor1",name:"均质装甲",cat:"Land",era:"ww2",type:"Module",desc:"基础装甲",pre:[],lv:1},
+            {id:"land_armor2",name:"复合装甲",cat:"Land",era:"coldWarEarly",type:"Module",desc:"抗穿甲弹",pre:["land_armor1"],lv:3},
+            {id:"land_armor3",name:"间隙装甲",cat:"Land",era:"coldWarLate",type:"Upgrade",desc:"抗破甲弹",pre:["land_armor2"],lv:4},
+            {id:"land_fc1",name:"基础火控",cat:"Land",era:"ww2",type:"Module",desc:"光学瞄准",pre:[],lv:1},
+            {id:"land_fc2",name:"稳像式火控",cat:"Land",era:"coldWarEarly",type:"Module",desc:"行进间射击",pre:["land_fc1"],lv:3},
+            {id:"land_fc3",name:"数字化火控",cat:"Land",era:"modern",type:"Upgrade",desc:"热成像激光",pre:["land_fc2"],lv:5},
+            {id:"land_ssm",name:"地对地导弹",cat:"Land",era:"coldWarLate",type:"Unit",desc:"ID44 军属",pre:["w15"],lv:6,wid:44},
+            {id:"land_sam",name:"地对空导弹",cat:"Land",era:"coldWarLate",type:"Unit",desc:"ID45 军属防空",pre:["w16","land_fc2"],lv:6,wid:45},
+
+            // ===== 海军舰船 ID 46-61 =====
+            {id:"w46",name:"护卫舰",cat:"Sea",era:"ww2",type:"Unit",desc:"ID46 护卫舰",pre:[],lv:2,wid:46},
+            {id:"w47",name:"驱逐舰",cat:"Sea",era:"ww2",type:"Unit",desc:"ID47 驱逐舰",pre:["w46"],lv:3,wid:47},
+            {id:"w48",name:"轻型巡洋舰",cat:"Sea",era:"ww2",type:"Unit",desc:"ID48 轻巡",pre:["w47"],lv:4,wid:48},
+            {id:"w49",name:"重型巡洋舰",cat:"Sea",era:"ww2",type:"Unit",desc:"ID49 重巡",pre:["w48"],lv:5,wid:49},
+            {id:"w50",name:"导弹巡洋舰",cat:"Sea",era:"coldWarLate",type:"Unit",desc:"ID50 导弹巡洋",pre:["w49","sea_asm1"],lv:6,wid:50},
+            {id:"w51",name:"战列巡洋舰",cat:"Sea",era:"ww2",type:"Unit",desc:"ID51 战巡",pre:["w48"],lv:5,wid:51},
+            {id:"w52",name:"战列舰",cat:"Sea",era:"ww2",type:"Unit",desc:"ID52 大舰巨炮",pre:["w49","w51"],lv:6,wid:52},
+            {id:"w53",name:"轻型航母",cat:"Sea",era:"ww2",type:"Unit",desc:"ID53 轻航母",pre:[],lv:4,wid:53},
+            {id:"w54",name:"重型航母",cat:"Sea",era:"ww2",type:"Unit",desc:"ID54 重航母",pre:["w53","sea_radar1"],lv:5,wid:54},
+            {id:"w55",name:"常规潜艇",cat:"Sea",era:"ww2",type:"Unit",desc:"ID55 柴电潜艇",pre:[],lv:2,wid:55},
+            {id:"w56",name:"攻击核潜艇",cat:"Sea",era:"coldWarEarly",type:"Unit",desc:"ID56 核动力攻击",pre:["w55","sea_nuclear"],lv:5,wid:56},
+            {id:"w57",name:"战略核潜艇",cat:"Sea",era:"coldWarEarly",type:"Unit",desc:"ID57 SLBM潜艇",pre:["w56"],lv:6,wid:57},
+            {id:"w58",name:"运输船",cat:"Sea",era:"ww2",type:"Unit",desc:"ID58 海运",pre:[],lv:2,wid:58},
+            {id:"w59",name:"补给舰",cat:"Sea",era:"coldWarEarly",type:"Unit",desc:"ID59 舰队补给",pre:["w58"],lv:4,wid:59},
+            {id:"w60",name:"两栖攻击舰",cat:"Sea",era:"coldWarLate",type:"Unit",desc:"ID60 LHD",pre:["w53","sea_helo"],lv:6,wid:60},
+            {id:"w61",name:"两栖登陆舰",cat:"Sea",era:"modern",type:"Unit",desc:"ID61 LPD重装",pre:["w60"],lv:8,wid:61},
+
+            // ===== 海军配件 A-V =====
+            {id:"sea_sonar1",name:"压电声纳",cat:"Sea",era:"ww2",type:"Module",desc:"A一战 基础声纳",pre:[],lv:1},
+            {id:"sea_sonar2",name:"阵列式声纳",cat:"Sea",era:"ww2",type:"Module",desc:"A二战 阵列声纳",pre:["sea_sonar1"],lv:2},
+            {id:"sea_sonar3",name:"拖曳式声纳",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"A冷战 拖曳声纳",pre:["sea_sonar2"],lv:4},
+            {id:"sea_sonar4",name:"主动式声纳",cat:"Sea",era:"modern",type:"Module",desc:"A现代 主动声纳",pre:["sea_sonar3"],lv:6},
+            {id:"sea_mine1",name:"舰艇布雷器",cat:"Sea",era:"ww2",type:"Module",desc:"B一战 舰艇布雷",pre:[],lv:1},
+            {id:"sea_mine2",name:"潜艇布雷器",cat:"Sea",era:"ww2",type:"Module",desc:"B二战 潜艇布雷",pre:["sea_mine1","w55"],lv:3},
+            {id:"sea_mine3",name:"炮射布雷器",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"B冷战 炮射布雷",pre:["sea_mine2"],lv:4},
+            {id:"sea_mine4",name:"导弹布雷器",cat:"Sea",era:"modern",type:"Module",desc:"B现代 导弹布雷",pre:["sea_mine3"],lv:6},
+            {id:"sea_sweep1",name:"引爆式扫雷",cat:"Sea",era:"ww2",type:"Module",desc:"C一战 扫雷",pre:[],lv:1},
+            {id:"sea_sweep2",name:"磁性扫雷器",cat:"Sea",era:"ww2",type:"Module",desc:"C二战 磁性扫雷",pre:["sea_sweep1"],lv:2},
+            {id:"sea_sweep3",name:"炮射扫雷器",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"C冷战 炮射扫雷",pre:["sea_sweep2"],lv:4},
+            {id:"sea_sweep4",name:"遥控扫雷器",cat:"Sea",era:"modern",type:"Module",desc:"C现代 遥控扫雷",pre:["sea_sweep3"],lv:6},
+            {id:"sea_radar1",name:"机械扫描雷达",cat:"Sea",era:"ww2",type:"Module",desc:"D二战 机械雷达",pre:[],lv:2},
+            {id:"sea_radar2",name:"三坐标雷达",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"D冷战 3D雷达",pre:["sea_radar1"],lv:4},
+            {id:"sea_radar3",name:"相控阵雷达",cat:"Sea",era:"modern",type:"Module",desc:"D现代 神盾雷达",pre:["sea_radar2"],lv:6},
+            {id:"sea_dual1",name:"早期高平两用炮",cat:"Sea",era:"ww2",type:"Module",desc:"E二战 两用炮",pre:[],lv:2},
+            {id:"sea_dual2",name:"先进两用舰炮",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"E冷战 两用炮",pre:["sea_dual1"],lv:4},
+            {id:"sea_dual3",name:"现代两用速射炮",cat:"Sea",era:"modern",type:"Module",desc:"E现代 速射炮",pre:["sea_dual2"],lv:6},
+            {id:"sea_aa_gun1",name:"早期双联机炮",cat:"Sea",era:"ww2",type:"Module",desc:"F一战 双联机炮",pre:[],lv:1},
+            {id:"sea_aa_gun2",name:"早期四联机炮",cat:"Sea",era:"ww2",type:"Module",desc:"F一战 四联机炮",pre:["sea_aa_gun1"],lv:2},
+            {id:"sea_aa_gun3",name:"先进四联机炮",cat:"Sea",era:"ww2",type:"Module",desc:"F二战 四联机炮",pre:["sea_aa_gun2"],lv:3},
+            {id:"sea_aa_gun4",name:"先进六联机炮",cat:"Sea",era:"ww2",type:"Module",desc:"F二战 六联机炮",pre:["sea_aa_gun3"],lv:4},
+            {id:"sea_aa_gun5",name:"先进八联机炮",cat:"Sea",era:"ww2",type:"Module",desc:"F二战 八联机炮",pre:["sea_aa_gun4"],lv:5},
+            {id:"sea_depth1",name:"早期深水炸弹",cat:"Sea",era:"ww2",type:"Module",desc:"G一战 深弹",pre:[],lv:1},
+            {id:"sea_depth2",name:"先进深水炸弹",cat:"Sea",era:"ww2",type:"Module",desc:"G二战 深弹",pre:["sea_depth1"],lv:2},
+            {id:"sea_torp1",name:"早期单联鱼雷",cat:"Sea",era:"ww2",type:"Module",desc:"H一战 单联鱼雷",pre:[],lv:1},
+            {id:"sea_torp2",name:"早期双联鱼雷",cat:"Sea",era:"ww2",type:"Module",desc:"H一战 双联鱼雷",pre:["sea_torp1"],lv:2},
+            {id:"sea_torp3",name:"早期四联鱼雷",cat:"Sea",era:"ww2",type:"Module",desc:"H一战 四联鱼雷",pre:["sea_torp2"],lv:3},
+            {id:"sea_torp4",name:"先进单联鱼雷",cat:"Sea",era:"ww2",type:"Module",desc:"H二战 单联鱼雷",pre:["sea_torp3"],lv:4},
+            {id:"sea_torp5",name:"先进双联鱼雷",cat:"Sea",era:"ww2",type:"Module",desc:"H二战 双联鱼雷",pre:["sea_torp4"],lv:5},
+            {id:"sea_torp6",name:"先进四联鱼雷",cat:"Sea",era:"ww2",type:"Module",desc:"H二战 四联鱼雷",pre:["sea_torp5"],lv:6},
+            {id:"sea_torp7",name:"先进八联鱼雷",cat:"Sea",era:"ww2",type:"Module",desc:"H二战 八联鱼雷",pre:["sea_torp6"],lv:7},
+            {id:"sea_torp8",name:"单联磁性鱼雷",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"H冷战 磁性鱼雷",pre:["sea_torp7"],lv:8},
+            {id:"sea_torp9",name:"双联磁性鱼雷",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"H冷战 双联磁性",pre:["sea_torp8"],lv:9},
+            {id:"sea_torp10",name:"四联磁性鱼雷",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"H冷战 四联磁性",pre:["sea_torp9"],lv:10},
+            {id:"sea_torp11",name:"八联磁性鱼雷",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"H冷战 八联磁性",pre:["sea_torp10"],lv:11},
+            {id:"sea_torp12",name:"单联自导鱼雷",cat:"Sea",era:"modern",type:"Module",desc:"H现代 自导鱼雷",pre:["sea_torp11","sea_sonar4"],lv:12},
+            {id:"sea_torp13",name:"双联自导鱼雷",cat:"Sea",era:"modern",type:"Module",desc:"H现代 双联自导",pre:["sea_torp12"],lv:13},
+            {id:"sea_torp14",name:"四联自导鱼雷",cat:"Sea",era:"modern",type:"Module",desc:"H现代 四联自导",pre:["sea_torp13"],lv:14},
+            {id:"sea_torp15",name:"八联自导鱼雷",cat:"Sea",era:"modern",type:"Module",desc:"H现代 八联自导",pre:["sea_torp14"],lv:15},
+            {id:"sea_haa1",name:"手摇高射炮",cat:"Sea",era:"ww2",type:"Module",desc:"I二战 手摇高射炮",pre:[],lv:2},
+            {id:"sea_haa2",name:"电控高射炮",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"I冷战 电控高射炮",pre:["sea_haa1"],lv:4},
+            {id:"sea_main1",name:"早期单联主炮",cat:"Sea",era:"ww2",type:"Module",desc:"J一战 单联主炮",pre:[],lv:1},
+            {id:"sea_main2",name:"早期双联主炮",cat:"Sea",era:"ww2",type:"Module",desc:"J一战 双联主炮",pre:["sea_main1"],lv:2},
+            {id:"sea_main3",name:"先进双联主炮",cat:"Sea",era:"ww2",type:"Module",desc:"J二战 双联主炮",pre:["sea_main2"],lv:3},
+            {id:"sea_main4",name:"先进三联主炮",cat:"Sea",era:"ww2",type:"Module",desc:"J二战 三联主炮",pre:["sea_main3"],lv:4},
+            {id:"sea_catapult",name:"侦察机弹射器",cat:"Sea",era:"ww2",type:"Module",desc:"K二战 侦察机弹射",pre:[],lv:3},
+            {id:"sea_fc1",name:"机械弹道计算机",cat:"Sea",era:"ww2",type:"Module",desc:"L一战 机械火控",pre:[],lv:1},
+            {id:"sea_fc2",name:"脉冲火控雷达",cat:"Sea",era:"ww2",type:"Module",desc:"L二战 脉冲火控",pre:["sea_fc1","sea_radar1"],lv:3},
+            {id:"sea_fc3",name:"电控火控雷达",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"L冷战 电控火控",pre:["sea_fc2"],lv:5},
+            {id:"sea_fc4",name:"数字火控雷达",cat:"Sea",era:"modern",type:"Module",desc:"L现代 数字火控",pre:["sea_fc3"],lv:7},
+            {id:"sea_silent1",name:"合成橡胶消声瓦",cat:"Sea",era:"ww2",type:"Module",desc:"M二战 消声瓦",pre:[],lv:2},
+            {id:"sea_silent2",name:"复合材料消声瓦",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"M冷战 消声瓦",pre:["sea_silent1"],lv:4},
+            {id:"sea_silent3",name:"蜂窝纤维消声瓦",cat:"Sea",era:"modern",type:"Module",desc:"M现代 消声瓦",pre:["sea_silent2"],lv:6},
+            {id:"sea_launch1",name:"滑跃式甲板",cat:"Sea",era:"ww2",type:"Module",desc:"N二战 滑跃甲板",pre:[],lv:3},
+            {id:"sea_launch2",name:"蒸汽弹射器",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"N冷战 蒸汽弹射",pre:["sea_launch1"],lv:5},
+            {id:"sea_launch3",name:"电磁弹射器",cat:"Sea",era:"modern",type:"Module",desc:"N现代 电磁弹射",pre:["sea_launch2"],lv:7},
+            {id:"sea_comm1",name:"短波无线电",cat:"Sea",era:"ww2",type:"Module",desc:"O一战 短波通信",pre:[],lv:1},
+            {id:"sea_comm2",name:"长波无线电",cat:"Sea",era:"ww2",type:"Module",desc:"O二战 波通信",pre:["sea_comm1"],lv:2},
+            {id:"sea_comm3",name:"高速数据链",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"O冷战 数据链",pre:["sea_comm2"],lv:4},
+            {id:"sea_comm4",name:"智能数据链",cat:"Sea",era:"modern",type:"Module",desc:"O现代 智能数据链",pre:["sea_comm3"],lv:6},
+            {id:"sea_ciw1",name:"高速近防炮",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"P冷战 密集阵",pre:["sea_fc3"],lv:5},
+            {id:"sea_ciw2",name:"多目标近防炮",cat:"Sea",era:"modern",type:"Module",desc:"P现代 多目标近防",pre:["sea_ciw1"],lv:7},
+            {id:"sea_asm1",name:"亚音速双联反舰",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"Q冷战 亚音速导弹",pre:[],lv:4},
+            {id:"sea_asm2",name:"亚音速四联反舰",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"Q冷战 四联亚音速",pre:["sea_asm1"],lv:5},
+            {id:"sea_asm3",name:"超音速双联反舰",cat:"Sea",era:"modern",type:"Module",desc:"Q现代 双联超音速",pre:["sea_asm2"],lv:6},
+            {id:"sea_asm4",name:"超音速四联反舰",cat:"Sea",era:"modern",type:"Module",desc:"Q现代 四联超音速",pre:["sea_asm3"],lv:7},
+            {id:"sea_asm5",name:"超音速八联反舰",cat:"Sea",era:"modern",type:"Module",desc:"Q现代 八联超音速",pre:["sea_asm4"],lv:8},
+            {id:"sea_aam1",name:"标准四联防空",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"R冷战 四联防空",pre:["sea_radar2"],lv:4},
+            {id:"sea_aam2",name:"标准八联防空",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"R冷战 八联防空",pre:["sea_aam1"],lv:5},
+            {id:"sea_aam3",name:"小型四联防空",cat:"Sea",era:"modern",type:"Module",desc:"R现代 小型四联",pre:["sea_aam2"],lv:6},
+            {id:"sea_aam4",name:"小型八联防空",cat:"Sea",era:"modern",type:"Module",desc:"R现代 小型八联",pre:["sea_aam3"],lv:7},
+            {id:"sea_aam5",name:"小型十二联防空",cat:"Sea",era:"modern",type:"Module",desc:"R现代 十二联防空",pre:["sea_aam4"],lv:8},
+            {id:"sea_vls1",name:"六联垂直发射",cat:"Sea",era:"modern",type:"Module",desc:"S现代 六联垂发",pre:["sea_aam3","sea_asm3"],lv:7},
+            {id:"sea_vls2",name:"八联垂直发射",cat:"Sea",era:"modern",type:"Module",desc:"S现代 八联垂发",pre:["sea_vls1"],lv:8},
+            {id:"sea_vls3",name:"十二联垂直发射",cat:"Sea",era:"modern",type:"Module",desc:"S现代 十二联垂发",pre:["sea_vls2"],lv:9},
+            {id:"sea_vls4",name:"十六联垂直发射",cat:"Sea",era:"modern",type:"Module",desc:"S现代 十六联垂发",pre:["sea_vls3"],lv:10},
+            {id:"sea_helo",name:"低速直升机机库",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"T冷战 直升机机库",pre:[],lv:4},
+            {id:"sea_helo2",name:"高速直升机机库",cat:"Sea",era:"modern",type:"Module",desc:"T现代 高速直升机",pre:["sea_helo"],lv:6},
+            {id:"sea_subvls",name:"潜艇垂发系统",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"U冷战 潜艇垂发",pre:["w56"],lv:6},
+            {id:"sea_ew1",name:"噪声诱饵系统",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"V冷战 噪声诱饵",pre:[],lv:4},
+            {id:"sea_ew2",name:"大功率压制系统",cat:"Sea",era:"modern",type:"Module",desc:"V现代 电子压制",pre:["sea_ew1"],lv:6},
+            {id:"sea_nuclear",name:"核动力推进",cat:"Sea",era:"coldWarEarly",type:"Module",desc:"核动力系统",pre:[],lv:4},
+
+            // ===== 空军武器 ID 29-43 =====
+            {id:"w29",name:"轻型战斗机",cat:"Air",era:"ww2",type:"Unit",desc:"ID29 二战轻战",pre:["air_prop","air_frame1"],lv:2,wid:29},
+            {id:"w30",name:"重型战斗机",cat:"Air",era:"ww2",type:"Unit",desc:"ID30 二战重战",pre:["w29"],lv:3,wid:30},
+            {id:"w31",name:"早期喷气机",cat:"Air",era:"ww2",type:"Unit",desc:"ID31 Me262",pre:["air_jet","air_sweep"],lv:4,wid:31},
+            {id:"w32",name:"多用途战斗机",cat:"Air",era:"coldWarLate",type:"Unit",desc:"ID32 F-4/F-15",pre:["w31","air_turbo","air_radar2"],lv:7,wid:32},
+            {id:"w33",name:"对海轰炸机",cat:"Air",era:"ww2",type:"Unit",desc:"ID33 二战对海轰炸",pre:["w30"],lv:4,wid:33},
+            {id:"w34",name:"对海战斗机",cat:"Air",era:"ww2",type:"Unit",desc:"ID34 二战对海战机",pre:["w29"],lv:3,wid:34},
+            {id:"w35",name:"强击机",cat:"Air",era:"ww2",type:"Unit",desc:"ID35 IL-2",pre:["w29"],lv:3,wid:35},
+            {id:"w36",name:"海军直升机",cat:"Air",era:"coldWarEarly",type:"Unit",desc:"ID36 舰载直升机",pre:[],lv:4,wid:36},
+            {id:"w37",name:"战术轰炸机",cat:"Air",era:"ww2",type:"Unit",desc:"ID37 二战战术轰炸",pre:["air_prop","air_frame1"],lv:2,wid:37},
+            {id:"w38",name:"战略轰炸机",cat:"Air",era:"ww2",type:"Unit",desc:"ID38 B-17/B-29",pre:["w37","w30"],lv:4,wid:38},
+            {id:"w39",name:"侦察机",cat:"Air",era:"ww2",type:"Unit",desc:"ID39 二战侦察机",pre:["w29"],lv:3,wid:39},
+            {id:"w40",name:"预警机",cat:"Air",era:"coldWarLate",type:"Unit",desc:"ID40 空中雷达",pre:["w39","air_radar2"],lv:6,wid:40},
+            {id:"w41",name:"空中加油机",cat:"Air",era:"coldWarLate",type:"Unit",desc:"ID41 加油机",pre:["w43","air_jet"],lv:6,wid:41},
+            {id:"w42",name:"电子战飞机",cat:"Air",era:"coldWarLate",type:"Unit",desc:"ID42 电子干扰",pre:["w40"],lv:7,wid:42},
+            {id:"w43",name:"运输机",cat:"Air",era:"ww2",type:"Unit",desc:"ID43 二战运输机",pre:["air_prop"],lv:2,wid:43},
+
+            // ===== 空军技术模块 =====
+            {id:"air_prop",name:"螺旋桨发动机",cat:"Air",era:"ww2",type:"Module",desc:"二战动力基础",pre:[],lv:1},
+            {id:"air_jet",name:"喷气发动机",cat:"Air",era:"ww2",type:"Module",desc:"早期喷气动力",pre:[],lv:3},
+            {id:"air_afterburner",name:"加力燃烧室",cat:"Air",era:"coldWarEarly",type:"Module",desc:"超音速飞行",pre:["air_jet"],lv:4},
+            {id:"air_turbofan",name:"涡扇发动机",cat:"Air",era:"coldWarLate",type:"Module",desc:"高效率低油耗",pre:["air_afterburner"],lv:5},
+            {id:"air_frame1",name:"基础机体",cat:"Air",era:"ww2",type:"Module",desc:"直翼设计",pre:[],lv:1},
+            {id:"air_sweep",name:"后掠翼设计",cat:"Air",era:"ww2",type:"Module",desc:"高速稳定",pre:["air_frame1"],lv:3},
+            {id:"air_varsweep",name:"变后掠翼",cat:"Air",era:"coldWarLate",type:"Module",desc:"F-14风格",pre:["air_sweep"],lv:5},
+            {id:"air_stealth",name:"隐身构型",cat:"Air",era:"modern",type:"Module",desc:"低雷达反射",pre:["air_aesa"],lv:7},
+            {id:"air_composite",name:"复合材料机体",cat:"Air",era:"modern",type:"Module",desc:"轻量高强",pre:["air_stealth"],lv:8},
+            {id:"air_avion1",name:"基础航电",cat:"Air",era:"ww2",type:"Module",desc:"无线电瞄准",pre:[],lv:1},
+            {id:"air_radar1",name:"雷达火控",cat:"Air",era:"ww2",type:"Module",desc:"机载雷达",pre:["air_avion1"],lv:2},
+            {id:"air_radar2",name:"多功能雷达",cat:"Air",era:"coldWarEarly",type:"Module",desc:"对空对地双模",pre:["air_radar1"],lv:4},
+            {id:"air_aesa",name:"AESA雷达",cat:"Air",era:"modern",type:"Module",desc:"有源相控阵",pre:["air_radar2"],lv:7},
+        ];
+
+        const eraNames = {ww2:'二战',coldWarEarly:'冷战前期',coldWarLate:'冷战后期',modern:'现代'};
+        const eraColors = {ww2:'#f39c12',coldWarEarly:'#3498db',coldWarLate:'#9b59b6',modern:'#1abc9c'};
+        const typeNames = {Unit:'单位',Module:'模块',Upgrade:'升级'};
+        const catNames = {Land:'陆军',Sea:'海军',Air:'空军'};
+
+        let currentEra = 'all';
+
+        // 按层级分组节点
+        function getNodesByLevel(cat) {
+            let nodes = techData.filter(n => n.cat === cat);
+            if (currentEra !== 'all') {
+                nodes = nodes.filter(n => n.era === currentEra);
+            }
+            const levels = {};
+            nodes.forEach(n => {
+                if (!levels[n.lv]) levels[n.lv] = [];
+                levels[n.lv].push(n);
+            });
+            return {nodes, levels};
+        }
+
+        // 渲染单个分类
+        function renderCategory(cat, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+
+            const {nodes, levels} = getNodesByLevel(cat);
+            document.getElementById(`count-${cat.toLowerCase()}`).textContent = `${nodes.length}节点`;
+
+            if (nodes.length === 0) {
+                container.innerHTML = '<div style="padding:20px;color:#888;text-align:center;">无匹配节点</div>';
+                return;
+            }
+
+            // 创建SVG连线层
+            const svgLayer = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svgLayer.setAttribute('class', 'svg-layer');
+            container.appendChild(svgLayer);
+
+            // 按层级创建行
+            const maxLevel = Math.max(...Object.keys(levels).map(Number));
+            for (let lv = 1; lv <= maxLevel; lv++) {
+                if (!levels[lv]) continue;
+
+                const row = document.createElement('div');
+                row.className = 'level-row';
+
+                levels[lv].forEach((n) => {
+                    const node = document.createElement('div');
+                    node.className = `node node-${cat.toLowerCase()} node-${n.type.toLowerCase()}`;
+                    node.dataset.id = n.id;
+                    node.dataset.level = lv;
+
+                    // 时代标记
+                    const eraDot = document.createElement('div');
+                    eraDot.className = `node-era-dot era-${n.era}`;
+                    node.appendChild(eraDot);
+
+                    // 名称
+                    const name = document.createElement('div');
+                    name.className = 'node-name';
+                    name.textContent = n.name.length > 10 ? n.name.slice(0,9)+'..' : n.name;
+                    node.appendChild(name);
+
+                    // 类型
+                    const typeLabel = document.createElement('div');
+                    typeLabel.className = 'node-type';
+                    typeLabel.textContent = typeNames[n.type];
+                    node.appendChild(typeLabel);
+
+                    // 交互事件
+                    node.addEventListener('mouseover', showDetail);
+                    node.addEventListener('mouseout', hideDetail);
+                    node.addEventListener('click', highlightPath);
+
+                    // 拖拽事件
+                    makeDraggable(node, containerId);
+
+                    row.appendChild(node);
+                });
+
+                container.appendChild(row);
+            }
+
+            // 绘制连线
+            setTimeout(() => drawLinks(cat, containerId, nodes), 50);
+        }
+
+        // 拖拽功能 - 使用transform避免布局偏移
+        function makeDraggable(node, containerId) {
+            let isDragging = false;
+            let startX, startY, nodeStartX, nodeStartY;
+
+            node.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                node.classList.add('dragging');
+                startX = e.clientX;
+                startY = e.clientY;
+
+                // 获取当前的transform值
+                const style = window.getComputedStyle(node);
+                const matrix = new DOMMatrix(style.transform);
+                nodeStartX = matrix.m41 || 0;
+                nodeStartY = matrix.m42 || 0;
+
+                e.preventDefault();
+                e.stopPropagation();
+            });
+
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                const dx = e.clientX - startX;
+                const dy = e.clientY - startY;
+                node.style.transform = `translate(${nodeStartX + dx}px, ${nodeStartY + dy}px)`;
+            });
+
+            document.addEventListener('mouseup', function(e) {
+                if (!isDragging) return;
+                isDragging = false;
+                node.classList.remove('dragging');
+                // 重绘连线
+                const tech = techData.find(t => t.id === node.dataset.id);
+                if (tech) {
+                    const cat = tech.cat;
+                    const nodes = techData.filter(n => n.cat === cat && (currentEra === 'all' || n.era === currentEra));
+                    drawLinks(cat, `tree-${cat.toLowerCase()}`, nodes);
+                }
+            });
+        }
+
+        // 绘制连线
+        function drawLinks(cat, containerId, nodes) {
+            const container = document.getElementById(containerId);
+            const svgLayer = container.querySelector('.svg-layer');
+            if (!svgLayer) return;
+
+            const rect = container.getBoundingClientRect();
+            svgLayer.setAttribute('width', container.scrollWidth);
+            svgLayer.setAttribute('height', container.scrollHeight);
+
+            svgLayer.innerHTML = '';
+
+            // 获取所有节点位置（getBoundingClientRect已包含transform效果）
+            const positions = {};
+            container.querySelectorAll('.node').forEach(nodeEl => {
+                const id = nodeEl.dataset.id;
+                const nodeRect = nodeEl.getBoundingClientRect();
+                const containerRect = container.getBoundingClientRect();
+                positions[id] = {
+                    x: nodeRect.left - containerRect.left + nodeRect.width / 2 + container.scrollLeft,
+                    y: nodeRect.top - containerRect.top + nodeRect.height + container.scrollTop,
+                    topY: nodeRect.top - containerRect.top + container.scrollTop
+                };
+            });
+
+            // 绘制连线
+            nodes.forEach(n => {
+                n.pre.forEach(preId => {
+                    if (!positions[preId] || !positions[n.id]) return;
+
+                    const from = positions[preId];
+                    const to = positions[n.id];
+                    const midY = from.y + (to.topY - from.y) / 2;
+
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    const d = `M ${from.x} ${from.y} C ${from.x} ${midY}, ${to.x} ${midY}, ${to.x} ${to.topY}`;
+                    path.setAttribute('d', d);
+                    path.setAttribute('class', 'link');
+                    path.setAttribute('data-from', preId);
+                    path.setAttribute('data-to', n.id);
+                    svgLayer.appendChild(path);
+                });
+            });
+        }
+
+        // 显示详情
+        function showDetail(e) {
+            const panel = document.getElementById('detailPanel');
+            const id = this.dataset.id;
+            const n = techData.find(t => t.id === id);
+
+            document.getElementById('detailTitle').textContent = n.name;
+            const eraBadge = document.getElementById('detailEra');
+            eraBadge.textContent = eraNames[n.era];
+            eraBadge.style.background = eraColors[n.era];
+            eraBadge.style.color = '#fff';
+
+            document.getElementById('detailMeta').textContent = `${catNames[n.cat]} | ${typeNames[n.type]} | Lv${n.lv}`;
+            document.getElementById('detailDesc').textContent = n.desc;
+            document.getElementById('detailId').textContent = n.wid ? `武器ID: ${n.wid}` : '';
+
+            const prereqList = document.getElementById('detailPrereq');
+            prereqList.innerHTML = '';
+            if (n.pre.length > 0) {
+                n.pre.forEach(pid => {
+                    const pn = techData.find(t => t.id === pid);
+                    if (pn) {
+                        const item = document.createElement('span');
+                        item.className = 'detail-prereq-item';
+                        item.textContent = pn.name;
+                        prereqList.appendChild(item);
+                    }
+                });
+            } else {
+                prereqList.innerHTML = '<span class="detail-prereq-item">无前置</span>';
+            }
+
+            // 定位
+            const rect = this.getBoundingClientRect();
+            let left = rect.right + 10;
+            let top = rect.top;
+            if (left + 280 > window.innerWidth) left = rect.left - 290;
+            if (top + 180 > window.innerHeight) top = window.innerHeight - 190;
+
+            panel.style.left = left + 'px';
+            panel.style.top = top + 'px';
+            panel.classList.add('visible');
+        }
+
+        function hideDetail() {
+            document.getElementById('detailPanel').classList.remove('visible');
+        }
+
+        // 高亮路径
+        function highlightPath(e) {
+            const id = this.dataset.id;
+            const n = techData.find(t => t.id === id);
+            const cat = n.cat;
+            const container = document.getElementById(`tree-${cat.toLowerCase()}`);
+
+            // 清除之前高亮
+            container.querySelectorAll('.node.highlighted').forEach(el => el.classList.remove('highlighted'));
+            container.querySelectorAll('.link.highlighted').forEach(el => el.classList.remove('highlighted'));
+
+            // 递归高亮
+            function highlightUp(nid) {
+                const nodeEl = container.querySelector(`.node[data-id="${nid}"]`);
+                if (nodeEl) nodeEl.classList.add('highlighted');
+
+                const t = techData.find(x => x.id === nid);
+                if (t && t.pre) {
+                    t.pre.forEach(pid => {
+                        const linkEl = container.querySelector(`.link[data-from="${pid}"][data-to="${nid}"]`);
+                        if (linkEl) linkEl.classList.add('highlighted');
+                        highlightUp(pid);
+                    });
+                }
+            }
+            highlightUp(id);
+        }
+
+        // 时代筛选
+        document.querySelectorAll('.era-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.era-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentEra = this.dataset.era;
+                renderAll();
+            });
+        });
+
+        // 渲染所有
+        function renderAll() {
+            renderCategory('Land', 'tree-land');
+            renderCategory('Sea', 'tree-sea');
+            renderCategory('Air', 'tree-air');
+        }
+
+        // 窗口调整
+        window.addEventListener('resize', () => {
+            setTimeout(() => {
+                ['Land', 'Sea', 'Air'].forEach(cat => {
+                    const nodes = techData.filter(n => n.cat === cat && (currentEra === 'all' || n.era === currentEra));
+                    drawLinks(cat, `tree-${cat.toLowerCase()}`, nodes);
+                });
+            }, 100);
+        });
+
+        // 初始化
+        renderAll();
+    </script>
+</body>
+</html>

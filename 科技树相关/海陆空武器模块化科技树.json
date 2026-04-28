@@ -1,0 +1,1404 @@
+{
+  "meta": {
+    "title": "二战至现代战争游戏：海陆空武器模块化科技树",
+    "version": "1.0",
+    "eraDefinition": {
+      "ww2": "二战 (1939-1945)",
+      "coldWarEarly": "冷战前期 (1945-1960)",
+      "coldWarLate": "冷战后期 (1960-1990)",
+      "modern": "现代 (1990+)"
+    },
+    "typeDefinition": {
+      "Unit": "完整武器单位",
+      "Module": "关键技术组件",
+      "Upgrade": "升级套件"
+    }
+  },
+  "nodes": [
+    // ========== 陆军基础模块层 ==========
+    {
+      "id": "land_basic_engine",
+      "name": "基础内燃机",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Module",
+      "description": "早期坦克动力基础，对应武器模块中的燃料消耗系统",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "land_high_power_gasoline",
+      "name": "高功率汽油机",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Module",
+      "description": "适用于轻型/中型坦克，机动性优先",
+      "prerequisites": ["land_basic_engine"],
+      "level": 2
+    },
+    {
+      "id": "land_high_power_diesel",
+      "name": "大功率柴油机",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Module",
+      "description": "适用于重型坦克与自行火炮，扭矩优先",
+      "prerequisites": ["land_basic_engine"],
+      "level": 2
+    },
+    {
+      "id": "land_rifled_gun",
+      "name": "线膛炮技术",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Module",
+      "description": "精准度高，对应多联装主炮J系列",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "land_smoothbore_gun",
+      "name": "滑膛炮技术",
+      "category": "Land",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "高穿深，配合尾翼稳定脱壳穿甲弹",
+      "prerequisites": ["land_rifled_gun"],
+      "level": 3
+    },
+    {
+      "id": "land_homogeneous_armor",
+      "name": "均质装甲",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Module",
+      "description": "基础装甲技术，对应装甲厚度变量",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "land_composite_armor",
+      "name": "复合装甲",
+      "category": "Land",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "陶瓷+金属复合材料，抗穿甲弹",
+      "prerequisites": ["land_homogeneous_armor"],
+      "level": 3
+    },
+    {
+      "id": "land_gap_armor",
+      "name": "间隙装甲",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Upgrade",
+      "description": "抗破甲弹设计，附加装甲套件",
+      "prerequisites": ["land_composite_armor"],
+      "level": 4
+    },
+    {
+      "id": "land_basic_fire_control",
+      "name": "基础火控",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Module",
+      "description": "光学瞄准，对应火控变量基础值",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "land_stabilized_fc",
+      "name": "稳像式火控",
+      "category": "Land",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "行进间射击能力",
+      "prerequisites": ["land_basic_fire_control"],
+      "level": 3
+    },
+    {
+      "id": "land_digital_fc",
+      "name": "数字化火控",
+      "category": "Land",
+      "era": "modern",
+      "type": "Upgrade",
+      "description": "计算机辅助，激光测距+热成像",
+      "prerequisites": ["land_stabilized_fc"],
+      "level": 5
+    },
+
+    // ========== 陆军坦克演进线 ==========
+    {
+      "id": "land_light_tank_1",
+      "name": "轻型坦克I",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 23，如M3 Stuart",
+      "prerequisites": ["land_high_power_gasoline", "land_rifled_gun"],
+      "level": 2
+    },
+    {
+      "id": "land_medium_tank_1",
+      "name": "中型坦克I",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 24，如M4 Sherman",
+      "prerequisites": ["land_light_tank_1"],
+      "level": 3
+    },
+    {
+      "id": "land_medium_tank_2",
+      "name": "中型坦克II",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 24升级，如T-34/85、Panzer IV后期",
+      "prerequisites": ["land_medium_tank_1", "land_high_power_diesel"],
+      "level": 4
+    },
+    {
+      "id": "land_heavy_tank_1",
+      "name": "重型坦克I",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 25，如KV-1、Tiger I",
+      "prerequisites": ["land_high_power_diesel", "land_rifled_gun"],
+      "level": 4
+    },
+    {
+      "id": "land_heavy_tank_2",
+      "name": "重型坦克II",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 25升级，如IS-2、Tiger II",
+      "prerequisites": ["land_heavy_tank_1", "land_homogeneous_armor"],
+      "level": 5
+    },
+    {
+      "id": "land_mb_tank_1",
+      "name": "主战坦克I",
+      "category": "Land",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "对应武器ID 26，一代MBT如T-54、Centurion",
+      "prerequisites": ["land_medium_tank_2"],
+      "level": 5
+    },
+    {
+      "id": "land_mb_tank_2",
+      "name": "主战坦克II",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "二代MBT如T-72、M60、Leopard 1",
+      "prerequisites": ["land_mb_tank_1", "land_smoothbore_gun", "land_stabilized_fc"],
+      "level": 6
+    },
+    {
+      "id": "land_mb_tank_3",
+      "name": "主战坦克III",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "三代MBT如M1 Abrams、T-80、Leopard 2",
+      "prerequisites": ["land_mb_tank_2", "land_composite_armor"],
+      "level": 7
+    },
+    {
+      "id": "land_mb_tank_4",
+      "name": "主战坦克IV",
+      "category": "Land",
+      "era": "modern",
+      "type": "Unit",
+      "description": "现代MBT如M1A2、T-90、Type 99",
+      "prerequisites": ["land_mb_tank_3", "land_gap_armor", "land_digital_fc"],
+      "level": 8
+    },
+
+    // ========== 陆军步兵支援线 ==========
+    {
+      "id": "land_bolt_action_rifle",
+      "name": "栓动步枪",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 0",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "land_semi_auto_rifle",
+      "name": "半自动步枪",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Upgrade",
+      "description": "如M1 Garand",
+      "prerequisites": ["land_bolt_action_rifle"],
+      "level": 2
+    },
+    {
+      "id": "land_assault_rifle",
+      "name": "突击步枪",
+      "category": "Land",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "对应武器ID 1，如AK-47、StG44",
+      "prerequisites": ["land_semi_auto_rifle"],
+      "level": 4
+    },
+    {
+      "id": "land_infantry_gun",
+      "name": "步兵炮",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 9",
+      "prerequisites": [],
+      "level": 2
+    },
+    {
+      "id": "land_recoilless_rifle",
+      "name": "无后坐力炮",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 10",
+      "prerequisites": ["land_infantry_gun"],
+      "level": 3
+    },
+    {
+      "id": "land_at_rifle",
+      "name": "反坦克步枪",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 4",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "land_at_gun",
+      "name": "反坦克炮",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 5",
+      "prerequisites": ["land_at_rifle"],
+      "level": 3
+    },
+    {
+      "id": "land_at_vehicle",
+      "name": "反坦克歼击车",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 6",
+      "prerequisites": ["land_at_gun", "land_medium_tank_1"],
+      "level": 4
+    },
+    {
+      "id": "land_manpad_at",
+      "name": "单兵反坦克导弹",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 7，如RPG-7、ATGM",
+      "prerequisites": ["land_recoilless_rifle"],
+      "level": 6
+    },
+
+    // ========== 陆军炮兵演进线 ==========
+    {
+      "id": "land_field_gun",
+      "name": "野战火炮",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 12",
+      "prerequisites": [],
+      "level": 2
+    },
+    {
+      "id": "land_heavy_gun",
+      "name": "重型火炮",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 13，军属单位",
+      "prerequisites": ["land_field_gun"],
+      "level": 4
+    },
+    {
+      "id": "land_sp_gun_1",
+      "name": "自行火炮I",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 14",
+      "prerequisites": ["land_field_gun", "land_high_power_gasoline"],
+      "level": 4
+    },
+    {
+      "id": "land_sp_gun_2",
+      "name": "自行火炮II",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "冷战自行火炮，如M109",
+      "prerequisites": ["land_sp_gun_1", "land_high_power_diesel"],
+      "level": 6
+    },
+    {
+      "id": "land_rocket_arty_1",
+      "name": "火箭炮",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 15，师属单位",
+      "prerequisites": ["land_field_gun"],
+      "level": 4
+    },
+    {
+      "id": "land_rocket_arty_2",
+      "name": "火箭炮II",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "现代火箭炮，如BM-21、MLRS",
+      "prerequisites": ["land_rocket_arty_1"],
+      "level": 6
+    },
+    {
+      "id": "land_aa_gun",
+      "name": "防空炮",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 16",
+      "prerequisites": [],
+      "level": 2
+    },
+    {
+      "id": "land_sp_aa",
+      "name": "防空自行火炮",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 17",
+      "prerequisites": ["land_aa_gun", "land_medium_tank_1"],
+      "level": 4
+    },
+    {
+      "id": "land_manpad_aa",
+      "name": "便携式防空导弹",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 18，如Stinger、Igla",
+      "prerequisites": ["land_aa_gun"],
+      "level": 6
+    },
+
+    // ========== 陆军新型作战线 ==========
+    {
+      "id": "land_wheel_afv",
+      "name": "轮式装甲车",
+      "category": "Land",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 19",
+      "prerequisites": [],
+      "level": 2
+    },
+    {
+      "id": "land_ifv",
+      "name": "履带式步兵战车",
+      "category": "Land",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "对应武器ID 20，如BMP-1、M2 Bradley",
+      "prerequisites": ["land_wheel_afv", "land_high_power_diesel"],
+      "level": 5
+    },
+    {
+      "id": "land_helicopter",
+      "name": "陆军直升机",
+      "category": "Land",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "对应武器ID 22，军属/师属单位",
+      "prerequisites": [],
+      "level": 4
+    },
+    {
+      "id": "land_attack_helicopter",
+      "name": "武装直升机",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "如Mi-24、AH-1",
+      "prerequisites": ["land_helicopter", "land_at_vehicle"],
+      "level": 6
+    },
+    {
+      "id": "land_uav",
+      "name": "无人机系统",
+      "category": "Land",
+      "era": "modern",
+      "type": "Unit",
+      "description": "对应武器ID 21，师属单位",
+      "prerequisites": ["land_digital_fc"],
+      "level": 8
+    },
+    {
+      "id": "land_ssm",
+      "name": "地对地导弹",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 44，军属单位",
+      "prerequisites": ["land_rocket_arty_2"],
+      "level": 7
+    },
+    {
+      "id": "land_sam",
+      "name": "地对空导弹",
+      "category": "Land",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 45，军属单位",
+      "prerequisites": ["land_aa_gun", "land_basic_fire_control"],
+      "level": 7
+    },
+
+    // ========== 海军基础系统层 ==========
+    {
+      "id": "sea_basic_sonar",
+      "name": "基础声纳",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Module",
+      "description": "对应配置A，压电声纳/阵列式声纳",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "sea_array_sonar",
+      "name": "阵列式声纳",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Module",
+      "description": "二战声纳升级",
+      "prerequisites": ["sea_basic_sonar"],
+      "level": 2
+    },
+    {
+      "id": "sea_towed_sonar",
+      "name": "拖曳式声纳",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "远程探测能力",
+      "prerequisites": ["sea_array_sonar"],
+      "level": 4
+    },
+    {
+      "id": "sea_active_sonar",
+      "name": "主动式声纳",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置A现代级",
+      "prerequisites": ["sea_towed_sonar"],
+      "level": 6
+    },
+    {
+      "id": "sea_mech_radar",
+      "name": "机械扫描雷达",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Module",
+      "description": "对应配置D二战级",
+      "prerequisites": [],
+      "level": 2
+    },
+    {
+      "id": "sea_3d_radar",
+      "name": "三坐标雷达",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "高度测定能力",
+      "prerequisites": ["sea_mech_radar"],
+      "level": 4
+    },
+    {
+      "id": "sea_phase_array_radar",
+      "name": "相控阵雷达",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置D现代级，神盾系统核心",
+      "prerequisites": ["sea_3d_radar"],
+      "level": 6
+    },
+    {
+      "id": "sea_mech_fc",
+      "name": "机械弹道计算机",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Module",
+      "description": "对应配置L一战级",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "sea_pulse_fc",
+      "name": "脉冲火控雷达",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Module",
+      "description": "对应配置L二战级",
+      "prerequisites": ["sea_mech_fc"],
+      "level": 2
+    },
+    {
+      "id": "sea_electric_fc",
+      "name": "电控火控雷达",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "对应配置L冷战级",
+      "prerequisites": ["sea_pulse_fc"],
+      "level": 4
+    },
+    {
+      "id": "sea_digital_fc",
+      "name": "数字火控雷达",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置L现代级",
+      "prerequisites": ["sea_electric_fc"],
+      "level": 6
+    },
+    {
+      "id": "sea_nuclear_power",
+      "name": "核动力推进",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "无限续航能力，对应核动力变量",
+      "prerequisites": [],
+      "level": 4
+    },
+    {
+      "id": "sea_noise_decoy",
+      "name": "噪声诱饵系统",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "对应配置V冷战级，电子战基础",
+      "prerequisites": [],
+      "level": 4
+    },
+    {
+      "id": "sea_jammer",
+      "name": "大功率压制系统",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置V现代级",
+      "prerequisites": ["sea_noise_decoy"],
+      "level": 6
+    },
+    {
+      "id": "sea_stealth_hull",
+      "name": "隐身舰体设计",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "降低雷达反射，对应隐蔽变量",
+      "prerequisites": ["sea_phase_array_radar"],
+      "level": 7
+    },
+
+    // ========== 海军舰体演进线 ==========
+    {
+      "id": "sea_submarine_1",
+      "name": "潜艇",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 55基础级",
+      "prerequisites": [],
+      "level": 2
+    },
+    {
+      "id": "sea_conv_sub_2",
+      "name": "常规潜艇II",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "二战潜艇升级，Type VII、Gato级",
+      "prerequisites": ["sea_submarine_1", "sea_array_sonar"],
+      "level": 3
+    },
+    {
+      "id": "sea_conv_sub_3",
+      "name": "常规潜艇III",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "冷战常规潜艇",
+      "prerequisites": ["sea_conv_sub_2"],
+      "level": 5
+    },
+    {
+      "id": "sea_attack_nuclear_sub",
+      "name": "攻击核潜艇",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "对应武器ID 56，如Nautilus、Los Angeles级",
+      "prerequisites": ["sea_conv_sub_3", "sea_nuclear_power"],
+      "level": 5
+    },
+    {
+      "id": "sea_strategic_nuclear_sub",
+      "name": "战略核潜艇",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "对应武器ID 57，SLBM搭载",
+      "prerequisites": ["sea_attack_nuclear_sub"],
+      "level": 6
+    },
+    {
+      "id": "sea_frigate_1",
+      "name": "护卫舰I",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 46二战级",
+      "prerequisites": [],
+      "level": 2
+    },
+    {
+      "id": "sea_destroyer_1",
+      "name": "驱逐舰I",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 47二战级",
+      "prerequisites": ["sea_frigate_1"],
+      "level": 3
+    },
+    {
+      "id": "sea_cl_1",
+      "name": "轻型巡洋舰",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 48",
+      "prerequisites": ["sea_destroyer_1"],
+      "level": 4
+    },
+    {
+      "id": "sea_ca_1",
+      "name": "重型巡洋舰",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 49",
+      "prerequisites": ["sea_cl_1"],
+      "level": 5
+    },
+    {
+      "id": "sea_bb_1",
+      "name": "战列舰",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 52，大舰巨炮时代代表",
+      "prerequisites": ["sea_ca_1", "sea_pulse_fc"],
+      "level": 6
+    },
+    {
+      "id": "sea_bb_2",
+      "name": "战列舰II",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "终极战列舰，如Iowa、Yamato级",
+      "prerequisites": ["sea_bb_1"],
+      "level": 7
+    },
+    {
+      "id": "sea_bc_1",
+      "name": "战列巡洋舰",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 51",
+      "prerequisites": ["sea_cl_1"],
+      "level": 5
+    },
+    {
+      "id": "sea_cg_1",
+      "name": "导弹巡洋舰",
+      "category": "Sea",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 50",
+      "prerequisites": ["sea_ca_1", "sea_asm_1"],
+      "level": 6
+    },
+    {
+      "id": "sea_ddg_1",
+      "name": "导弹驱逐舰",
+      "category": "Sea",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "导弹化驱逐舰",
+      "prerequisites": ["sea_destroyer_1", "sea_asm_1", "sea_3d_radar"],
+      "level": 6
+    },
+    {
+      "id": "sea_ddg_2",
+      "name": "神盾驱逐舰",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Unit",
+      "description": "如Arleigh Burke级",
+      "prerequisites": ["sea_ddg_1", "sea_phase_array_radar", "sea_vls"],
+      "level": 8
+    },
+
+    // ========== 海军航母演进线 ==========
+    {
+      "id": "sea_cvl_1",
+      "name": "轻型航空母舰I",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 53二战级",
+      "prerequisites": [],
+      "level": 4
+    },
+    {
+      "id": "sea_cv_1",
+      "name": "重型航空母舰I",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 54二战级，如Enterprise、Akagi",
+      "prerequisites": ["sea_cvl_1", "sea_mech_radar"],
+      "level": 5
+    },
+    {
+      "id": "sea_cv_2",
+      "name": "重型航空母舰II",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "冷战航母，如Midway级",
+      "prerequisites": ["sea_cv_1", "sea_steam_catapult"],
+      "level": 6
+    },
+    {
+      "id": "sea_cv_3",
+      "name": "重型航空母舰III",
+      "category": "Sea",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "超级航母，如Nimitz级",
+      "prerequisites": ["sea_cv_2", "sea_nuclear_power"],
+      "level": 7
+    },
+    {
+      "id": "sea_cv_4",
+      "name": "现代航空母舰",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Unit",
+      "description": "电磁弹射航母",
+      "prerequisites": ["sea_cv_3", "sea_em_catapult"],
+      "level": 8
+    },
+    {
+      "id": "sea_ski_jump",
+      "name": "滑跃式甲板",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Module",
+      "description": "对应配置N二战级",
+      "prerequisites": [],
+      "level": 3
+    },
+    {
+      "id": "sea_steam_catapult",
+      "name": "蒸汽弹射器",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "对应配置N冷战级",
+      "prerequisites": ["sea_ski_jump"],
+      "level": 5
+    },
+    {
+      "id": "sea_em_catapult",
+      "name": "电磁弹射器",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置N现代级",
+      "prerequisites": ["sea_steam_catapult"],
+      "level": 7
+    },
+    {
+      "id": "sea_lhd_1",
+      "name": "两栖攻击舰I",
+      "category": "Sea",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 60，如Tarawa级",
+      "prerequisites": ["sea_cvl_1", "sea_helicopter"],
+      "level": 6
+    },
+    {
+      "id": "sea_lhd_2",
+      "name": "两栖攻击舰II",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Unit",
+      "description": "如Wasp级、Type 075",
+      "prerequisites": ["sea_lhd_1"],
+      "level": 7
+    },
+    {
+      "id": "sea_lpd",
+      "name": "两栖登陆舰",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Unit",
+      "description": "对应武器ID 61，重装投送",
+      "prerequisites": ["sea_lhd_2"],
+      "level": 8
+    },
+
+    // ========== 海军导弹化转型 ==========
+    {
+      "id": "sea_torpedo_1",
+      "name": "基础鱼雷",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Module",
+      "description": "对应配置H二战早期",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "sea_torpedo_2",
+      "name": "先进鱼雷",
+      "category": "Sea",
+      "era": "ww2",
+      "type": "Module",
+      "description": "对应配置H二战先进级",
+      "prerequisites": ["sea_torpedo_1"],
+      "level": 3
+    },
+    {
+      "id": "sea_magnetic_torpedo",
+      "name": "磁性鱼雷",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "对应配置H冷战级",
+      "prerequisites": ["sea_torpedo_2"],
+      "level": 4
+    },
+    {
+      "id": "sea_homing_torpedo",
+      "name": "自导鱼雷",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置H现代级",
+      "prerequisites": ["sea_magnetic_torpedo", "sea_active_sonar"],
+      "level": 6
+    },
+    {
+      "id": "sea_asm_1",
+      "name": "亚音速反舰导弹",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "对应配置Q冷战级",
+      "prerequisites": [],
+      "level": 4
+    },
+    {
+      "id": "sea_asm_2",
+      "name": "超音速反舰导弹",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置Q现代级",
+      "prerequisites": ["sea_asm_1"],
+      "level": 6
+    },
+    {
+      "id": "sea_aam_1",
+      "name": "防空导弹",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "对应配置R冷战级",
+      "prerequisites": ["sea_3d_radar"],
+      "level": 4
+    },
+    {
+      "id": "sea_aam_2",
+      "name": "小型防空导弹",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置R现代级",
+      "prerequisites": ["sea_aam_1"],
+      "level": 6
+    },
+    {
+      "id": "sea_vls",
+      "name": "垂直发射系统",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置S，多用途发射能力",
+      "prerequisites": ["sea_aam_2", "sea_asm_2"],
+      "level": 7
+    },
+    {
+      "id": "sea_ciw",
+      "name": "密集阵近防炮",
+      "category": "Sea",
+      "era": "coldWarLate",
+      "type": "Module",
+      "description": "对应配置P冷战级",
+      "prerequisites": ["sea_electric_fc"],
+      "level": 6
+    },
+    {
+      "id": "sea_ciw_2",
+      "name": "多目标近防炮",
+      "category": "Sea",
+      "era": "modern",
+      "type": "Module",
+      "description": "对应配置P现代级",
+      "prerequisites": ["sea_ciw"],
+      "level": 7
+    },
+    {
+      "id": "sea_helicopter",
+      "name": "海军直升机",
+      "category": "Sea",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "对应配置T，舰载直升机",
+      "prerequisites": [],
+      "level": 4
+    },
+    {
+      "id": "sea_slw_vls",
+      "name": "潜艇垂直发射系统",
+      "category": "Sea",
+      "era": "coldWarLate",
+      "type": "Module",
+      "description": "对应配置U",
+      "prerequisites": ["sea_attack_nuclear_sub"],
+      "level": 6
+    },
+
+    // ========== 空军基础技术层 ==========
+    {
+      "id": "air_prop_engine",
+      "name": "螺旋桨发动机",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Module",
+      "description": "二战飞机动力基础",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "air_jet_engine",
+      "name": "喷气发动机",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Module",
+      "description": "早期喷气动力，如Me 262",
+      "prerequisites": [],
+      "level": 3
+    },
+    {
+      "id": "air_afterburner",
+      "name": "加力燃烧室",
+      "category": "Air",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "超音速飞行能力",
+      "prerequisites": ["air_jet_engine"],
+      "level": 4
+    },
+    {
+      "id": "air_turbofan",
+      "name": "涡扇发动机",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Module",
+      "description": "高效率低油耗",
+      "prerequisites": ["air_afterburner"],
+      "level": 5
+    },
+    {
+      "id": "air_basic_avionics",
+      "name": "基础航电",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Module",
+      "description": "无线电+光学瞄准",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "air_radar_fc",
+      "name": "雷达火控",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Module",
+      "description": "机载雷达瞄准",
+      "prerequisites": ["air_basic_avionics"],
+      "level": 2
+    },
+    {
+      "id": "air_multi_radar",
+      "name": "多功能雷达",
+      "category": "Air",
+      "era": "coldWarEarly",
+      "type": "Module",
+      "description": "对空对地双模",
+      "prerequisites": ["air_radar_fc"],
+      "level": 4
+    },
+    {
+      "id": "air_aesa",
+      "name": "AESA雷达",
+      "category": "Air",
+      "era": "modern",
+      "type": "Module",
+      "description": "有源相控阵雷达",
+      "prerequisites": ["air_multi_radar"],
+      "level": 7
+    },
+    {
+      "id": "air_basic_frame",
+      "name": "基础机体",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Module",
+      "description": "直翼设计",
+      "prerequisites": [],
+      "level": 1
+    },
+    {
+      "id": "air_swept_wing",
+      "name": "后掠翼设计",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Module",
+      "description": "高速飞行稳定性",
+      "prerequisites": ["air_basic_frame"],
+      "level": 3
+    },
+    {
+      "id": "air_var_swept_wing",
+      "name": "变后掠翼",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Module",
+      "description": "如F-14、MiG-23",
+      "prerequisites": ["air_swept_wing"],
+      "level": 5
+    },
+    {
+      "id": "air_stealth_design",
+      "name": "隐身构型",
+      "category": "Air",
+      "era": "modern",
+      "type": "Module",
+      "description": "低雷达反射设计",
+      "prerequisites": ["air_aesa"],
+      "level": 7
+    },
+    {
+      "id": "air_composite_material",
+      "name": "复合材料机体",
+      "category": "Air",
+      "era": "modern",
+      "type": "Module",
+      "description": "轻量高强",
+      "prerequisites": ["air_stealth_design"],
+      "level": 8
+    },
+
+    // ========== 空军战斗机演进线 ==========
+    {
+      "id": "air_light_fighter",
+      "name": "轻型战斗机",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 29",
+      "prerequisites": ["air_prop_engine", "air_basic_frame"],
+      "level": 2
+    },
+    {
+      "id": "air_heavy_fighter",
+      "name": "重型战斗机",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 30，如P-38、Bf 110",
+      "prerequisites": ["air_light_fighter"],
+      "level": 3
+    },
+    {
+      "id": "air_early_jet",
+      "name": "早期喷气机",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 31，如Me 262、Gloster Meteor",
+      "prerequisites": ["air_jet_engine", "air_swept_wing"],
+      "level": 4
+    },
+    {
+      "id": "air_gen2_fighter",
+      "name": "二代喷气战斗机",
+      "category": "Air",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "如MiG-21、F-104",
+      "prerequisites": ["air_early_jet", "air_afterburner"],
+      "level": 5
+    },
+    {
+      "id": "air_gen3_fighter",
+      "name": "三代多用途战斗机",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 32，如F-4、MiG-23、Su-15",
+      "prerequisites": ["air_gen2_fighter", "air_multi_radar", "air_var_swept_wing"],
+      "level": 6
+    },
+    {
+      "id": "air_gen4_fighter",
+      "name": "四代战斗机",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "如F-15、F-16、Su-27、MiG-29",
+      "prerequisites": ["air_gen3_fighter", "air_turbofan"],
+      "level": 7
+    },
+    {
+      "id": "air_gen5_fighter",
+      "name": "五代隐身战斗机",
+      "category": "Air",
+      "era": "modern",
+      "type": "Unit",
+      "description": "如F-22、F-35、J-20",
+      "prerequisites": ["air_gen4_fighter", "air_stealth_design", "air_aesa"],
+      "level": 8
+    },
+    {
+      "id": "air_sea_fighter",
+      "name": "对海战斗机",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 34",
+      "prerequisites": ["air_light_fighter"],
+      "level": 3
+    },
+    {
+      "id": "air_sea_bomber",
+      "name": "对海轰炸机",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 33",
+      "prerequisites": ["air_heavy_fighter"],
+      "level": 4
+    },
+
+    // ========== 空军轰炸机演进线 ==========
+    {
+      "id": "air_tac_bomber_1",
+      "name": "战术轰炸机I",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 37二战级",
+      "prerequisites": ["air_prop_engine", "air_basic_frame"],
+      "level": 2
+    },
+    {
+      "id": "air_tac_bomber_2",
+      "name": "战术轰炸机II",
+      "category": "Air",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "如Il-28、B-45",
+      "prerequisites": ["air_tac_bomber_1", "air_jet_engine"],
+      "level": 5
+    },
+    {
+      "id": "air_tac_bomber_3",
+      "name": "战术轰炸机III",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "如Su-24、F-111",
+      "prerequisites": ["air_tac_bomber_2", "air_var_swept_wing"],
+      "level": 6
+    },
+    {
+      "id": "air_strat_bomber_1",
+      "name": "战略轰炸机I",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 38二战级，如B-17、B-29",
+      "prerequisites": ["air_tac_bomber_1", "air_heavy_fighter"],
+      "level": 4
+    },
+    {
+      "id": "air_strat_bomber_2",
+      "name": "战略轰炸机II",
+      "category": "Air",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "如B-52、Tu-95",
+      "prerequisites": ["air_strat_bomber_1", "air_turbofan"],
+      "level": 5
+    },
+    {
+      "id": "air_strat_bomber_3",
+      "name": "战略轰炸机III",
+      "category": "Air",
+      "era": "modern",
+      "type": "Unit",
+      "description": "如B-2、Tu-160",
+      "prerequisites": ["air_strat_bomber_2", "air_stealth_design"],
+      "level": 8
+    },
+    {
+      "id": "air_attacker_1",
+      "name": "强击机I",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 35二战级，如IL-2",
+      "prerequisites": ["air_light_fighter"],
+      "level": 3
+    },
+    {
+      "id": "air_attacker_2",
+      "name": "强击机II",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "如Su-25、A-10",
+      "prerequisites": ["air_attacker_1", "air_turbofan"],
+      "level": 6
+    },
+
+    // ========== 空军支援飞机线 ==========
+    {
+      "id": "air_recon_1",
+      "name": "侦察机",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 39",
+      "prerequisites": ["air_light_fighter"],
+      "level": 2
+    },
+    {
+      "id": "air_awacs",
+      "name": "预警机",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 40，空中雷达",
+      "prerequisites": ["air_recon_1", "air_multi_radar"],
+      "level": 6
+    },
+    {
+      "id": "air_ecm",
+      "name": "电子战飞机",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 42",
+      "prerequisites": ["air_awacs"],
+      "level": 7
+    },
+    {
+      "id": "air_transport_1",
+      "name": "运输机I",
+      "category": "Air",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对应武器ID 43二战级",
+      "prerequisites": ["air_prop_engine"],
+      "level": 2
+    },
+    {
+      "id": "air_transport_2",
+      "name": "运输机II",
+      "category": "Air",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "喷气运输机",
+      "prerequisites": ["air_transport_1", "air_jet_engine"],
+      "level": 5
+    },
+    {
+      "id": "air_tanker",
+      "name": "空中加油机",
+      "category": "Air",
+      "era": "coldWarLate",
+      "type": "Unit",
+      "description": "对应武器ID 41",
+      "prerequisites": ["air_transport_2"],
+      "level": 6
+    },
+    {
+      "id": "air_naval_helicopter",
+      "name": "海军直升机",
+      "category": "Air",
+      "era": "coldWarEarly",
+      "type": "Unit",
+      "description": "对应武器ID 36",
+      "prerequisites": [],
+      "level": 4
+    }
+  ]
+}

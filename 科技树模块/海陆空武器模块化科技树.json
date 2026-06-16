@@ -1,0 +1,5544 @@
+{
+  "meta": {
+    "title": "二战至现代战争游戏：海陆空武器模块化科技树",
+    "version": "1.0",
+    "eraDefinition": {
+      "ww1": "一战 (1910-1925)",
+      "ww2": "二战 (1925-1945)",
+      "coldWar": "冷战 (1945-1990)",
+      "modern": "现代 (1990-2010)"
+    },
+    "typeDefinition": {
+      "Unit": "完整武器单位",
+      "Module": "关键技术组件",
+      "Upgrade": "升级套件"
+    }
+  },
+  "nodes": [
+    {
+      "id": 44,
+      "name": "早期栓动步枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "栓动步枪:一战",
+      "prerequisites": [],
+      "time": 1912
+    },
+    {
+      "id": 46,
+      "name": "改进型膛线",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        44,
+        29
+      ],
+      "time": 1923
+    },
+    {
+      "id": 45,
+      "name": "固定式刺刀座",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        44,
+        21
+      ],
+      "time": 1915
+    },
+    {
+      "id": 47,
+      "name": "步兵卡宾化研究",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "栓动步枪:二战",
+      "prerequisites": [
+        44
+      ],
+      "time": 1933
+    },
+    {
+      "id": 49,
+      "name": "短枪管工艺",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        47,
+        28
+      ],
+      "time": 1934
+    },
+    {
+      "id": 48,
+      "name": "轻量化枪托",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        47,
+        28
+      ],
+      "time": 1936
+    },
+    {
+      "id": 50,
+      "name": "全威力半自动步枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "栓动步枪:二战",
+      "prerequisites": [
+        47
+      ],
+      "time": 1942
+    },
+    {
+      "id": 111,
+      "name": "导气式活塞",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        50,
+        107
+      ],
+      "time": 1943
+    },
+    {
+      "id": 110,
+      "name": "漏夹装填",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        50,
+        107
+      ],
+      "time": 1944
+    },
+    {
+      "id": 112,
+      "name": "第一代突击步枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "突击步枪:二战",
+      "prerequisites": [
+        50,
+        107
+      ],
+      "time": 1943
+    },
+    {
+      "id": 114,
+      "name": "直拉式枪机改进",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        112
+      ],
+      "time": 1944
+    },
+    {
+      "id": 113,
+      "name": "压制消焰器",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        112
+      ],
+      "time": 1944
+    },
+    {
+      "id": 126,
+      "name": "标准化突击步枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "突击步枪:冷战",
+      "prerequisites": [
+        112,
+        125
+      ],
+      "time": 1970
+    },
+    {
+      "id": 128,
+      "name": "小口径高速弹",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        126
+      ],
+      "time": 1986
+    },
+    {
+      "id": 127,
+      "name": "可拆卸30发弹匣",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        126
+      ],
+      "time": 1973
+    },
+    {
+      "id": 129,
+      "name": "增强型战斗步枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "突击步枪:冷战=栓动步枪:冷战",
+      "prerequisites": [
+        126
+      ],
+      "time": 1975
+    },
+    {
+      "id": 137,
+      "name": "三发点射机构",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        129
+      ],
+      "time": 1989
+    },
+    {
+      "id": 130,
+      "name": "聚合物机匣",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        129
+      ],
+      "time": 1986
+    },
+    {
+      "id": 138,
+      "name": "模块化武器系统",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "突击步枪:现代",
+      "prerequisites": [
+        129
+      ],
+      "time": 1996
+    },
+    {
+      "id": 139,
+      "name": "皮卡汀尼导轨",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        138,
+        119
+      ],
+      "time": 2005
+    },
+    {
+      "id": 145,
+      "name": "快速更换枪管组",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        138,
+        144
+      ],
+      "time": 2009
+    },
+    {
+      "id": 140,
+      "name": "下一代班组武器",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "突击步枪:现代",
+      "prerequisites": [
+        138
+      ],
+      "time": 1999
+    },
+    {
+      "id": 146,
+      "name": "6.8mm高能弹",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        140,
+        144
+      ],
+      "time": 2009
+    },
+    {
+      "id": 141,
+      "name": "集成化智能火控",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        140,
+        121
+      ],
+      "time": 2001
+    },
+    {
+      "id": 94,
+      "name": "一战末期冲锋枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "冲锋枪:一战",
+      "prerequisites": [
+        44
+      ],
+      "time": 1918
+    },
+    {
+      "id": 96,
+      "name": "自由枪机",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        94,
+        28
+      ],
+      "time": 1919
+    },
+    {
+      "id": 95,
+      "name": "横置弹匣",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        94,
+        28
+      ],
+      "time": 1920
+    },
+    {
+      "id": 97,
+      "name": "战时简易冲锋枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "冲锋枪:二战",
+      "prerequisites": [
+        94
+      ],
+      "time": 1932
+    },
+    {
+      "id": 99,
+      "name": "冲压工艺",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        97,
+        39
+      ],
+      "time": 1939
+    },
+    {
+      "id": 98,
+      "name": "折叠金属托",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        97,
+        39
+      ],
+      "time": 1936
+    },
+    {
+      "id": 100,
+      "name": "闭锁待击冲锋枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "冲锋枪:冷战",
+      "prerequisites": [
+        97
+      ],
+      "time": 1958
+    },
+    {
+      "id": 143,
+      "name": "滚柱延迟开锁",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        100,
+        125
+      ],
+      "time": 1968
+    },
+    {
+      "id": 142,
+      "name": "集成机械瞄具",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        100,
+        125
+      ],
+      "time": 1978
+    },
+    {
+      "id": 147,
+      "name": "个人自卫武器",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "冲锋枪:现代",
+      "prerequisites": [
+        100,
+        144
+      ],
+      "time": 2007
+    },
+    {
+      "id": 149,
+      "name": "穿甲弹头",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        147
+      ],
+      "time": 2009
+    },
+    {
+      "id": 148,
+      "name": "紧凑型布局",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        147
+      ],
+      "time": 2008
+    },
+    {
+      "id": 39,
+      "name": "轻机枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "机枪:二战",
+      "prerequisites": [
+        28
+      ],
+      "time": 1928
+    },
+    {
+      "id": 109,
+      "name": "弹链供弹",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        39,
+        107
+      ],
+      "time": 1938
+    },
+    {
+      "id": 108,
+      "name": "两脚架稳定",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        39,
+        107
+      ],
+      "time": 1935
+    },
+    {
+      "id": 40,
+      "name": "通用机枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "机枪:冷战",
+      "prerequisites": [
+        39
+      ],
+      "time": 1981
+    },
+    {
+      "id": 152,
+      "name": "快速更换枪管",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        40,
+        150
+      ],
+      "time": 1983
+    },
+    {
+      "id": 118,
+      "name": "三脚架适配",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        40,
+        117
+      ],
+      "time": 1986
+    },
+    {
+      "id": 131,
+      "name": "轻量化通用机枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "机枪:冷战",
+      "prerequisites": [
+        40,
+        130
+      ],
+      "time": 1988
+    },
+    {
+      "id": 133,
+      "name": "班组弹药接口",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        131,
+        119
+      ],
+      "time": 1989
+    },
+    {
+      "id": 132,
+      "name": "合成材料枪身",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        131,
+        124
+      ],
+      "time": 1989
+    },
+    {
+      "id": 134,
+      "name": "模块化机枪系统",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "机枪:现代",
+      "prerequisites": [
+        131
+      ],
+      "time": 2002
+    },
+    {
+      "id": 136,
+      "name": "光学瞄具接口",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        134,
+        119
+      ],
+      "time": 2003
+    },
+    {
+      "id": 135,
+      "name": "钛合金部件",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        134,
+        124
+      ],
+      "time": 2006
+    },
+    {
+      "id": 235,
+      "name": "反坦克步枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "反坦克步枪:二战",
+      "prerequisites": [
+        47,
+        16
+      ],
+      "time": 1934
+    },
+    {
+      "id": 282,
+      "name": "反坦克炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "反坦克炮:二战",
+      "prerequisites": [
+        235,
+        15
+      ],
+      "time": 1935
+    },
+    {
+      "id": 345,
+      "name": "单兵反坦克导弹",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "反坦克炮:冷战=单兵反坦克导弹:冷战",
+      "prerequisites": [
+        282,
+        342,
+        104
+      ],
+      "time": 1955
+    },
+    {
+      "id": 340,
+      "name": "改良迫击炮",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "迫击炮:冷战",
+      "prerequisites": [
+        42
+      ],
+      "time": 1960
+    },
+    {
+      "id": 341,
+      "name": "步兵炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "步兵炮:二战",
+      "prerequisites": [
+        42,
+        20
+      ],
+      "time": 1932
+    },
+    {
+      "id": 342,
+      "name": "无后坐力炮",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "无后坐力炮:二战",
+      "prerequisites": [
+        341
+      ],
+      "time": 1944
+    },
+    {
+      "id": 391,
+      "name": "改良野战火炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "野战火炮:二战",
+      "prerequisites": [
+        364
+      ],
+      "time": 1942
+    },
+    {
+      "id": 162,
+      "name": "重型火炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "重型火炮:二战",
+      "prerequisites": [
+        19
+      ],
+      "time": 1933
+    },
+    {
+      "id": 400,
+      "name": "改良重型火炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "重型火炮:二战",
+      "prerequisites": [
+        391,
+        162
+      ],
+      "time": 1944
+    },
+    {
+      "id": 401,
+      "name": "改良自行火炮",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "自行火炮:冷战",
+      "prerequisites": [
+        391,
+        376
+      ],
+      "time": 1985
+    },
+    {
+      "id": 163,
+      "name": "防空炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "防空炮:二战",
+      "prerequisites": [
+        1
+      ],
+      "time": 1935
+    },
+    {
+      "id": 412,
+      "name": "防空自行火炮",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "防空自行火炮:二战",
+      "prerequisites": [
+        163,
+        363
+      ],
+      "time": 1942
+    },
+    {
+      "id": 166,
+      "name": "便携式防空导弹",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "便携式防空导弹:冷战",
+      "prerequisites": [
+        163
+      ],
+      "time": 1975
+    },
+    {
+      "id": 357,
+      "name": "轮式装甲车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "轮式装甲车:二战",
+      "prerequisites": [
+        355
+      ],
+      "time": 1932
+    },
+    {
+      "id": 417,
+      "name": "步兵战车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "履带式步兵战车:冷战",
+      "prerequisites": [
+        376
+      ],
+      "time": 1986
+    },
+    {
+      "id": 168,
+      "name": "陆军直升机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "陆军直升机:冷战",
+      "prerequisites": [],
+      "time": 1972
+    },
+    {
+      "id": 176,
+      "name": "现代化直升机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "陆军直升机:现代",
+      "prerequisites": [
+        172
+      ],
+      "time": 1998
+    },
+    {
+      "id": 359,
+      "name": "轻型坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "轻型坦克:二战",
+      "prerequisites": [
+        357,
+        101
+      ],
+      "time": 1933
+    },
+    {
+      "id": 362,
+      "name": "克里斯蒂悬挂",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        359,
+        22
+      ],
+      "time": 1938
+    },
+    {
+      "id": 361,
+      "name": "薄装甲设计",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        359,
+        123
+      ],
+      "time": 1942
+    },
+    {
+      "id": 363,
+      "name": "中型坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "中型坦克:二战",
+      "prerequisites": [
+        359
+      ],
+      "time": 1939
+    },
+    {
+      "id": 369,
+      "name": "厚装甲钢板",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        363,
+        123
+      ],
+      "time": 1940
+    },
+    {
+      "id": 368,
+      "name": "低速柴油机",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        363,
+        23
+      ],
+      "time": 1944
+    },
+    {
+      "id": 376,
+      "name": "改良中型坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "中型坦克:冷战",
+      "prerequisites": [
+        360,
+        375
+      ],
+      "time": 1955
+    },
+    {
+      "id": 371,
+      "name": "倾斜装甲",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        123,
+        363
+      ],
+      "time": 1941
+    },
+    {
+      "id": 370,
+      "name": "宽履带设计",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        363,
+        23
+      ],
+      "time": 1942
+    },
+    {
+      "id": 372,
+      "name": "重型坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "重型坦克:二战",
+      "prerequisites": [
+        363,
+        23
+      ],
+      "time": 1941
+    },
+    {
+      "id": 378,
+      "name": "重叠负重轮",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        372,
+        356
+      ],
+      "time": 1942
+    },
+    {
+      "id": 377,
+      "name": "高功率发动机",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        372
+      ],
+      "time": 1942
+    },
+    {
+      "id": 379,
+      "name": "第一代主战坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "主战坦克:冷战",
+      "prerequisites": [
+        376,
+        117,
+        124
+      ],
+      "time": 1960
+    },
+    {
+      "id": 381,
+      "name": "稳像式火控",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        150,
+        379
+      ],
+      "time": 1989
+    },
+    {
+      "id": 380,
+      "name": "脱壳穿甲弹",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        379,
+        30
+      ],
+      "time": 1988
+    },
+    {
+      "id": 382,
+      "name": "第二代主战坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Unit",
+      "description": "主战坦克:现代",
+      "prerequisites": [
+        379
+      ],
+      "time": 1993
+    },
+    {
+      "id": 384,
+      "name": "复合装甲",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        382
+      ],
+      "time": 1994
+    },
+    {
+      "id": 383,
+      "name": "滑膛炮",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        30,
+        382
+      ],
+      "time": 2005
+    },
+    {
+      "id": 385,
+      "name": "第三代主战坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Unit",
+      "description": "主战坦克:现代",
+      "prerequisites": [
+        382,
+        153
+      ],
+      "time": 1998
+    },
+    {
+      "id": 388,
+      "name": "猎-歼火控",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        385
+      ],
+      "time": 2006
+    },
+    {
+      "id": 387,
+      "name": "主动防护系统",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        385,
+        119
+      ],
+      "time": 2007
+    },
+    {
+      "id": 373,
+      "name": "超重型坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "重型坦克:二战",
+      "prerequisites": [
+        372
+      ],
+      "time": 1943
+    },
+    {
+      "id": 374,
+      "name": "电传动系统",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        373
+      ],
+      "time": 1944
+    },
+    {
+      "id": 367,
+      "name": "自行反坦克炮",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "反坦克歼击车:二战",
+      "prerequisites": [
+        363
+      ],
+      "time": 1940
+    },
+    {
+      "id": 390,
+      "name": "轮式反坦克炮",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "反坦克歼击车:冷战",
+      "prerequisites": [
+        367
+      ],
+      "time": 1983
+    },
+    {
+      "id": 346,
+      "name": "线导制导",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        345
+      ],
+      "time": 1967
+    },
+    {
+      "id": 347,
+      "name": "第二代反坦克导弹",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "单兵反坦克导弹:冷战",
+      "prerequisites": [
+        345
+      ],
+      "time": 1985
+    },
+    {
+      "id": 349,
+      "name": "半自动制导",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        347,
+        117
+      ],
+      "time": 1988
+    },
+    {
+      "id": 348,
+      "name": "串联战斗部",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        347
+      ],
+      "time": 1987
+    },
+    {
+      "id": 350,
+      "name": "第三代反坦克导弹",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "单兵反坦克导弹:现代",
+      "prerequisites": [
+        347,
+        158
+      ],
+      "time": 2007
+    },
+    {
+      "id": 352,
+      "name": "攻顶弹道",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        350
+      ],
+      "time": 2009
+    },
+    {
+      "id": 351,
+      "name": "红外成像制导",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        350,
+        119
+      ],
+      "time": 2009
+    },
+    {
+      "id": 42,
+      "name": "迫击炮",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "迫击炮:二战",
+      "prerequisites": [
+        41
+      ],
+      "time": 1930
+    },
+    {
+      "id": 43,
+      "name": "高爆榴弹",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        42,
+        29
+      ],
+      "time": 1944
+    },
+    {
+      "id": 18,
+      "name": "野战榴弹炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "野战火炮:二战",
+      "prerequisites": [
+        17
+      ],
+      "time": 1932
+    },
+    {
+      "id": 25,
+      "name": "液压驻退机",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        18,
+        23
+      ],
+      "time": 1941
+    },
+    {
+      "id": 24,
+      "name": "分装弹药",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        18,
+        23
+      ],
+      "time": 1941
+    },
+    {
+      "id": 364,
+      "name": "自行榴弹炮",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "自行火炮:二战",
+      "prerequisites": [
+        18,
+        363
+      ],
+      "time": 1941
+    },
+    {
+      "id": 366,
+      "name": "半自动装填",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        364,
+        150
+      ],
+      "time": 1944
+    },
+    {
+      "id": 365,
+      "name": "全景瞄准具",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        364,
+        26
+      ],
+      "time": 1942
+    },
+    {
+      "id": 403,
+      "name": "现代化火炮体系",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "modern",
+      "type": "Unit",
+      "description": "自行火炮:现代=野战火炮:现代=重型火炮:现代=迫击炮:现代",
+      "prerequisites": [
+        402,
+        121
+      ],
+      "time": 2001
+    },
+    {
+      "id": 405,
+      "name": "全自动装填",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        403,
+        117
+      ],
+      "time": 2007
+    },
+    {
+      "id": 404,
+      "name": "GPS惯性制导",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        403
+      ],
+      "time": 2008
+    },
+    {
+      "id": 406,
+      "name": "增程精确火炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "modern",
+      "type": "Unit",
+      "description": "重型火炮:现代",
+      "prerequisites": [
+        403
+      ],
+      "time": 2004
+    },
+    {
+      "id": 408,
+      "name": "火箭增程弹",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        406
+      ],
+      "time": 2005
+    },
+    {
+      "id": 407,
+      "name": "神剑制导炮弹",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        406
+      ],
+      "time": 2005
+    },
+    {
+      "id": 392,
+      "name": "火箭炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "火箭炮:二战",
+      "prerequisites": [
+        391
+      ],
+      "time": 1943
+    },
+    {
+      "id": 393,
+      "name": "发射箱框架",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        392,
+        22
+      ],
+      "time": 1944
+    },
+    {
+      "id": 394,
+      "name": "自行火箭炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "火箭炮:冷战",
+      "prerequisites": [
+        392
+      ],
+      "time": 1945
+    },
+    {
+      "id": 396,
+      "name": "管状发射器",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        394,
+        23
+      ],
+      "time": 1949
+    },
+    {
+      "id": 395,
+      "name": "杀伤爆破弹",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        394,
+        107
+      ],
+      "time": 1949
+    },
+    {
+      "id": 397,
+      "name": "重型火箭炮系统",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "modern",
+      "type": "Unit",
+      "description": "火箭炮:现代",
+      "prerequisites": [
+        394,
+        121
+      ],
+      "time": 2001
+    },
+    {
+      "id": 399,
+      "name": "模块化发射箱",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        397
+      ],
+      "time": 2005
+    },
+    {
+      "id": 398,
+      "name": "精确制导火箭弹",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        397
+      ],
+      "time": 2006
+    },
+    {
+      "id": 170,
+      "name": "涡轴发动机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        168,
+        23
+      ],
+      "time": 1982
+    },
+    {
+      "id": 169,
+      "name": "旋翼传动系统",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        168,
+        150
+      ],
+      "time": 1980
+    },
+    {
+      "id": 171,
+      "name": "武装直升机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "陆军直升机:冷战",
+      "prerequisites": [
+        168
+      ],
+      "time": 1984
+    },
+    {
+      "id": 175,
+      "name": "火箭弹巢",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        171,
+        104
+      ],
+      "time": 1989
+    },
+    {
+      "id": 353,
+      "name": "反坦克导弹挂架",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        171,
+        345
+      ],
+      "time": 1988
+    },
+    {
+      "id": 178,
+      "name": "毫米波雷达",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        176,
+        9
+      ],
+      "time": 2003
+    },
+    {
+      "id": 177,
+      "name": "夜间导航系统",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        176,
+        9
+      ],
+      "time": 1999
+    },
+    {
+      "id": 179,
+      "name": "现代化攻击直升机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "陆军直升机:现代",
+      "prerequisites": [
+        176
+      ],
+      "time": 2000
+    },
+    {
+      "id": 183,
+      "name": "无人机协同系统",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        179,
+        182
+      ],
+      "time": 2009
+    },
+    {
+      "id": 181,
+      "name": "数据链集成",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        179,
+        121
+      ],
+      "time": 2006
+    },
+    {
+      "id": 182,
+      "name": "基础无人机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "无人机:现代",
+      "prerequisites": [
+        119,
+        176
+      ],
+      "time": 2000
+    },
+    {
+      "id": 185,
+      "name": "光电传感器",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        182,
+        2
+      ],
+      "time": 2003
+    },
+    {
+      "id": 184,
+      "name": "实时数据传输",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        182
+      ],
+      "time": 2007
+    },
+    {
+      "id": 186,
+      "name": "攻击无人机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "无人机:现代",
+      "prerequisites": [
+        182
+      ],
+      "time": 2003
+    },
+    {
+      "id": 188,
+      "name": "精确制导弹药",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        186,
+        121
+      ],
+      "time": 2004
+    },
+    {
+      "id": 187,
+      "name": "卫星通信链路",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        186,
+        121
+      ],
+      "time": 2007
+    },
+    {
+      "id": 107,
+      "name": "中间型威力弹原理",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1932
+    },
+    {
+      "id": 125,
+      "name": "小口径高速弹原理",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        107
+      ],
+      "time": 1947
+    },
+    {
+      "id": 144,
+      "name": "PDW穿甲弹原理",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        125
+      ],
+      "time": 2006
+    },
+    {
+      "id": 123,
+      "name": "倾斜装甲原理",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1939
+    },
+    {
+      "id": 124,
+      "name": "复合装甲原理",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        123
+      ],
+      "time": 1955
+    },
+    {
+      "id": 117,
+      "name": "激光测距仪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1955
+    },
+    {
+      "id": 150,
+      "name": "火炮稳定器",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1937
+    },
+    {
+      "id": 153,
+      "name": "猎-歼火控原理",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        117,
+        150
+      ],
+      "time": 1984
+    },
+    {
+      "id": 158,
+      "name": "攻顶弹道原理",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        104
+      ],
+      "time": 2001
+    },
+    {
+      "id": 104,
+      "name": "导弹制导原理",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1954
+    },
+    {
+      "id": 121,
+      "name": "GPS制导技术",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        119
+      ],
+      "time": 1999
+    },
+    {
+      "id": 119,
+      "name": "微电子技术",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1984
+    },
+    {
+      "id": 22,
+      "name": "基础内燃机",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1914
+    },
+    {
+      "id": 23,
+      "name": "大功率柴油机",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        22
+      ],
+      "time": 1922
+    },
+    {
+      "id": 356,
+      "name": "高功率汽油机",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        22,
+        355
+      ],
+      "time": 1924
+    },
+    {
+      "id": 29,
+      "name": "线膛炮技术",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1922
+    },
+    {
+      "id": 30,
+      "name": "滑膛炮技术",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        29
+      ],
+      "time": 1924
+    },
+    {
+      "id": 21,
+      "name": "均质装甲",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1914
+    },
+    {
+      "id": 102,
+      "name": "间隙装甲",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww1",
+      "type": "Upgrade",
+      "description": "",
+      "prerequisites": [
+        21,
+        101
+      ],
+      "time": 1923
+    },
+    {
+      "id": 26,
+      "name": "基础火控",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1919
+    },
+    {
+      "id": 27,
+      "name": "稳像式火控",
+      "category": "陆军",
+      "subcategory": "导弹",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        26
+      ],
+      "time": 1922
+    },
+    {
+      "id": 151,
+      "name": "数字化火控",
+      "category": "陆军",
+      "subcategory": "导弹",
+      "era": "ww2",
+      "type": "Upgrade",
+      "description": "",
+      "prerequisites": [
+        27,
+        150
+      ],
+      "time": 1941
+    },
+    {
+      "id": 386,
+      "name": "主动防护系统",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        385,
+        119,
+        104
+      ],
+      "time": 2000
+    },
+    {
+      "id": 409,
+      "name": "地对地导弹",
+      "category": "陆军",
+      "subcategory": "导弹",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "地对地导弹:冷战",
+      "prerequisites": [
+        402
+      ],
+      "time": 1988
+    },
+    {
+      "id": 414,
+      "name": "地对空导弹",
+      "category": "陆军",
+      "subcategory": "导弹",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "地对空导弹:冷战",
+      "prerequisites": [
+        413,
+        27
+      ],
+      "time": 1983
+    },
+    {
+      "id": 245,
+      "name": "护卫舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "护卫舰:二战",
+      "prerequisites": [
+        58
+      ],
+      "time": 1929
+    },
+    {
+      "id": 268,
+      "name": "轻巡洋舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "轻型巡洋舰:二战",
+      "prerequisites": [
+        57
+      ],
+      "time": 1936
+    },
+    {
+      "id": 269,
+      "name": "重巡洋舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "重型巡洋舰:二战",
+      "prerequisites": [
+        268
+      ],
+      "time": 1941
+    },
+    {
+      "id": 283,
+      "name": "战列巡洋舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "战列巡洋舰:二战",
+      "prerequisites": [
+        268,
+        56
+      ],
+      "time": 1941
+    },
+    {
+      "id": 284,
+      "name": "战列舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "战列舰:二战",
+      "prerequisites": [
+        269,
+        283
+      ],
+      "time": 1942
+    },
+    {
+      "id": 288,
+      "name": "轻型航母",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "轻型航空母舰:二战",
+      "prerequisites": [],
+      "time": 1927
+    },
+    {
+      "id": 301,
+      "name": "改良轻型航母",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "轻型航空母舰:二战",
+      "prerequisites": [
+        288,
+        71
+      ],
+      "time": 1935
+    },
+    {
+      "id": 307,
+      "name": "常规动力潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "常规潜艇:二战",
+      "prerequisites": [
+        88
+      ],
+      "time": 1931
+    },
+    {
+      "id": 331,
+      "name": "运输船",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "运输船:一战",
+      "prerequisites": [],
+      "time": 1913
+    },
+    {
+      "id": 333,
+      "name": "补给舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "补给舰:二战",
+      "prerequisites": [
+        332
+      ],
+      "time": 1929
+    },
+    {
+      "id": 337,
+      "name": "两栖攻击舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "两栖攻击舰:冷战",
+      "prerequisites": [
+        288,
+        62
+      ],
+      "time": 1970
+    },
+    {
+      "id": 338,
+      "name": "两栖登陆舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "两栖登陆舰:现代",
+      "prerequisites": [
+        337
+      ],
+      "time": 2002
+    },
+    {
+      "id": 84,
+      "name": "压电声纳",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1920
+    },
+    {
+      "id": 85,
+      "name": "阵列声纳",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        84
+      ],
+      "time": 1940
+    },
+    {
+      "id": 86,
+      "name": "拖曳声纳",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        85
+      ],
+      "time": 1944
+    },
+    {
+      "id": 87,
+      "name": "主动声纳",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        86
+      ],
+      "time": 1946
+    },
+    {
+      "id": 69,
+      "name": "舰艇布雷",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1918
+    },
+    {
+      "id": 308,
+      "name": "潜艇布雷",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        69,
+        307,
+        85
+      ],
+      "time": 1942
+    },
+    {
+      "id": 71,
+      "name": "机械雷达",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1934
+    },
+    {
+      "id": 75,
+      "name": "三坐标雷达",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        71
+      ],
+      "time": 1938
+    },
+    {
+      "id": 78,
+      "name": "相控阵雷达",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        75
+      ],
+      "time": 1959
+    },
+    {
+      "id": 89,
+      "name": "单联鱼雷",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1915
+    },
+    {
+      "id": 90,
+      "name": "双联鱼雷",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        89
+      ],
+      "time": 1926
+    },
+    {
+      "id": 91,
+      "name": "四联鱼雷",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        90
+      ],
+      "time": 1930
+    },
+    {
+      "id": 120,
+      "name": "自导鱼雷",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        91,
+        86,
+        119
+      ],
+      "time": 1988
+    },
+    {
+      "id": 66,
+      "name": "单联主炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1921
+    },
+    {
+      "id": 67,
+      "name": "双联主炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        66
+      ],
+      "time": 1940
+    },
+    {
+      "id": 68,
+      "name": "三联主炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        67
+      ],
+      "time": 1943
+    },
+    {
+      "id": 59,
+      "name": "两用舰炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1913
+    },
+    {
+      "id": 60,
+      "name": "先进两用炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        59
+      ],
+      "time": 1927
+    },
+    {
+      "id": 51,
+      "name": "双联机炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1917
+    },
+    {
+      "id": 52,
+      "name": "四联机炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        51
+      ],
+      "time": 1931
+    },
+    {
+      "id": 53,
+      "name": "六联机炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        52
+      ],
+      "time": 1935
+    },
+    {
+      "id": 61,
+      "name": "机械火控",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1917
+    },
+    {
+      "id": 72,
+      "name": "脉冲火控",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        61,
+        71
+      ],
+      "time": 1936
+    },
+    {
+      "id": 73,
+      "name": "电控火控",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        72
+      ],
+      "time": 1956
+    },
+    {
+      "id": 80,
+      "name": "数字火控",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        73,
+        78
+      ],
+      "time": 1982
+    },
+    {
+      "id": 74,
+      "name": "近防炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        73
+      ],
+      "time": 1986
+    },
+    {
+      "id": 81,
+      "name": "多目标近防",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        74,
+        80
+      ],
+      "time": 1988
+    },
+    {
+      "id": 54,
+      "name": "亚音速反舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1983
+    },
+    {
+      "id": 55,
+      "name": "超音速反舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        54
+      ],
+      "time": 1984
+    },
+    {
+      "id": 79,
+      "name": "超音速八联",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        55,
+        78
+      ],
+      "time": 1985
+    },
+    {
+      "id": 76,
+      "name": "四联防空",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        75
+      ],
+      "time": 1964
+    },
+    {
+      "id": 77,
+      "name": "八联防空",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        76
+      ],
+      "time": 1968
+    },
+    {
+      "id": 92,
+      "name": "垂发系统",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        77,
+        55
+      ],
+      "time": 1986
+    },
+    {
+      "id": 93,
+      "name": "大型垂发",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        92
+      ],
+      "time": 1999
+    },
+    {
+      "id": 63,
+      "name": "滑跃甲板",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1938
+    },
+    {
+      "id": 64,
+      "name": "蒸汽弹射",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        63
+      ],
+      "time": 1941
+    },
+    {
+      "id": 65,
+      "name": "电磁弹射",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        64
+      ],
+      "time": 1999
+    },
+    {
+      "id": 62,
+      "name": "直升机机库",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1926
+    },
+    {
+      "id": 160,
+      "name": "高速机库",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        62,
+        159
+      ],
+      "time": 1968
+    },
+    {
+      "id": 70,
+      "name": "核动力",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1970
+    },
+    {
+      "id": 82,
+      "name": "消声瓦",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1966
+    },
+    {
+      "id": 83,
+      "name": "复合消声瓦",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        82
+      ],
+      "time": 1980
+    },
+    {
+      "id": 317,
+      "name": "潜艇垂发",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        161,
+        316
+      ],
+      "time": 1989
+    },
+    {
+      "id": 246,
+      "name": "舰队驱逐舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "驱逐舰:二战",
+      "prerequisites": [
+        245
+      ],
+      "time": 1939
+    },
+    {
+      "id": 248,
+      "name": "雷达预警桅杆",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        246,
+        71,
+        61
+      ],
+      "time": 1943
+    },
+    {
+      "id": 247,
+      "name": "深水炸弹导轨",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        246,
+        89
+      ],
+      "time": 1942
+    },
+    {
+      "id": 249,
+      "name": "通用驱逐舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "驱逐舰:二战",
+      "prerequisites": [
+        246,
+        75
+      ],
+      "time": 1941
+    },
+    {
+      "id": 251,
+      "name": "早期防空雷达",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        249
+      ],
+      "time": 1942
+    },
+    {
+      "id": 250,
+      "name": "舰载反潜迫击炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        249,
+        85
+      ],
+      "time": 1943
+    },
+    {
+      "id": 252,
+      "name": "第一代导弹驱逐舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "驱逐舰:冷战",
+      "prerequisites": [
+        249,
+        76
+      ],
+      "time": 1978
+    },
+    {
+      "id": 254,
+      "name": "单臂导弹发射架",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        252,
+        73
+      ],
+      "time": 1986
+    },
+    {
+      "id": 253,
+      "name": "早期舰空导弹",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        252
+      ],
+      "time": 1982
+    },
+    {
+      "id": 255,
+      "name": "多功能护卫舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "护卫舰:冷战",
+      "prerequisites": [
+        252
+      ],
+      "time": 1981
+    },
+    {
+      "id": 257,
+      "name": "燃气轮机动力",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        255,
+        159
+      ],
+      "time": 1983
+    },
+    {
+      "id": 256,
+      "name": "拖曳声纳阵列",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        255,
+        86
+      ],
+      "time": 1989
+    },
+    {
+      "id": 259,
+      "name": "宙斯盾驱逐舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "驱逐舰:现代",
+      "prerequisites": [
+        258,
+        78,
+        161
+      ],
+      "time": 1996
+    },
+    {
+      "id": 261,
+      "name": "四面固定相控阵",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        259,
+        119
+      ],
+      "time": 2001
+    },
+    {
+      "id": 260,
+      "name": "早期垂直发射系统",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        259
+      ],
+      "time": 1999
+    },
+    {
+      "id": 262,
+      "name": "隐身防空驱逐舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "驱逐舰:现代",
+      "prerequisites": [
+        259
+      ],
+      "time": 1997
+    },
+    {
+      "id": 264,
+      "name": "全电推进系统",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        262,
+        115,
+        93
+      ],
+      "time": 2003
+    },
+    {
+      "id": 263,
+      "name": "一体化隐身桅杆",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        262,
+        115
+      ],
+      "time": 1999
+    },
+    {
+      "id": 265,
+      "name": "综合电力驱逐舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "驱逐舰:现代",
+      "prerequisites": [
+        262,
+        115
+      ],
+      "time": 2000
+    },
+    {
+      "id": 267,
+      "name": "双波段雷达",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        265,
+        103
+      ],
+      "time": 2008
+    },
+    {
+      "id": 266,
+      "name": "通用大型垂发单元",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        265,
+        93,
+        119
+      ],
+      "time": 2004
+    },
+    {
+      "id": 270,
+      "name": "条约型巡洋舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "轻型巡洋舰:二战",
+      "prerequisites": [
+        269
+      ],
+      "time": 1942
+    },
+    {
+      "id": 272,
+      "name": "舰载水侦弹射器",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        270,
+        63
+      ],
+      "time": 1943
+    },
+    {
+      "id": 271,
+      "name": "半自动大口径舰炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        270,
+        68,
+        60
+      ],
+      "time": 1944
+    },
+    {
+      "id": 273,
+      "name": "防空巡洋舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "重型巡洋舰:二战",
+      "prerequisites": [
+        270,
+        60
+      ],
+      "time": 1944
+    },
+    {
+      "id": 275,
+      "name": "高平两用炮火控",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        273,
+        72,
+        75
+      ],
+      "time": 1959
+    },
+    {
+      "id": 274,
+      "name": "近程密集机炮网",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        273,
+        53
+      ],
+      "time": 1980
+    },
+    {
+      "id": 276,
+      "name": "导弹巡洋舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "导弹巡洋舰:冷战",
+      "prerequisites": [
+        273,
+        54,
+        76
+      ],
+      "time": 1984
+    },
+    {
+      "id": 278,
+      "name": "远程区域防空导弹",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        276
+      ],
+      "time": 1988
+    },
+    {
+      "id": 277,
+      "name": "舰载反舰导弹阵列",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        276
+      ],
+      "time": 1988
+    },
+    {
+      "id": 279,
+      "name": "核动力指挥巡洋舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "导弹巡洋舰:现代",
+      "prerequisites": [
+        276,
+        122
+      ],
+      "time": 2000
+    },
+    {
+      "id": 281,
+      "name": "核反应堆组件",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        279
+      ],
+      "time": 2009
+    },
+    {
+      "id": 280,
+      "name": "旗舰通信指挥中心",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        279,
+        78
+      ],
+      "time": 2009
+    },
+    {
+      "id": 285,
+      "name": "高速战列舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "战列舰:二战",
+      "prerequisites": [
+        284
+      ],
+      "time": 1943
+    },
+    {
+      "id": 287,
+      "name": "多联装重型主炮",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        285,
+        68,
+        72
+      ],
+      "time": 1944
+    },
+    {
+      "id": 286,
+      "name": "重装甲盒结构",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        285,
+        123
+      ],
+      "time": 1944
+    },
+    {
+      "id": 289,
+      "name": "舰队航空母舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "重型航空母舰:二战",
+      "prerequisites": [
+        288
+      ],
+      "time": 1936
+    },
+    {
+      "id": 291,
+      "name": "封闭式舰艏",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        289,
+        63
+      ],
+      "time": 1942
+    },
+    {
+      "id": 290,
+      "name": "防空高炮阵列",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        289,
+        53,
+        60
+      ],
+      "time": 1938
+    },
+    {
+      "id": 292,
+      "name": "斜角甲板航母",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "重型航空母舰:冷战",
+      "prerequisites": [
+        289,
+        64
+      ],
+      "time": 1975
+    },
+    {
+      "id": 294,
+      "name": "斜角飞行甲板",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        292
+      ],
+      "time": 1981
+    },
+    {
+      "id": 293,
+      "name": "光学助降系统",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        292,
+        62
+      ],
+      "time": 1987
+    },
+    {
+      "id": 295,
+      "name": "超级航母",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "重型航空母舰:冷战",
+      "prerequisites": [
+        292
+      ],
+      "time": 1983
+    },
+    {
+      "id": 297,
+      "name": "蒸汽弹射器",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        295
+      ],
+      "time": 1986
+    },
+    {
+      "id": 296,
+      "name": "重型升降机组",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        295,
+        62
+      ],
+      "time": 1988
+    },
+    {
+      "id": 298,
+      "name": "核动力超级航母",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "重型航空母舰:现代",
+      "prerequisites": [
+        295,
+        122
+      ],
+      "time": 2006
+    },
+    {
+      "id": 300,
+      "name": "长寿核燃料堆芯",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        298,
+        78
+      ],
+      "time": 2009
+    },
+    {
+      "id": 299,
+      "name": "先进空管雷达",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        298,
+        78
+      ],
+      "time": 2008
+    },
+    {
+      "id": 304,
+      "name": "数字化电磁航母",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "重型航空母舰:现代=轻型航空母舰:现代",
+      "prerequisites": [
+        303,
+        298,
+        65
+      ],
+      "time": 2008
+    },
+    {
+      "id": 306,
+      "name": "电磁弹射系统",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        304,
+        115
+      ],
+      "time": 2009
+    },
+    {
+      "id": 305,
+      "name": "先进涡流拦阻",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        304
+      ],
+      "time": 2009
+    },
+    {
+      "id": 310,
+      "name": "通气管系统",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        307,
+        89
+      ],
+      "time": 1935
+    },
+    {
+      "id": 309,
+      "name": "手动鱼雷装填",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        307,
+        89
+      ],
+      "time": 1938
+    },
+    {
+      "id": 311,
+      "name": "高速潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "常规潜艇:二战",
+      "prerequisites": [
+        307
+      ],
+      "time": 1937
+    },
+    {
+      "id": 315,
+      "name": "大容量电池组",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        311,
+        85
+      ],
+      "time": 1941
+    },
+    {
+      "id": 314,
+      "name": "流线型壳体",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        311,
+        90
+      ],
+      "time": 1944
+    },
+    {
+      "id": 316,
+      "name": "早期攻击核潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "攻击核潜艇:冷战",
+      "prerequisites": [
+        311,
+        122
+      ],
+      "time": 1981
+    },
+    {
+      "id": 319,
+      "name": "水滴型外形设计",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        316,
+        86
+      ],
+      "time": 1984
+    },
+    {
+      "id": 318,
+      "name": "压水反应堆",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        316
+      ],
+      "time": 1982
+    },
+    {
+      "id": 320,
+      "name": "静音化核潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Unit",
+      "description": "攻击核潜艇:现代",
+      "prerequisites": [
+        316,
+        83
+      ],
+      "time": 2004
+    },
+    {
+      "id": 322,
+      "name": "消声瓦",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        320
+      ],
+      "time": 2006
+    },
+    {
+      "id": 321,
+      "name": "泵喷推进器",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        320,
+        120
+      ],
+      "time": 2006
+    },
+    {
+      "id": 323,
+      "name": "现代化多用途核潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Unit",
+      "description": "攻击核潜艇:现代",
+      "prerequisites": [
+        320,
+        161
+      ],
+      "time": 2008
+    },
+    {
+      "id": 325,
+      "name": "潜射垂发系统",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        323
+      ],
+      "time": 2009
+    },
+    {
+      "id": 324,
+      "name": "共形声纳阵列",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        323,
+        87,
+        119
+      ],
+      "time": 2009
+    },
+    {
+      "id": 326,
+      "name": "第一代战略核潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "战略核潜艇:冷战",
+      "prerequisites": [
+        316
+      ],
+      "time": 1987
+    },
+    {
+      "id": 411,
+      "name": "潜射弹道导弹筒",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        326,
+        409
+      ],
+      "time": 1989
+    },
+    {
+      "id": 327,
+      "name": "惯性制导模块",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        326,
+        119
+      ],
+      "time": 1988
+    },
+    {
+      "id": 328,
+      "name": "静音战略核潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Unit",
+      "description": "战略核潜艇:现代",
+      "prerequisites": [
+        326,
+        320
+      ],
+      "time": 2008
+    },
+    {
+      "id": 330,
+      "name": "自然循环反应堆",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        328
+      ],
+      "time": 2009
+    },
+    {
+      "id": 329,
+      "name": "分导式弹头适配",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        328,
+        158
+      ],
+      "time": 2009
+    },
+    {
+      "id": 172,
+      "name": "舰载反潜直升机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "海军直升机:冷战",
+      "prerequisites": [
+        171
+      ],
+      "time": 1985
+    },
+    {
+      "id": 174,
+      "name": "吊放声纳",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        172,
+        86
+      ],
+      "time": 1988
+    },
+    {
+      "id": 173,
+      "name": "磁异探测器",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        172,
+        86
+      ],
+      "time": 1986
+    },
+    {
+      "id": 122,
+      "name": "压水反应堆",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        70
+      ],
+      "time": 1974
+    },
+    {
+      "id": 161,
+      "name": "垂直发射革命",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        92
+      ],
+      "time": 1988
+    },
+    {
+      "id": 115,
+      "name": "综合电力系统",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        70
+      ],
+      "time": 1998
+    },
+    {
+      "id": 156,
+      "name": "隐身舰体设计",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1987
+    },
+    {
+      "id": 189,
+      "name": "轻型战斗机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "轻型战斗机:二战",
+      "prerequisites": [
+        7,
+        3
+      ],
+      "time": 1932
+    },
+    {
+      "id": 191,
+      "name": "重型战斗机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "重型战斗机:二战",
+      "prerequisites": [
+        190
+      ],
+      "time": 1935
+    },
+    {
+      "id": 215,
+      "name": "对海轰炸机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对海轰炸机:二战",
+      "prerequisites": [
+        214
+      ],
+      "time": 1934
+    },
+    {
+      "id": 214,
+      "name": "战术轰炸机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "战术轰炸机:二战",
+      "prerequisites": [
+        7,
+        3
+      ],
+      "time": 1933
+    },
+    {
+      "id": 230,
+      "name": "战略轰炸机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "战略轰炸机:二战",
+      "prerequisites": [
+        215,
+        191
+      ],
+      "time": 1944
+    },
+    {
+      "id": 216,
+      "name": "强击机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "强击机:二战",
+      "prerequisites": [
+        214
+      ],
+      "time": 1934
+    },
+    {
+      "id": 190,
+      "name": "对海战斗机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "对海战斗机:二战",
+      "prerequisites": [
+        189
+      ],
+      "time": 1933
+    },
+    {
+      "id": 233,
+      "name": "侦察机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "侦察机:二战",
+      "prerequisites": [
+        190
+      ],
+      "time": 1934
+    },
+    {
+      "id": 236,
+      "name": "预警机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "预警机:冷战",
+      "prerequisites": [
+        234,
+        9
+      ],
+      "time": 1986
+    },
+    {
+      "id": 242,
+      "name": "加油机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "空中加油机:冷战",
+      "prerequisites": [
+        241
+      ],
+      "time": 1949
+    },
+    {
+      "id": 238,
+      "name": "电子战飞机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "电子战飞机:冷战",
+      "prerequisites": [
+        236
+      ],
+      "time": 1989
+    },
+    {
+      "id": 240,
+      "name": "运输机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "运输机:二战",
+      "prerequisites": [
+        7
+      ],
+      "time": 1932
+    },
+    {
+      "id": 241,
+      "name": "喷气式运输机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "运输机:冷战",
+      "prerequisites": [
+        240,
+        5
+      ],
+      "time": 1948
+    },
+    {
+      "id": 207,
+      "name": "隐身战斗机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "多用途战斗机:现代",
+      "prerequisites": [
+        204,
+        11
+      ],
+      "time": 1991
+    },
+    {
+      "id": 7,
+      "name": "螺旋桨",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1920
+    },
+    {
+      "id": 5,
+      "name": "喷气发动机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1925
+    },
+    {
+      "id": 6,
+      "name": "加力燃烧室",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        5
+      ],
+      "time": 1954
+    },
+    {
+      "id": 13,
+      "name": "涡扇发动机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        6
+      ],
+      "time": 1986
+    },
+    {
+      "id": 3,
+      "name": "基础机体",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww1",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1910
+    },
+    {
+      "id": 12,
+      "name": "后掠翼",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        3
+      ],
+      "time": 1940
+    },
+    {
+      "id": 14,
+      "name": "变后掠翼",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        12,
+        13
+      ],
+      "time": 1989
+    },
+    {
+      "id": 11,
+      "name": "隐身构型",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        10
+      ],
+      "time": 1986
+    },
+    {
+      "id": 155,
+      "name": "复合材料",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        11,
+        154
+      ],
+      "time": 1999
+    },
+    {
+      "id": 2,
+      "name": "基础航电",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1932
+    },
+    {
+      "id": 8,
+      "name": "雷达火控",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        2
+      ],
+      "time": 1938
+    },
+    {
+      "id": 9,
+      "name": "多功能雷达",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        8
+      ],
+      "time": 1970
+    },
+    {
+      "id": 10,
+      "name": "AESA雷达",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        9
+      ],
+      "time": 1985
+    },
+    {
+      "id": 4,
+      "name": "机炮系统",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1929
+    },
+    {
+      "id": 192,
+      "name": "全金属活塞战斗机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "轻型战斗机:二战=重型战斗机:二战",
+      "prerequisites": [
+        191
+      ],
+      "time": 1941
+    },
+    {
+      "id": 194,
+      "name": "航空机关炮",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        192,
+        4,
+        8
+      ],
+      "time": 1942
+    },
+    {
+      "id": 193,
+      "name": "机械增压发动机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        192
+      ],
+      "time": 1944
+    },
+    {
+      "id": 195,
+      "name": "早期喷气战斗机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "早期喷气机:二战",
+      "prerequisites": [
+        192,
+        5,
+        157
+      ],
+      "time": 1942
+    },
+    {
+      "id": 197,
+      "name": "陀螺瞄准具",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        195,
+        8
+      ],
+      "time": 1973
+    },
+    {
+      "id": 196,
+      "name": "轴流式喷气发动机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        195,
+        6
+      ],
+      "time": 1984
+    },
+    {
+      "id": 198,
+      "name": "超音速拦截机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "早期喷气机:冷战",
+      "prerequisites": [
+        195,
+        6
+      ],
+      "time": 1963
+    },
+    {
+      "id": 200,
+      "name": "早期红外导弹",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        198,
+        116,
+        8
+      ],
+      "time": 1964
+    },
+    {
+      "id": 199,
+      "name": "后掠翼布局",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        195,
+        12
+      ],
+      "time": 1944
+    },
+    {
+      "id": 201,
+      "name": "高性能多用途战机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "多用途战斗机:冷战",
+      "prerequisites": [
+        198,
+        159
+      ],
+      "time": 1967
+    },
+    {
+      "id": 203,
+      "name": "脉冲多普勒雷达(PD)",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        201,
+        9
+      ],
+      "time": 1979
+    },
+    {
+      "id": 202,
+      "name": "加力涡扇发动机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        201,
+        13
+      ],
+      "time": 1988
+    },
+    {
+      "id": 204,
+      "name": "高机动数字化战机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "多用途战斗机:现代",
+      "prerequisites": [
+        201,
+        106
+      ],
+      "time": 1990
+    },
+    {
+      "id": 206,
+      "name": "超视距指挥链路",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        204,
+        119
+      ],
+      "time": 2008
+    },
+    {
+      "id": 205,
+      "name": "电传操纵系统",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        204
+      ],
+      "time": 2003
+    },
+    {
+      "id": 208,
+      "name": "隐身全态势战机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "多用途战斗机:现代",
+      "prerequisites": [
+        207,
+        154
+      ],
+      "time": 2006
+    },
+    {
+      "id": 210,
+      "name": "有源相控阵雷达(AESA)",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        208,
+        103
+      ],
+      "time": 2009
+    },
+    {
+      "id": 209,
+      "name": "隐身涂层",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        208,
+        103
+      ],
+      "time": 2007
+    },
+    {
+      "id": 211,
+      "name": "穿透性制空平台",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "多用途战斗机:现代",
+      "prerequisites": [
+        208,
+        105
+      ],
+      "time": 2007
+    },
+    {
+      "id": 213,
+      "name": "分布式孔径系统(DAS)",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        211
+      ],
+      "time": 2008
+    },
+    {
+      "id": 212,
+      "name": "超音速巡航",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        211,
+        13
+      ],
+      "time": 2009
+    },
+    {
+      "id": 217,
+      "name": "俯冲轰炸机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "战术轰炸机:二战=强击机:二战",
+      "prerequisites": [
+        191,
+        216
+      ],
+      "time": 1942
+    },
+    {
+      "id": 220,
+      "name": "俯冲回收仪",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        217,
+        2,
+        4
+      ],
+      "time": 1943
+    },
+    {
+      "id": 219,
+      "name": "装甲浴缸座舱",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        217
+      ],
+      "time": 1943
+    },
+    {
+      "id": 221,
+      "name": "喷气式攻击机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "强击机:冷战",
+      "prerequisites": [
+        218,
+        5
+      ],
+      "time": 1982
+    },
+    {
+      "id": 223,
+      "name": "激光测距",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        221,
+        117,
+        8
+      ],
+      "time": 1989
+    },
+    {
+      "id": 222,
+      "name": "冗余液压系统",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        221
+      ],
+      "time": 1988
+    },
+    {
+      "id": 224,
+      "name": "隐身轰炸机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "战术轰炸机:现代",
+      "prerequisites": [
+        221,
+        154
+      ],
+      "time": 1998
+    },
+    {
+      "id": 226,
+      "name": "精确制导炸弹(JDAM)",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        224,
+        121,
+        155
+      ],
+      "time": 2006
+    },
+    {
+      "id": 225,
+      "name": "低可探测性飞翼布局",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        224
+      ],
+      "time": 2009
+    },
+    {
+      "id": 157,
+      "name": "后掠翼理论",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        3
+      ],
+      "time": 1939
+    },
+    {
+      "id": 159,
+      "name": "航空涡扇化",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        6
+      ],
+      "time": 1963
+    },
+    {
+      "id": 116,
+      "name": "红外空对空导弹",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "ww2",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1933
+    },
+    {
+      "id": 106,
+      "name": "电传操纵技术",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1956
+    },
+    {
+      "id": 154,
+      "name": "低可探测性理论",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [],
+      "time": 1971
+    },
+    {
+      "id": 103,
+      "name": "AESA相控阵技术",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        9
+      ],
+      "time": 2002
+    },
+    {
+      "id": 105,
+      "name": "分布式孔径传感",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Module",
+      "description": "",
+      "prerequisites": [
+        103
+      ],
+      "time": 2004
+    },
+    {
+      "id": 101,
+      "name": "一战轻型坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "轻型坦克:一战",
+      "prerequisites": [],
+      "time": 1921
+    },
+    {
+      "id": 28,
+      "name": "一战机枪体系",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "机枪:一战",
+      "prerequisites": [],
+      "time": 1912
+    },
+    {
+      "id": 16,
+      "name": "一战反坦克步枪",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "反坦克步枪:一战",
+      "prerequisites": [],
+      "time": 1915
+    },
+    {
+      "id": 15,
+      "name": "一战反坦克炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "反坦克炮:一战",
+      "prerequisites": [],
+      "time": 1911
+    },
+    {
+      "id": 41,
+      "name": "一战迫击炮",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "迫击炮:一战",
+      "prerequisites": [],
+      "time": 1915
+    },
+    {
+      "id": 20,
+      "name": "一战步兵炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "步兵炮:一战",
+      "prerequisites": [],
+      "time": 1915
+    },
+    {
+      "id": 17,
+      "name": "一战野战火炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "野战火炮:一战",
+      "prerequisites": [],
+      "time": 1911
+    },
+    {
+      "id": 19,
+      "name": "一战重型火炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "重型火炮:一战",
+      "prerequisites": [],
+      "time": 1920
+    },
+    {
+      "id": 1,
+      "name": "一战防空炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "防空炮:一战",
+      "prerequisites": [],
+      "time": 1914
+    },
+    {
+      "id": 354,
+      "name": "一战轮式装甲车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "轮式装甲车:一战",
+      "prerequisites": [],
+      "time": 1922
+    },
+    {
+      "id": 343,
+      "name": "冷战无后坐力炮",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "无后坐力炮:冷战",
+      "prerequisites": [
+        342
+      ],
+      "time": 1946
+    },
+    {
+      "id": 344,
+      "name": "现代无后坐力炮",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "无后坐力炮:现代",
+      "prerequisites": [
+        343
+      ],
+      "time": 1998
+    },
+    {
+      "id": 164,
+      "name": "冷战牵引防空炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "防空炮:冷战",
+      "prerequisites": [
+        163
+      ],
+      "time": 1956
+    },
+    {
+      "id": 165,
+      "name": "现代牵引防空炮",
+      "category": "陆军",
+      "subcategory": "火炮",
+      "era": "modern",
+      "type": "Unit",
+      "description": "防空炮:现代",
+      "prerequisites": [
+        164
+      ],
+      "time": 2001
+    },
+    {
+      "id": 413,
+      "name": "冷战自行高炮",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "防空自行火炮:冷战",
+      "prerequisites": [
+        412
+      ],
+      "time": 1980
+    },
+    {
+      "id": 416,
+      "name": "现代自行高炮",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "modern",
+      "type": "Unit",
+      "description": "防空自行火炮:现代",
+      "prerequisites": [
+        413
+      ],
+      "time": 2008
+    },
+    {
+      "id": 167,
+      "name": "现代便携式防空导弹",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "便携式防空导弹:现代",
+      "prerequisites": [
+        166
+      ],
+      "time": 1993
+    },
+    {
+      "id": 419,
+      "name": "冷战轮式装甲车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "轮式装甲车:冷战",
+      "prerequisites": [
+        358
+      ],
+      "time": 1960
+    },
+    {
+      "id": 421,
+      "name": "现代化战车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Unit",
+      "description": "轮式装甲车:现代=履带式步兵战车:现代",
+      "prerequisites": [
+        420,
+        417
+      ],
+      "time": 2006
+    },
+    {
+      "id": 360,
+      "name": "冷战轻型坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "轻型坦克:冷战",
+      "prerequisites": [
+        359
+      ],
+      "time": 1950
+    },
+    {
+      "id": 375,
+      "name": "冷战重型坦克",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "重型坦克:冷战",
+      "prerequisites": [
+        373
+      ],
+      "time": 1952
+    },
+    {
+      "id": 402,
+      "name": "冷战炮兵体系",
+      "category": "陆军",
+      "subcategory": "装甲类火炮",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "自行火炮:冷战=野战火炮:冷战=重型火炮:冷战",
+      "prerequisites": [
+        400,
+        401,
+        394,
+        340
+      ],
+      "time": 1986
+    },
+    {
+      "id": 410,
+      "name": "现代地对地导弹",
+      "category": "陆军",
+      "subcategory": "导弹",
+      "era": "modern",
+      "type": "Unit",
+      "description": "地对地导弹:现代",
+      "prerequisites": [
+        409
+      ],
+      "time": 1990
+    },
+    {
+      "id": 415,
+      "name": "现代地对空导弹",
+      "category": "陆军",
+      "subcategory": "导弹",
+      "era": "modern",
+      "type": "Unit",
+      "description": "地对空导弹:现代",
+      "prerequisites": [
+        414
+      ],
+      "time": 2003
+    },
+    {
+      "id": 58,
+      "name": "一战小型舰艇",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "驱逐舰:一战=护卫舰:一战",
+      "prerequisites": [],
+      "time": 1919
+    },
+    {
+      "id": 57,
+      "name": "一战巡洋舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "轻型巡洋舰:一战=重型巡洋舰:一战",
+      "prerequisites": [],
+      "time": 1923
+    },
+    {
+      "id": 56,
+      "name": "一战战列舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "战列舰:一战=战列巡洋舰:一战",
+      "prerequisites": [],
+      "time": 1916
+    },
+    {
+      "id": 258,
+      "name": "现代护卫舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "护卫舰:现代",
+      "prerequisites": [
+        255,
+        156
+      ],
+      "time": 1990
+    },
+    {
+      "id": 302,
+      "name": "冷战轻型航母",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "轻型航空母舰:冷战",
+      "prerequisites": [
+        301
+      ],
+      "time": 1970
+    },
+    {
+      "id": 303,
+      "name": "现代轻型航母",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "轻型航空母舰:现代",
+      "prerequisites": [
+        302
+      ],
+      "time": 2003
+    },
+    {
+      "id": 88,
+      "name": "一战常规潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "常规潜艇:一战",
+      "prerequisites": [],
+      "time": 1921
+    },
+    {
+      "id": 312,
+      "name": "冷战常规潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "常规潜艇:冷战",
+      "prerequisites": [
+        311
+      ],
+      "time": 1981
+    },
+    {
+      "id": 313,
+      "name": "现代常规潜艇",
+      "category": "海军",
+      "subcategory": "潜艇",
+      "era": "modern",
+      "type": "Unit",
+      "description": "常规潜艇:现代",
+      "prerequisites": [
+        312
+      ],
+      "time": 1993
+    },
+    {
+      "id": 332,
+      "name": "二战运输船",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "运输船:二战",
+      "prerequisites": [
+        331
+      ],
+      "time": 1926
+    },
+    {
+      "id": 334,
+      "name": "冷战运输船",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "运输船:冷战",
+      "prerequisites": [
+        333
+      ],
+      "time": 1949
+    },
+    {
+      "id": 335,
+      "name": "冷战补给舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "补给舰:冷战",
+      "prerequisites": [
+        334
+      ],
+      "time": 1986
+    },
+    {
+      "id": 336,
+      "name": "现代补给舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "补给舰:现代",
+      "prerequisites": [
+        335
+      ],
+      "time": 1993
+    },
+    {
+      "id": 339,
+      "name": "现代两栖攻击舰",
+      "category": "海军",
+      "subcategory": "军舰",
+      "era": "modern",
+      "type": "Unit",
+      "description": "两栖攻击舰:现代",
+      "prerequisites": [
+        338
+      ],
+      "time": 2007
+    },
+    {
+      "id": 234,
+      "name": "冷战侦察机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "侦察机:冷战",
+      "prerequisites": [
+        233
+      ],
+      "time": 1947
+    },
+    {
+      "id": 218,
+      "name": "冷战战术轰炸机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "战术轰炸机:冷战",
+      "prerequisites": [
+        217
+      ],
+      "time": 1973
+    },
+    {
+      "id": 231,
+      "name": "冷战战略轰炸机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "战略轰炸机:冷战",
+      "prerequisites": [
+        230
+      ],
+      "time": 1974
+    },
+    {
+      "id": 232,
+      "name": "现代战略轰炸机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "战略轰炸机:现代",
+      "prerequisites": [
+        231
+      ],
+      "time": 1991
+    },
+    {
+      "id": 180,
+      "name": "现代海军直升机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "海军直升机:现代",
+      "prerequisites": [
+        179
+      ],
+      "time": 2004
+    },
+    {
+      "id": 237,
+      "name": "现代预警机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "预警机:现代",
+      "prerequisites": [
+        236
+      ],
+      "time": 2006
+    },
+    {
+      "id": 243,
+      "name": "现代空中加油机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "空中加油机:现代",
+      "prerequisites": [
+        242
+      ],
+      "time": 2007
+    },
+    {
+      "id": 239,
+      "name": "现代电子战飞机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "电子战飞机:现代",
+      "prerequisites": [
+        238
+      ],
+      "time": 2002
+    },
+    {
+      "id": 244,
+      "name": "现代运输机",
+      "category": "空军",
+      "subcategory": "飞机",
+      "era": "modern",
+      "type": "Unit",
+      "description": "运输机:现代",
+      "prerequisites": [
+        243
+      ],
+      "time": 2008
+    },
+    {
+      "id": 32,
+      "name": "一战单兵制服",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "单兵制服:一战",
+      "prerequisites": [
+        31
+      ],
+      "time": 1915
+    },
+    {
+      "id": 34,
+      "name": "二战单兵制服",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "单兵制服:二战",
+      "prerequisites": [
+        33
+      ],
+      "time": 1943
+    },
+    {
+      "id": 36,
+      "name": "冷战单兵制服",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "单兵制服:冷战",
+      "prerequisites": [
+        35
+      ],
+      "time": 1983
+    },
+    {
+      "id": 38,
+      "name": "现代单兵制服",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "单兵制服:现代",
+      "prerequisites": [
+        37
+      ],
+      "time": 2004
+    },
+    {
+      "id": 31,
+      "name": "一战支援器材",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "支援器材:一战",
+      "prerequisites": [],
+      "time": 1910
+    },
+    {
+      "id": 33,
+      "name": "二战支援器材",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "支援器材:二战",
+      "prerequisites": [
+        32
+      ],
+      "time": 1932
+    },
+    {
+      "id": 35,
+      "name": "冷战支援器材",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "支援器材:冷战",
+      "prerequisites": [
+        34
+      ],
+      "time": 1964
+    },
+    {
+      "id": 37,
+      "name": "现代支援器材",
+      "category": "陆军",
+      "subcategory": "轻武器",
+      "era": "modern",
+      "type": "Unit",
+      "description": "支援器材:现代",
+      "prerequisites": [
+        36
+      ],
+      "time": 2002
+    },
+    {
+      "id": 355,
+      "name": "一战通用军车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww1",
+      "type": "Unit",
+      "description": "通用军车:一战",
+      "prerequisites": [
+        354
+      ],
+      "time": 1923
+    },
+    {
+      "id": 358,
+      "name": "二战通用军车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "ww2",
+      "type": "Unit",
+      "description": "通用军车:二战",
+      "prerequisites": [
+        357
+      ],
+      "time": 1933
+    },
+    {
+      "id": 420,
+      "name": "冷战通用军车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "coldWar",
+      "type": "Unit",
+      "description": "通用军车:冷战",
+      "prerequisites": [
+        419
+      ],
+      "time": 1966
+    },
+    {
+      "id": 422,
+      "name": "现代通用军车",
+      "category": "陆军",
+      "subcategory": "装甲",
+      "era": "modern",
+      "type": "Unit",
+      "description": "通用军车:现代",
+      "prerequisites": [
+        421
+      ],
+      "time": 2008
+    }
+  ]
+}

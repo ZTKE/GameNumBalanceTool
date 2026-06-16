@@ -1,0 +1,1226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>科技树 - 自动布局与依赖优化</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e, #16213e);
+            color: #fff;
+            min-height: 100vh;
+            overflow: hidden;
+        }
+
+        .header {
+            padding: 12px 20px;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .header h1 { color: #e94560; font-size: 16px; }
+        .header-info { font-size: 11px; color: #888; margin-left: 15px; }
+        #jsonLoadHint {
+            display: none;
+            padding: 6px 10px;
+            background: rgba(233, 69, 96, 0.2);
+            border: 1px solid rgba(233, 69, 96, 0.45);
+            border-radius: 4px;
+            font-size: 10px;
+            color: #ffb4c0;
+            max-width: 420px;
+            line-height: 1.35;
+        }
+        .era-filter { display: flex; gap: 6px; }
+        .era-btn {
+            padding: 5px 12px;
+            border: 1px solid rgba(255,255,255,0.3);
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+        .era-btn:hover { background: rgba(255,255,255,0.2); }
+        .era-btn.active { background: #e94560; border-color: #e94560; }
+
+        .main-container {
+            display: flex;
+            height: calc(100vh - 50px);
+        }
+
+        /* 左侧导航栏 */
+        .category-sidebar {
+            width: 172px;
+            background: rgba(0,0,0,0.5);
+            border-right: 1px solid rgba(255,255,255,0.1);
+            overflow-y: auto;
+            flex-shrink: 0;
+        }
+
+        .category-section {
+            padding: 8px 0;
+        }
+
+        .category-section-title {
+            padding: 6px 10px;
+            font-size: 11px;
+            font-weight: bold;
+            color: #888;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .category-item {
+            padding: 8px 12px;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .category-item:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .category-item.active {
+            background: rgba(233,69,96,0.2);
+            border-left: 3px solid #e94560;
+        }
+
+        .category-color {
+            width: 6px;
+            height: 6px;
+            border-radius: 2px;
+            margin-right: 6px;
+        }
+
+        .category-name {
+            font-size: 11px;
+            flex: 1;
+            line-height: 1.2;
+        }
+
+        .category-count {
+            font-size: 9px;
+            color: #888;
+            background: rgba(255,255,255,0.1);
+            padding: 1px 4px;
+            border-radius: 2px;
+        }
+
+        .category-labels {
+            width: 120px;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid rgba(255,255,255,0.1);
+            overflow-y: auto;
+        }
+        .category-label {
+            min-height: 50px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            font-size: 11px;
+            font-weight: bold;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .category-color-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 2px;
+            margin-right: 6px;
+        }
+
+        .tree-wrapper {
+            flex: 1;
+            overflow: auto;
+            position: relative;
+        }
+
+        .timeline-header {
+            position: sticky;
+            top: 0;
+            height: 30px;
+            background: rgba(0,0,0,0.4);
+            display: flex;
+            align-items: center;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .year-marker {
+            min-width: 60px;
+            padding: 0 5px;
+            font-size: 9px;
+            color: #888;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.05);
+        }
+        .year-marker .year-num {
+            font-size: 10px;
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .tree-canvas {
+            position: relative;
+            padding: 10px 0 50px 0;
+        }
+
+        .svg-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .link-main {
+            stroke: rgba(255,255,255,0.7);
+            stroke-width: 3px;
+            fill: none;
+        }
+        .link-module {
+            stroke: rgba(255,255,255,0.4);
+            stroke-width: 1px;
+            fill: none;
+        }
+        .link-cross {
+            stroke: rgba(233,69,96,0.3);
+            stroke-width: 2px;
+            stroke-dasharray: 5,3;
+            fill: none;
+        }
+        .link-tech {
+            stroke: rgba(255,193,7,0.6);
+            stroke-width: 2px;
+            stroke-dasharray: 8,4;
+            fill: none;
+            animation: techPulse 2s infinite;
+        }
+        @keyframes techPulse {
+            0%, 100% { stroke-opacity: 0.6; }
+            50% { stroke-opacity: 1; }
+        }
+        .link.highlighted {
+            stroke: #e94560;
+            stroke-width: 3px;
+        }
+
+        /* 核心技术节点特殊样式 */
+        .node-tech-core {
+            border-color: #ffc107 !important;
+            box-shadow: 0 0 10px rgba(255,193,7,0.5);
+        }
+        .node-tech-core .node-type-dot {
+            background: #ffc107 !important;
+        }
+
+        .node {
+            width: 55px;
+            padding: 4px 2px;
+            border-radius: 3px;
+            text-align: center;
+            cursor: grab;
+            position: absolute;
+            font-size: 8px;
+            user-select: none;
+            z-index: 10;
+        }
+        .node:hover {
+            box-shadow: 0 2px 10px rgba(0,0,0,0.5);
+        }
+        .node.dragging {
+            cursor: grabbing;
+            opacity: 0.9;
+            z-index: 1000;
+        }
+        .node.highlighted {
+            box-shadow: 0 0 10px #e94560;
+        }
+
+        .node-land { background: #e74c3c; border: 1px solid #c0392b; }
+        .node-sea { background: #3498db; border: 1px solid #2980b9; }
+        .node-air { background: #f1c40f; border: 1px solid #d4ac0d; color: #1a1a2e; }
+
+        .node .node-type-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            border: 1px solid rgba(0,0,0,0.3);
+        }
+        .node.Unit .node-type-dot { background: #fff; }
+        .node.Module .node-type-dot { background: #888; }
+        .node.Upgrade .node-type-dot { background: #e94560; }
+
+        .node-name {
+            font-weight: bold;
+            line-height: 1.1;
+        }
+        .node-year {
+            font-size: 7px;
+            opacity: 0.7;
+        }
+
+        .detail-panel {
+            position: fixed;
+            background: rgba(20,30,50,0.95);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 6px;
+            padding: 8px;
+            max-width: 220px;
+            z-index: 2000;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.5);
+            display: none;
+        }
+        .detail-panel.visible { display: block; }
+        .detail-title { font-size: 12px; font-weight: bold; margin-bottom: 3px; }
+        .detail-era { font-size: 9px; padding: 1px 4px; border-radius: 2px; display: inline-block; margin-left: 3px; }
+        .detail-meta { font-size: 9px; color: #888; margin-bottom: 5px; }
+        .detail-desc { font-size: 10px; background: rgba(255,255,255,0.05); padding: 4px; border-radius: 3px; margin-bottom: 5px; }
+        .detail-prereq-title { font-size: 9px; color: #e94560; margin-bottom: 3px; }
+        .detail-prereq-list { display: flex; flex-wrap: wrap; gap: 2px; }
+        .detail-prereq-item { padding: 1px 3px; background: rgba(255,255,255,0.1); border-radius: 2px; font-size: 8px; cursor: pointer; }
+        .detail-prereq-item:hover { background: rgba(255,255,255,0.2); }
+        .detail-prereq-item.cross { color: #e94560; }
+        .detail-prereq-item.missing { color: #888; cursor: default; }
+
+        .hint {
+            position: fixed;
+            bottom: 8px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 4px 8px;
+            background: rgba(0,0,0,0.5);
+            border-radius: 3px;
+            font-size: 9px;
+            color: #888;
+            z-index: 100;
+        }
+
+        .legend {
+            position: fixed;
+            bottom: 25px;
+            right: 10px;
+            background: rgba(0,0,0,0.4);
+            padding: 6px;
+            border-radius: 4px;
+            font-size: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>武器科技树</h1>
+        <div class="header-info" id="nodeCount">节点: 0 | 连线: 0</div>
+        <div id="jsonLoadHint"></div>
+        <input type="file" id="techJsonFile" accept=".json,application/json" style="display:none" />
+        <button type="button" class="era-btn" id="btnPickTechJson" title="双击打开的 HTML 无法自动加载时，点此选择本地的 海陆空武器模块化科技树.json">打开 JSON</button>
+        <div class="era-filter">
+            <button class="era-btn active" data-era="all">全部</button>
+            <button class="era-btn" data-era="ww1">一战</button>
+            <button class="era-btn" data-era="ww2">二战</button>
+            <button class="era-btn" data-era="coldWar">冷战</button>
+            <button class="era-btn" data-era="modern">现代</button>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="category-sidebar" id="categorySidebar"></div>
+        <div class="tree-wrapper">
+            <div class="timeline-header" id="timelineHeader"></div>
+            <div class="tree-canvas" id="treeCanvas"></div>
+        </div>
+    </div>
+
+    <div class="detail-panel" id="detailPanel">
+        <div class="detail-title" id="detailTitle"></div>
+        <div class="detail-era" id="detailEra"></div>
+        <div class="detail-meta" id="detailMeta"></div>
+        <div class="detail-desc" id="detailDesc"></div>
+        <div class="detail-prereq-title">前置科技（全部）</div>
+        <div class="detail-prereq-list" id="detailPrereq"></div>
+    </div>
+
+    <div class="hint">本地双击打开时请点「打开 JSON」加载数据 | 悬停查看详情 | 点击高亮路径 | 拖拽调整位置</div>
+
+    <div class="legend">
+        <div><span style="border-bottom:1.5px solid rgba(255,255,255,0.5)">实线</span> = 同类别</div>
+        <div><span style="border-bottom:1px dashed rgba(233,69,96,0.3)">虚线</span> = 跨类别</div>
+    </div>
+
+    <script>
+        // 优先 fetch 同目录 JSON；file:// 下请用「打开 JSON」手动选取本地文件
+        function nodeTime(n) {
+            if (!n) return 0;
+            if (n.time != null && n.time !== '') return Number(n.time);
+            if (n.year != null && n.year !== '') return Number(n.year);
+            return 0;
+        }
+
+        /** JSON 中 id 为数字时，DOM data-id / dataset 仍为字符串，必须用统一比较 */
+        function sameTechId(a, b) {
+            if (a === undefined || a === null || b === undefined || b === null) return false;
+            return String(a) === String(b);
+        }
+        function findTechById(id) {
+            if (!techData || !techData.length) return undefined;
+            return techData.find(t => sameTechId(t.id, id));
+        }
+
+        /** 与 JSON eraDefinition 对齐：仅 ww1 / ww2 / coldWar / modern */
+        function normalizeEra(e) {
+            if (e === 'coldWarEarly' || e === 'coldWarLate') return 'coldWar';
+            if (e === 'future') return 'modern';
+            return e;
+        }
+
+        /** JSON category：支持 Land/Sea/Air 与 陆军/海军/空军 */
+        const CATEGORY_KEYS = { Land: 'Land', Sea: 'Sea', Air: 'Air', '陆军': 'Land', '海军': 'Sea', '空军': 'Air' };
+        const CATEGORY_LABELS = { Land: '陆军', Sea: '海军', Air: '空军' };
+
+        function normalizeCategory(cat) {
+            const s = cat != null ? String(cat).trim() : '';
+            if (!s) return 'Land';
+            return CATEGORY_KEYS[s] || CATEGORY_KEYS[s.toLowerCase()] || 'Land';
+        }
+
+        function categoryLabel(catKey) {
+            return CATEGORY_LABELS[catKey] || catKey || '未知';
+        }
+
+        const MODULAR_JSON_FILE = '海陆空武器模块化科技树.json';
+        const WEAPON_KINDS_CSV_FILE = '../战争/weapons_first2_columns_merged.csv';
+
+        /** CSV 首列「武器种类」首次出现顺序（fetch 失败时使用，与 weapons_first2_columns_merged.csv 一致） */
+        const FALLBACK_WEAPON_KINDS = [
+            '栓动步枪', '突击步枪', '冲锋枪', '机枪', '反坦克步枪', '反坦克炮', '反坦克歼击车', '单兵反坦克导弹',
+            '迫击炮', '步兵炮', '无后坐力炮', '自行突击炮', '野战火炮', '重型火炮', '自行火炮', '火箭炮',
+            '防空炮', '防空自行火炮', '便携式防空导弹', '轮式装甲车', '履带式步兵战车', '无人机', '陆军直升机',
+            '轻型坦克', '中型坦克', '重型坦克', '主战坦克', '支援器材', '通用军车', '轻型战斗机', '重型战斗机',
+            '早期喷气机', '多用途战斗机', '对海轰炸机', '对海战斗机', '强击机', '海军直升机', '战术轰炸机',
+            '战略轰炸机', '侦察机', '预警机', '空中加油机', '电子战飞机', '运输机', '地对地导弹', '地对空导弹',
+            '护卫舰', '驱逐舰', '轻型巡洋舰', '重型巡洋舰', '导弹巡洋舰', '战列巡洋舰', '战列舰',
+            '轻型航空母舰', '重型航空母舰', '常规潜艇', '攻击核潜艇', '战略核潜艇', '补给舰', '两栖攻击舰',
+            '运输船', '两栖登陆舰', '单兵制服'
+        ];
+
+        function parseWeaponKindCsvText(text) {
+            const lines = String(text).trim().split(/\r?\n/);
+            const kinds = [];
+            const seen = new Set();
+            for (let i = 1; i < lines.length; i++) {
+                const line = lines[i].trim();
+                if (!line) continue;
+                const kind = line.split(',')[0].trim();
+                if (!kind || seen.has(kind)) continue;
+                seen.add(kind);
+                kinds.push(kind);
+            }
+            return kinds;
+        }
+
+        async function loadWeaponKindOrder() {
+            try {
+                const res = await fetch(WEAPON_KINDS_CSV_FILE, { cache: 'no-store' });
+                if (!res.ok) throw new Error('HTTP ' + res.status);
+                const parsed = parseWeaponKindCsvText(await res.text());
+                if (parsed.length) return parsed;
+            } catch (e) {
+                console.warn('无法加载武器种类 CSV，使用内置列表：', e);
+            }
+            return [...FALLBACK_WEAPON_KINDS];
+        }
+
+        /** 从 Unit 的 description 解析「武器种类:时代」片段，仅保留 CSV 中出现的种类名 */
+        function kindsFromUnitDescription(desc, csvSet) {
+            const out = new Set();
+            if (!desc || !String(desc).trim() || !csvSet.size) return out;
+            String(desc).split('=').forEach(part => {
+                const seg = part.trim();
+                if (!seg) return;
+                const idx = seg.lastIndexOf(':');
+                const kind = (idx >= 0 ? seg.slice(0, idx) : seg).trim();
+                if (csvSet.has(kind)) out.add(kind);
+            });
+            return out;
+        }
+
+        /**
+         * 为每个节点写入 weaponKinds:Set<string>
+         * 1) 从 Unit 描述解析种类，沿 prerequisites 向上传播到祖先
+         * 2) 再沿前置关系向下合并，使模块/升级继承关联单位线的种类
+         */
+        function assignWeaponKindsToTechData(list, csvKinds) {
+            const csvSet = new Set(csvKinds);
+            const byId = new Map();
+            list.forEach(t => {
+                byId.set(t.id, t);
+                byId.set(String(t.id), t);
+            });
+            list.forEach(n => { n.weaponKinds = new Set(); });
+
+            list.forEach(n => {
+                if (n.type !== 'Unit') return;
+                const ku = kindsFromUnitDescription(n.desc, csvSet);
+                if (!ku.size) return;
+                const st = [n];
+                const seen = new Set();
+                while (st.length) {
+                    const v = st.pop();
+                    if (seen.has(v.id)) continue;
+                    seen.add(v.id);
+                    ku.forEach(k => v.weaponKinds.add(k));
+                    (v.pre || []).forEach(pid => {
+                        const p = byId.get(pid) || byId.get(String(pid));
+                        if (p) st.push(p);
+                    });
+                }
+            });
+
+            let changed = true;
+            while (changed) {
+                changed = false;
+                list.forEach(n => {
+                    (n.pre || []).forEach(pid => {
+                        const p = byId.get(pid) || byId.get(String(pid));
+                        if (!p || !p.weaponKinds.size) return;
+                        p.weaponKinds.forEach(k => {
+                            if (!n.weaponKinds.has(k)) {
+                                n.weaponKinds.add(k);
+                                changed = true;
+                            }
+                        });
+                    });
+                });
+            }
+        }
+
+        function stripJsonComments(str) {
+            return str.replace(/^\s*\/\/.*$/gm, '');
+        }
+
+        /** 将 海陆空武器模块化科技树.json 转为内部节点 */
+        function fromModularJson(data) {
+            const rawNodes = (data && data.nodes) ? data.nodes : [];
+            return rawNodes.map(raw => {
+                const ty = raw.type || 'Unit';
+                const tim = raw.time != null ? Number(raw.time) : 0;
+                const sub =
+                    (raw.subcategory != null && String(raw.subcategory).trim()) ||
+                    (raw.subcat != null && String(raw.subcat).trim()) ||
+                    (ty === 'Unit' ? '装备' : '组件');
+                return {
+                    id: raw.id,
+                    name: raw.name,
+                    cat: normalizeCategory(raw.category),
+                    subcat: sub,
+                    era: normalizeEra(raw.era),
+                    time: tim,
+                    year: tim,
+                    type: ty,
+                    tier: ty === 'Unit' ? 'main' : 'module',
+                    desc: raw.description || '',
+                    pre: Array.isArray(raw.prerequisites) ? [...raw.prerequisites] : []
+                };
+            });
+        }
+
+        /** 从 JSON meta 同步标题、时代与类型显示名 */
+        function applyMetaFromJson(meta) {
+            if (!meta) return;
+            if (meta.title) {
+                const h1 = document.querySelector('.header h1');
+                if (h1) h1.textContent = meta.title;
+            }
+            if (meta.eraDefinition) {
+                Object.entries(meta.eraDefinition).forEach(([key, label]) => {
+                    const short = String(label).replace(/\s*\([^)]*\)\s*$/, '').trim();
+                    if (short) eraNames[key] = short;
+                });
+            }
+            if (meta.typeDefinition) {
+                Object.entries(meta.typeDefinition).forEach(([key, label]) => {
+                    if (label) typeNames[key] = String(label);
+                });
+            }
+            document.querySelectorAll('.era-btn[data-era]').forEach(btn => {
+                const key = btn.dataset.era;
+                if (key && key !== 'all' && eraNames[key]) btn.textContent = eraNames[key];
+            });
+        }
+
+        /**
+         * 保留 JSON 中的全部 prerequisites（不裁剪），供连线、筛选与高亮使用。
+         * originalPre 与 pre 一致，便于以后若要做「简化视图」再分支。
+         */
+        function prepareTechData(techList) {
+            return techList.map(t => {
+                const pre = Array.isArray(t.pre) ? [...t.pre] : [];
+                return { ...t, pre, originalPre: [...pre] };
+            });
+        }
+
+        // ========== 配置常量 ==========
+        let eraNames = { ww1: '一战', ww2: '二战', coldWar: '冷战', modern: '现代' };
+        const eraColors = { ww1: '#8b4513', ww2: '#f39c12', coldWar: '#3498db', modern: '#1abc9c' };
+        let typeNames = { Unit: '单位', Module: '模块', Upgrade: '升级' };
+
+        // 时间轴配置（2年间隔，从1900开始，扩展到2030）
+        const yearStep = 2;
+        const timelineYears = [];
+        for (let y = 1900; y <= 2030; y += yearStep) timelineYears.push(y);
+
+        const columnWidth = 60;
+        const rowHeight = 130;  // 增大行高，容纳主节点+上下组件（各偏移55px）
+        const nodeWidth = 55;
+        const nodeHeight = 30;
+
+        let currentEra = 'all';
+        let currentWeaponKind = 'all';
+        let weaponKindOrder = [...FALLBACK_WEAPON_KINDS];
+        let nodePositions = {};
+        let techData = [];
+        let techById = new Map();
+
+        // ========== 布局算法 ==========
+
+        // X坐标计算（基于年份）
+        function calculateBaseX(year) {
+            const minYear = timelineYears[0];
+            const yearIndex = Math.floor((year - minYear) / yearStep);
+            return yearIndex * columnWidth + columnWidth / 2 + 30;
+        }
+
+        // 获取所有子类别（用于分配行号）
+        function getAllSubcategories(techList) {
+            const subcats = new Map();
+            techList.forEach(t => {
+                if (!subcats.has(t.subcat)) {
+                    subcats.set(t.subcat, {
+                        id: t.subcat,
+                        name: t.subcat,
+                        cat: t.cat,
+                        count: 0
+                    });
+                }
+                subcats.get(t.subcat).count++;
+            });
+            return Array.from(subcats.values());
+        }
+
+        function calculateLayout(nodes) {
+            const positions = {};
+
+            // 获取子类别列表并排序（按数量降序）
+            const allSubcats = getAllSubcategories(nodes);
+
+            // 跨域/综合类子类排到行末
+            const subcatTail = new Set(['导弹', '核心技术', '坦克技术', '舰船技术', '航空技术', '支援']);
+            allSubcats.sort((a, b) => {
+                const ta = subcatTail.has(a.id) ? 1 : 0;
+                const tb = subcatTail.has(b.id) ? 1 : 0;
+                if (ta !== tb) return ta - tb;
+                return b.count - a.count;
+            });
+
+            // 为每个子类别分配行号
+            const subcatRows = new Map();
+            allSubcats.forEach((sub, idx) => {
+                subcatRows.set(sub.id, idx);
+            });
+
+            // 按子类别分组
+            const bySubcat = new Map();
+            nodes.forEach(n => {
+                if (!bySubcat.has(n.subcat)) bySubcat.set(n.subcat, []);
+                bySubcat.get(n.subcat).push(n);
+            });
+
+            // 每组内按年份排序
+            bySubcat.forEach((list, subcat) => {
+                list.sort((a, b) => nodeTime(a) - nodeTime(b));
+            });
+
+            // 先处理主干节点，分配基础位置
+            const mainNodes = nodes.filter(n => n.tier === 'main' || !n.tier);
+            const moduleNodes = nodes.filter(n => n.tier === 'module');
+
+            // 记录每个位置已占用的节点数量（用于避免重叠）
+            const occupiedSlots = new Map(); // key: "row-year", value: count
+
+            // 主干节点位置
+            mainNodes.forEach(node => {
+                const rowIndex = subcatRows.get(node.subcat) || 0;
+                const baseX = calculateBaseX(nodeTime(node));
+                const baseY = rowIndex * rowHeight + rowHeight / 2 + 20;
+
+                // 检查同年同行的占用情况
+                const slotKey = `${rowIndex}-${nodeTime(node)}`;
+                const slotCount = occupiedSlots.get(slotKey) || 0;
+                occupiedSlots.set(slotKey, slotCount + 1);
+
+                // 水平偏移：每个节点增加更大的间距
+                const offsetX = slotCount * (nodeWidth + 20);
+
+                positions[node.id] = {
+                    x: baseX + offsetX,
+                    y: baseY,
+                    node: node
+                };
+            });
+
+            // 组件节点位置：在主干节点上方/下方偏移（根据position属性）
+            moduleNodes.forEach(node => {
+                const rowIndex = subcatRows.get(node.subcat) || 0;
+                const baseX = calculateBaseX(nodeTime(node));
+                const baseY = rowIndex * rowHeight + rowHeight / 2 + 20;
+
+                // 如果有parent字段，挂在父节点上方/下方
+                if (node.parent) {
+                    const parentPos = positions[node.parent];
+                    if (parentPos) {
+                        // 根据position属性决定上方还是下方
+                        // 增大垂直间距到50px
+                        let offsetY;
+                        if (node.position === 'up') {
+                            offsetY = -55;
+                        } else if (node.position === 'down') {
+                            offsetY = 55;
+                        } else {
+                            // 无position属性时，交替上下排列
+                            const siblingModules = moduleNodes.filter(m =>
+                                m.parent === node.parent && positions[m.id]
+                            );
+                            const offsetDir = siblingModules.length % 2 === 0 ? -1 : 1;
+                            offsetY = 50 * offsetDir;
+                        }
+
+                        positions[node.id] = {
+                            x: parentPos.x,
+                            y: parentPos.y + offsetY,
+                            node: node
+                        };
+                        return;
+                    }
+                }
+
+                // 无parent的组件节点（如核心技术），检查同位置占用
+                const slotKey = `${rowIndex}-${nodeTime(node)}-module`;
+                const slotCount = occupiedSlots.get(slotKey) || 0;
+                occupiedSlots.set(slotKey, slotCount + 1);
+
+                positions[node.id] = {
+                    x: baseX + slotCount * (nodeWidth + 15),
+                    y: baseY - 40,
+                    node: node
+                };
+            });
+
+            nodePositions = positions;
+            return positions;
+        }
+
+        function calculateCanvasSize(nodes, positions) {
+            let maxX = 0, minY = Infinity, maxY = 0;
+            Object.values(positions).forEach(p => {
+                maxX = Math.max(maxX, p.x);
+                minY = Math.min(minY, p.y);
+                maxY = Math.max(maxY, p.y);
+            });
+
+            // 计算需要的行数
+            const allSubcats = getAllSubcategories(nodes);
+            const rowCount = allSubcats.length;
+
+            // 确保宽度足够显示时间轴
+            const minYear = timelineYears[0];
+            const maxYear = timelineYears[timelineYears.length - 1];
+            const timelineWidth = ((maxYear - minYear) / yearStep + 1) * columnWidth + 100;
+
+            // 确保高度能显示组件节点的上下偏移（现在最大偏移55px）
+            // 上方组件可能在负y位置，需要额外空间
+            const extraHeightTop = minY < 20 ? Math.abs(minY) + 80 : 60;
+            const extraHeightBottom = 80;
+
+            return {
+                width: Math.max(maxX + nodeWidth + 100, timelineWidth),
+                height: maxY + nodeHeight + extraHeightBottom + extraHeightTop
+            };
+        }
+
+        // ========== 渲染函数 ==========
+
+        function renderTimelineHeader() {
+            const header = document.getElementById('timelineHeader');
+            header.innerHTML = '';
+            timelineYears.forEach(y => {
+                const m = document.createElement('div');
+                m.className = 'year-marker';
+                m.innerHTML = `<span class="year-num">${y}</span>`;
+                header.appendChild(m);
+            });
+        }
+
+        function countNodesForWeaponKind(kind) {
+            return techData.reduce((acc, n) => acc + (n.weaponKinds && n.weaponKinds.has(kind) ? 1 : 0), 0);
+        }
+
+        function renderCategorySidebar() {
+            const sidebar = document.getElementById('categorySidebar');
+            sidebar.innerHTML = '';
+            const accent = '#3498db';
+
+            const allItem = document.createElement('div');
+            allItem.className = 'category-item' + (currentWeaponKind === 'all' ? ' active' : '');
+            allItem.dataset.weaponKind = 'all';
+            allItem.innerHTML = `
+                <div class="category-color" style="background:${accent}"></div>
+                <span class="category-name">全部</span>
+                <span class="category-count">${techData.length}</span>
+            `;
+            allItem.onclick = () => selectWeaponKind('all');
+            sidebar.appendChild(allItem);
+
+            const section = document.createElement('div');
+            section.className = 'category-section';
+            const title = document.createElement('div');
+            title.className = 'category-section-title';
+            title.innerHTML = `<span style="color:${accent}">●</span> 武器种类（CSV）`;
+            section.appendChild(title);
+
+            weaponKindOrder.forEach(kind => {
+                const cnt = countNodesForWeaponKind(kind);
+                const item = document.createElement('div');
+                item.className = 'category-item' + (currentWeaponKind === kind ? ' active' : '');
+                item.dataset.weaponKind = kind;
+                item.innerHTML = `
+                    <div class="category-color" style="background:${accent}"></div>
+                    <span class="category-name">${kind}</span>
+                    <span class="category-count">${cnt}</span>
+                `;
+                item.onclick = () => selectWeaponKind(kind);
+                section.appendChild(item);
+            });
+            sidebar.appendChild(section);
+        }
+
+        function selectWeaponKind(kind) {
+            currentWeaponKind = kind;
+            document.querySelectorAll('.category-item').forEach(item => {
+                item.classList.remove('active');
+                if (item.dataset.weaponKind === kind) item.classList.add('active');
+            });
+            renderTree();
+        }
+
+        function renderTree() {
+            const canvas = document.getElementById('treeCanvas');
+            canvas.innerHTML = '';
+
+            let nodes = techData.slice();
+
+            if (currentEra !== 'all') {
+                nodes = nodes.filter(n => normalizeEra(n.era) === currentEra);
+            }
+
+            // 按 CSV 武器种类筛选：
+            // - 后向：从「带该种类的节点」沿 prerequisites 走到所有祖先（含共享前置）
+            // - 前向：只从「种子」出发，若某节点的任一前置已在「前向集」内则纳入（避免共享祖先把兄弟武器线整支并入）
+            if (currentWeaponKind !== 'all') {
+                const K = currentWeaponKind;
+                const seeds = techData.filter(n => n.weaponKinds && n.weaponKinds.has(K));
+                const backward = new Set();
+                const stack = [...seeds];
+                while (stack.length) {
+                    const n = stack.pop();
+                    if (backward.has(n.id)) continue;
+                    backward.add(n.id);
+                    (n.pre || []).forEach(pid => {
+                        const p = techById.get(pid) || techById.get(String(pid));
+                        if (p) stack.push(p);
+                    });
+                }
+                const forward = new Set(seeds.map(n => n.id));
+                let grow = true;
+                while (grow) {
+                    grow = false;
+                    techData.forEach(n => {
+                        if (forward.has(n.id)) return;
+                        if (!n.pre || !n.pre.length) return;
+                        if (n.pre.some(pid => forward.has(pid))) {
+                            forward.add(n.id);
+                            grow = true;
+                        }
+                    });
+                }
+                const keep = new Set([...backward, ...forward]);
+                nodes = nodes.filter(n => keep.has(n.id));
+            }
+
+            if (nodes.length === 0) {
+                canvas.innerHTML = '<div style="padding:30px;color:#888;text-align:center;">无匹配节点</div>';
+                return;
+            }
+
+            const positions = calculateLayout(nodes);
+            const size = calculateCanvasSize(nodes, positions);
+
+            canvas.style.width = size.width + 'px';
+            canvas.style.height = size.height + 'px';
+
+            // 绘制行背景线（与 calculateLayout 行顺序一致）
+            const allSubcats = getAllSubcategories(nodes);
+            const subcatTailRows = new Set(['核心技术', '坦克技术', '舰船技术', '航空技术', '导弹', '支援']);
+            allSubcats.sort((a, b) => {
+                const ta = subcatTailRows.has(a.id) ? 1 : 0;
+                const tb = subcatTailRows.has(b.id) ? 1 : 0;
+                if (ta !== tb) return ta - tb;
+                return b.count - a.count;
+            });
+            allSubcats.forEach((sub, idx) => {
+                const rowLine = document.createElement('div');
+                rowLine.style.position = 'absolute';
+                rowLine.style.top = (idx * rowHeight + rowHeight / 2 + 20) + 'px';
+                rowLine.style.left = '20px';
+                rowLine.style.width = size.width + 'px';
+                rowLine.style.height = '1px';
+                rowLine.style.background = 'rgba(255,255,255,0.1)';
+                canvas.appendChild(rowLine);
+            });
+
+            // SVG连线层
+            const svgLayer = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+            svgLayer.setAttribute('class', 'svg-layer');
+            svgLayer.style.width = size.width + 'px';
+            svgLayer.style.height = size.height + 'px';
+            canvas.appendChild(svgLayer);
+
+            // 节点
+            nodes.forEach(node => {
+                const pos = positions[node.id];
+                const el = document.createElement('div');
+                el.className = `node node-${node.cat.toLowerCase()} ${node.type}`;
+
+                // 核心技术节点特殊样式
+                if (node.subcat === '核心技术') {
+                    el.classList.add('node-tech-core');
+                }
+
+                el.dataset.id = node.id;
+                el.style.left = (pos.x - nodeWidth/2) + 'px';
+                el.style.top = (pos.y - nodeHeight/2) + 'px';
+
+                const dot = document.createElement('div');
+                dot.className = 'node-type-dot';
+                el.appendChild(dot);
+
+                const name = document.createElement('div');
+                name.className = 'node-name';
+                name.textContent = node.name.length > 6 ? node.name.slice(0,5)+'..' : node.name;
+                el.appendChild(name);
+
+                const yr = document.createElement('div');
+                yr.className = 'node-year';
+                yr.textContent = nodeTime(node);
+                el.appendChild(yr);
+
+                el.addEventListener('mouseenter', showDetail);
+                el.addEventListener('mouseleave', hideDetail);
+                el.addEventListener('click', highlightPath);
+
+                makeDraggable(el);
+                canvas.appendChild(el);
+            });
+
+            drawLinks(nodes, positions, svgLayer);
+
+            // 更新统计信息
+            const linkCount = svgLayer.querySelectorAll('.link').length;
+            document.getElementById('nodeCount').textContent = `节点: ${nodes.length} | 连线: ${linkCount}`;
+        }
+
+        function drawLinks(nodes, positions, svgLayer) {
+            while (svgLayer.firstChild) svgLayer.removeChild(svgLayer.firstChild);
+
+            nodes.forEach(node => {
+                if (!node.pre || node.pre.length === 0) return;
+
+                node.pre.forEach(preId => {
+                    const from = positions[preId];
+                    const to = positions[node.id];
+                    if (!from || !to) return;
+
+                    const preTech = findTechById(preId);
+                    const isSameCategory = preTech && preTech.cat === node.cat;
+
+                    // 判断是否为主干连线（两个都是主干节点）
+                    const isMainLink = (node.tier === 'main' && preTech?.tier === 'main');
+
+                    // 判断是否为核心技术连线（技术节点指向武器）
+                    const isTechLink = preTech && preTech.subcat === '核心技术';
+
+                    // 生成直角路径
+                    const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+                    const d = generateOrthogonalPath(from.x, from.y, to.x, to.y);
+                    path.setAttribute('d', d);
+
+                    // 设置样式类
+                    let linkClass = 'link ';
+                    if (isTechLink) {
+                        linkClass += 'link-tech';
+                    } else if (!isSameCategory) {
+                        linkClass += 'link-cross';
+                    } else if (isMainLink) {
+                        linkClass += 'link-main';
+                    } else {
+                        linkClass += 'link-module';
+                    }
+                    path.setAttribute('class', linkClass);
+                    path.setAttribute('data-from', preId);
+                    path.setAttribute('data-to', node.id);
+                    svgLayer.appendChild(path);
+                });
+            });
+        }
+
+        // 生成直角路径（水平→垂直→水平）
+        function generateOrthogonalPath(x1, y1, x2, y2) {
+            // 同一行：直接水平线
+            if (Math.abs(y1 - y2) < 5) {
+                return `M${Math.round(x1)},${Math.round(y1)} L${Math.round(x2)},${Math.round(y2)}`;
+            }
+            // 不同行：先水平到中点，再垂直，再水平
+            const midX = Math.round((x1 + x2) / 2);
+            return `M${Math.round(x1)},${Math.round(y1)} H${midX} V${Math.round(y2)} H${Math.round(x2)}`;
+        }
+
+        // ========== 交互功能 ==========
+
+        function showDetail(e) {
+            const panel = document.getElementById('detailPanel');
+            const n = findTechById(this.dataset.id);
+            if (!n) {
+                panel.classList.remove('visible');
+                return;
+            }
+
+            document.getElementById('detailTitle').textContent = n.name;
+            const eraBadge = document.getElementById('detailEra');
+            const er = normalizeEra(n.era);
+            eraBadge.textContent = eraNames[er] || er;
+            eraBadge.style.background = eraColors[er] || '#666';
+
+            document.getElementById('detailMeta').textContent = `${categoryLabel(n.cat)} | ${typeNames[n.type] || n.type} | ${nodeTime(n)}年`;
+            document.getElementById('detailDesc').textContent = n.desc;
+
+            const preList = document.getElementById('detailPrereq');
+            preList.innerHTML = '';
+
+            if (n.pre && n.pre.length > 0) {
+                n.pre.forEach(pid => {
+                    const pn = findTechById(pid);
+                    const item = document.createElement('span');
+                    item.className = 'detail-prereq-item';
+                    if (pn) {
+                        const isCross = pn.cat !== n.cat;
+                        if (isCross) item.classList.add('cross');
+                        item.textContent = pn.name + (isCross ? ' [跨]' : '');
+                        item.onclick = () => focusNode(pid);
+                    } else {
+                        item.classList.add('missing');
+                        item.textContent = pid + ' [未找到]';
+                    }
+                    preList.appendChild(item);
+                });
+            } else {
+                preList.innerHTML = '<span class="detail-prereq-item">无前置</span>';
+            }
+
+            const rect = this.getBoundingClientRect();
+            let left = rect.right + 5;
+            if (left + 220 > window.innerWidth) left = rect.left - 225;
+            panel.style.left = left + 'px';
+            panel.style.top = rect.top + 'px';
+            panel.classList.add('visible');
+        }
+
+        function hideDetail() {
+            document.getElementById('detailPanel').classList.remove('visible');
+        }
+
+        function highlightPath(e) {
+            const canvas = document.getElementById('treeCanvas');
+            canvas.querySelectorAll('.node.highlighted').forEach(el => el.classList.remove('highlighted'));
+            canvas.querySelectorAll('.link.highlighted').forEach(el => el.classList.remove('highlighted'));
+
+            const highlightUp = (id) => {
+                const el = canvas.querySelector(`.node[data-id="${id}"]`);
+                if (el) el.classList.add('highlighted');
+                const t = findTechById(id);
+                if (t?.pre) {
+                    t.pre.forEach(pid => {
+                        const link = canvas.querySelector(`.link[data-from="${pid}"][data-to="${id}"]`);
+                        if (link) link.classList.add('highlighted');
+                        highlightUp(pid);
+                    });
+                }
+            };
+            highlightUp(this.dataset.id);
+        }
+
+        function focusNode(id) {
+            const el = document.querySelector(`.node[data-id="${id}"]`);
+            if (el) {
+                document.querySelector('.tree-wrapper').scrollTo({
+                    left: el.offsetLeft - 80,
+                    top: el.offsetTop - 40,
+                    behavior: 'smooth'
+                });
+                el.click();
+            }
+        }
+
+        function makeDraggable(el) {
+            let dragging = false, startX, startY, startNodeX, startNodeY;
+
+            el.addEventListener('mousedown', e => {
+                dragging = true;
+                el.classList.add('dragging');
+                startX = e.clientX;
+                startY = e.clientY;
+                startNodeX = parseFloat(el.style.left) + nodeWidth/2;
+                startNodeY = parseFloat(el.style.top) + nodeHeight/2;
+                e.preventDefault();
+            });
+
+            document.addEventListener('mousemove', e => {
+                if (!dragging) return;
+                el.style.left = (startNodeX + e.clientX - startX - nodeWidth/2) + 'px';
+                el.style.top = (startNodeY + e.clientY - startY - nodeHeight/2) + 'px';
+            });
+
+            document.addEventListener('mouseup', e => {
+                if (!dragging) return;
+                dragging = false;
+                el.classList.remove('dragging');
+
+                const id = el.dataset.id;
+                if (nodePositions[id]) {
+                    nodePositions[id].x = parseFloat(el.style.left) + nodeWidth/2;
+                    nodePositions[id].y = parseFloat(el.style.top) + nodeHeight/2;
+                }
+
+                drawLinks(techData, nodePositions, document.querySelector('.svg-layer'));
+            });
+        }
+
+        // ========== 初始化 ==========
+
+        // 时代筛选
+        document.querySelectorAll('.era-btn[data-era]').forEach(btn => {
+            btn.onclick = function() {
+                document.querySelectorAll('.era-btn[data-era]').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentEra = this.dataset.era;
+                renderTree();
+            };
+        });
+
+        function showJsonLoadHint(message) {
+            const el = document.getElementById('jsonLoadHint');
+            if (!el) return;
+            el.style.display = 'block';
+            el.textContent = message + ' 可直接点击「打开 JSON」选择本地「' + MODULAR_JSON_FILE + '」；若用 http 打开本页，也会尝试自动加载同目录 JSON。';
+        }
+
+        function hideJsonLoadHint() {
+            const el = document.getElementById('jsonLoadHint');
+            if (el) el.style.display = 'none';
+        }
+
+        function applyTechData(rawList) {
+            techData = prepareTechData(rawList);
+            techById = new Map();
+            techData.forEach(t => {
+                techById.set(t.id, t);
+                techById.set(String(t.id), t);
+            });
+            assignWeaponKindsToTechData(techData, weaponKindOrder);
+            console.log('已加载节点数:', techData.length);
+            renderCategorySidebar();
+            renderTree();
+        }
+
+        function loadModularJsonFromText(text) {
+            const data = JSON.parse(stripJsonComments(text));
+            applyMetaFromJson(data && data.meta);
+            return fromModularJson(data);
+        }
+
+        async function tryFetchModularJson() {
+            const res = await fetch(MODULAR_JSON_FILE, { cache: 'no-store' });
+            if (!res.ok) {
+                throw new Error('无法自动加载 ' + MODULAR_JSON_FILE + '（HTTP ' + res.status + '）。');
+            }
+            const txt = await res.text();
+            return loadModularJsonFromText(txt);
+        }
+
+        function bindJsonFilePicker() {
+            const inp = document.getElementById('techJsonFile');
+            const btn = document.getElementById('btnPickTechJson');
+            if (!inp || !btn) return;
+            btn.addEventListener('click', () => inp.click());
+            inp.addEventListener('change', () => {
+                const f = inp.files && inp.files[0];
+                if (!f) return;
+                const reader = new FileReader();
+                reader.onload = () => {
+                    try {
+                        applyTechData(loadModularJsonFromText(String(reader.result)));
+                        hideJsonLoadHint();
+                    } catch (err) {
+                        alert('JSON 解析失败：' + (err && err.message ? err.message : err));
+                    }
+                    inp.value = '';
+                };
+                reader.onerror = () => alert('读取文件失败');
+                reader.readAsText(f, 'UTF-8');
+            });
+        }
+
+        async function init() {
+            bindJsonFilePicker();
+            weaponKindOrder = await loadWeaponKindOrder();
+            renderTimelineHeader();
+
+            try {
+                const source = await tryFetchModularJson();
+                applyTechData(source);
+                hideJsonLoadHint();
+            } catch (e) {
+                console.warn(e);
+                techData = [];
+                techById = new Map();
+                showJsonLoadHint(e.message || String(e));
+                renderCategorySidebar();
+                renderTree();
+            }
+        }
+
+        init();
+    </script>
+</body>
+</html>

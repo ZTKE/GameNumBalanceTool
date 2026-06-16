@@ -20,8 +20,23 @@
               "icon": "lucide-file",
               "title": "经济系统设计"
             }
+          },
+          {
+            "id": "7cb30d1a320f2ab7",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "项目代码结构.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "项目代码结构"
+            }
           }
-        ]
+        ],
+        "currentTab": 1
       }
     ],
     "direction": "vertical"
@@ -183,8 +198,10 @@
       "bases:新建数据库": false
     }
   },
-  "active": "a5e0ed7277f281a6",
+  "active": "7cb30d1a320f2ab7",
   "lastOpenFiles": [
+    "经济策划/经济系统设计.md",
+    "项目代码结构.md",
     "战争模块/army.csv",
     "战争模块/army (2).csv",
     "战争模块/scripts/value_iterator.py",
@@ -195,7 +212,6 @@
     "战争模块/scripts/test_ww2_german.py",
     "战争模块/scripts/simple_validate.py",
     "战争模块/scripts/final_balance_report.py",
-    "战争模块/scripts/compare_csv.py",
     "战争模块/README.md",
     "reference_data/v3_game_design/政体2_极权_部门操作指令.md",
     "reference_data/v3_game_design/政体1_民主_部门操作指令.md",
@@ -219,7 +235,6 @@
     "reference_data/v2_departmental_actions/Civ6_完整宗教信条数据表.md",
     "reference_data/v1_overview/核心机制全景对比.md",
     "reference_data/political_mechanics/其他国家概览.md",
-    "reference_data/v1_overview/英国.md",
-    "reference_data/v1_overview/美国.md"
+    "reference_data/v1_overview/英国.md"
   ]
 }

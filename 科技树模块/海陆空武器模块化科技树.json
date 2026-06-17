@@ -22,7 +22,8 @@
       "baseName": "本源名字",
       "originName": "本源名字",
       "tooltip": "鼠标悬停说明",
-      "relatedWeapons": "技术节点关联的本源武器名列表"
+      "relatedWeapons": "技术节点关联的本源武器名列表",
+      "prerequisiteMode": "前置满足方式：any=任一前置满足即可解锁；all=全部前置满足才可解锁（默认）"
     },
     "weaponOrder": [
       "步枪",
@@ -131,7 +132,7 @@
       "end": 2010
     },
     "timeEstimateRule": "time 为该武器形态在现实中出现、成型或代表性装备服役的估算年份，统一控制在 1910-2010。",
-    "prototypeScope": "当前轻武器样板仅保留 2 个共享前置技术节点：步枪/冲锋枪、步枪/机枪各一个。"
+    "prototypeScope": "当前完整样板包含海陆空武器时代节点与关键技术节点；关键技术通过 prerequisites + prerequisiteMode 表达解锁前置，避免开局裸露。"
   },
   "nodes": [
     {
@@ -147,8 +148,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是步枪的一战形态。",
-      "tooltip": "这是步枪的一战形态。",
+      "description": "步枪T1",
+      "tooltip": "步枪T1",
       "prerequisites": [],
       "time": 1910
     },
@@ -165,8 +166,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是步枪的二战形态。",
-      "tooltip": "这是步枪的二战形态。",
+      "description": "步枪T2",
+      "tooltip": "步枪T2",
       "prerequisites": [
         "weapon_000_ww1"
       ],
@@ -185,8 +186,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是步枪的冷战形态。",
-      "tooltip": "这是步枪的冷战形态。",
+      "description": "步枪T3",
+      "tooltip": "步枪T3",
       "prerequisites": [
         "weapon_000_ww2",
         "tech_land_auto_weapon_mass_1939"
@@ -206,8 +207,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是步枪的现代形态。",
-      "tooltip": "这是步枪的现代形态。",
+      "description": "步枪T4",
+      "tooltip": "步枪T4",
       "prerequisites": [
         "weapon_000_coldWar",
         "tech_land_modular_weapon_interfaces_1993"
@@ -227,8 +228,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是冲锋枪的一战形态。",
-      "tooltip": "这是冲锋枪的一战形态。",
+      "description": "冲锋枪T1",
+      "tooltip": "冲锋枪T1",
       "prerequisites": [],
       "time": 1918
     },
@@ -245,8 +246,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是冲锋枪的二战形态。",
-      "tooltip": "这是冲锋枪的二战形态。",
+      "description": "冲锋枪T2",
+      "tooltip": "冲锋枪T2",
       "prerequisites": [
         "weapon_001_ww1",
         "tech_land_auto_weapon_mass_1939"
@@ -266,8 +267,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是冲锋枪的冷战形态。",
-      "tooltip": "这是冲锋枪的冷战形态。",
+      "description": "冲锋枪T3",
+      "tooltip": "冲锋枪T3",
       "prerequisites": [
         "weapon_001_ww2"
       ],
@@ -286,8 +287,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是冲锋枪的现代形态。",
-      "tooltip": "这是冲锋枪的现代形态。",
+      "description": "冲锋枪T4",
+      "tooltip": "冲锋枪T4",
       "prerequisites": [
         "weapon_001_coldWar"
       ],
@@ -306,8 +307,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是机枪的一战形态。",
-      "tooltip": "这是机枪的一战形态。",
+      "description": "机枪T1",
+      "tooltip": "机枪T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -324,8 +325,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是机枪的二战形态。",
-      "tooltip": "这是机枪的二战形态。",
+      "description": "机枪T2",
+      "tooltip": "机枪T2",
       "prerequisites": [
         "weapon_002_ww1"
       ],
@@ -344,8 +345,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是机枪的冷战形态。",
-      "tooltip": "这是机枪的冷战形态。",
+      "description": "机枪T3",
+      "tooltip": "机枪T3",
       "prerequisites": [
         "weapon_002_ww2"
       ],
@@ -364,8 +365,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是机枪的现代形态。",
-      "tooltip": "这是机枪的现代形态。",
+      "description": "机枪T4",
+      "tooltip": "机枪T4",
       "prerequisites": [
         "weapon_002_coldWar",
         "tech_land_modular_weapon_interfaces_1993"
@@ -385,8 +386,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是迫击炮的一战形态。",
-      "tooltip": "这是迫击炮的一战形态。",
+      "description": "迫击炮T1",
+      "tooltip": "迫击炮T1",
       "prerequisites": [],
       "time": 1915
     },
@@ -403,8 +404,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是迫击炮的二战形态。",
-      "tooltip": "这是迫击炮的二战形态。",
+      "description": "迫击炮T2",
+      "tooltip": "迫击炮T2",
       "prerequisites": [
         "weapon_003_ww1",
         "tech_land_observed_indirect_fire_1916"
@@ -424,8 +425,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是迫击炮的冷战形态。",
-      "tooltip": "这是迫击炮的冷战形态。",
+      "description": "迫击炮T3",
+      "tooltip": "迫击炮T3",
       "prerequisites": [
         "weapon_003_ww2"
       ],
@@ -444,8 +445,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是迫击炮的现代形态。",
-      "tooltip": "这是迫击炮的现代形态。",
+      "description": "迫击炮T4",
+      "tooltip": "迫击炮T4",
       "prerequisites": [
         "weapon_003_coldWar"
       ],
@@ -464,8 +465,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是自杀式无人机的现代形态。",
-      "tooltip": "这是自杀式无人机的现代形态。",
+      "description": "自杀式无人机T4",
+      "tooltip": "自杀式无人机T4",
       "prerequisites": [
         "tech_air_unmanned_datalink_1964",
         "tech_land_precision_rocket_guidance_1990"
@@ -485,8 +486,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是步兵炮的一战形态。",
-      "tooltip": "这是步兵炮的一战形态。",
+      "description": "步兵炮T1",
+      "tooltip": "步兵炮T1",
       "prerequisites": [],
       "time": 1916
     },
@@ -503,8 +504,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是步兵炮的二战形态。",
-      "tooltip": "这是步兵炮的二战形态。",
+      "description": "步兵炮T2",
+      "tooltip": "步兵炮T2",
       "prerequisites": [
         "weapon_005_ww1",
         "tech_land_observed_indirect_fire_1916"
@@ -524,8 +525,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是野战火炮的一战形态。",
-      "tooltip": "这是野战火炮的一战形态。",
+      "description": "野战火炮T1",
+      "tooltip": "野战火炮T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -542,8 +543,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是野战火炮的二战形态。",
-      "tooltip": "这是野战火炮的二战形态。",
+      "description": "野战火炮T2",
+      "tooltip": "野战火炮T2",
       "prerequisites": [
         "weapon_006_ww1",
         "tech_land_observed_indirect_fire_1916"
@@ -563,8 +564,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是野战火炮的冷战形态。",
-      "tooltip": "这是野战火炮的冷战形态。",
+      "description": "野战火炮T3",
+      "tooltip": "野战火炮T3",
       "prerequisites": [
         "weapon_006_ww2"
       ],
@@ -583,8 +584,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是野战火炮的现代形态。",
-      "tooltip": "这是野战火炮的现代形态。",
+      "description": "野战火炮T4",
+      "tooltip": "野战火炮T4",
       "prerequisites": [
         "weapon_006_coldWar"
       ],
@@ -603,8 +604,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是卡车炮的冷战形态。",
-      "tooltip": "这是卡车炮的冷战形态。",
+      "description": "卡车炮T3",
+      "tooltip": "卡车炮T3",
       "prerequisites": [
         "tech_land_mobile_artillery_chassis_1942"
       ],
@@ -623,8 +624,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是卡车炮的现代形态。",
-      "tooltip": "这是卡车炮的现代形态。",
+      "description": "卡车炮T4",
+      "tooltip": "卡车炮T4",
       "prerequisites": [
         "weapon_007_coldWar"
       ],
@@ -643,8 +644,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是自行火炮的二战形态。",
-      "tooltip": "这是自行火炮的二战形态。",
+      "description": "自行火炮T2",
+      "tooltip": "自行火炮T2",
       "prerequisites": [
         "tech_land_mobile_artillery_chassis_1942"
       ],
@@ -663,8 +664,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是自行火炮的冷战形态。",
-      "tooltip": "这是自行火炮的冷战形态。",
+      "description": "自行火炮T3",
+      "tooltip": "自行火炮T3",
       "prerequisites": [
         "weapon_008_ww2"
       ],
@@ -683,8 +684,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是自行火炮的现代形态。",
-      "tooltip": "这是自行火炮的现代形态。",
+      "description": "自行火炮T4",
+      "tooltip": "自行火炮T4",
       "prerequisites": [
         "weapon_008_coldWar"
       ],
@@ -703,8 +704,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是重型火炮的一战形态。",
-      "tooltip": "这是重型火炮的一战形态。",
+      "description": "重型火炮T1",
+      "tooltip": "重型火炮T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -721,8 +722,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是重型火炮的二战形态。",
-      "tooltip": "这是重型火炮的二战形态。",
+      "description": "重型火炮T2",
+      "tooltip": "重型火炮T2",
       "prerequisites": [
         "weapon_009_ww1",
         "tech_land_observed_indirect_fire_1916"
@@ -742,8 +743,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是重型火炮的冷战形态。",
-      "tooltip": "这是重型火炮的冷战形态。",
+      "description": "重型火炮T3",
+      "tooltip": "重型火炮T3",
       "prerequisites": [
         "weapon_009_ww2"
       ],
@@ -762,8 +763,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是火箭炮的二战形态。",
-      "tooltip": "这是火箭炮的二战形态。",
+      "description": "火箭炮T2",
+      "tooltip": "火箭炮T2",
       "prerequisites": [],
       "time": 1941
     },
@@ -780,8 +781,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是火箭炮的冷战形态。",
-      "tooltip": "这是火箭炮的冷战形态。",
+      "description": "火箭炮T3",
+      "tooltip": "火箭炮T3",
       "prerequisites": [
         "weapon_010_ww2"
       ],
@@ -800,8 +801,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是火箭炮的现代形态。",
-      "tooltip": "这是火箭炮的现代形态。",
+      "description": "火箭炮T4",
+      "tooltip": "火箭炮T4",
       "prerequisites": [
         "weapon_010_coldWar",
         "tech_land_precision_rocket_guidance_1990"
@@ -821,8 +822,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是巡飞弹的现代形态。",
-      "tooltip": "这是巡飞弹的现代形态。",
+      "description": "巡飞弹T4",
+      "tooltip": "巡飞弹T4",
       "prerequisites": [
         "tech_land_precision_rocket_guidance_1990"
       ],
@@ -841,8 +842,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是战术导弹的现代形态。",
-      "tooltip": "这是战术导弹的现代形态。",
+      "description": "战术导弹T4",
+      "tooltip": "战术导弹T4",
       "prerequisites": [
         "tech_land_precision_rocket_guidance_1990"
       ],
@@ -861,8 +862,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是单兵防空火力的冷战形态。",
-      "tooltip": "这是单兵防空火力的冷战形态。",
+      "description": "单兵防空火力T3",
+      "tooltip": "单兵防空火力T3",
       "prerequisites": [
         "tech_land_light_guided_weapon_1961"
       ],
@@ -881,8 +882,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是单兵防空火力的现代形态。",
-      "tooltip": "这是单兵防空火力的现代形态。",
+      "description": "单兵防空火力T4",
+      "tooltip": "单兵防空火力T4",
       "prerequisites": [
         "weapon_013_coldWar"
       ],
@@ -901,8 +902,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是防空炮的一战形态。",
-      "tooltip": "这是防空炮的一战形态。",
+      "description": "防空炮T1",
+      "tooltip": "防空炮T1",
       "prerequisites": [],
       "time": 1915
     },
@@ -919,8 +920,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是防空炮的二战形态。",
-      "tooltip": "这是防空炮的二战形态。",
+      "description": "防空炮T2",
+      "tooltip": "防空炮T2",
       "prerequisites": [
         "weapon_014_ww1"
       ],
@@ -939,8 +940,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是防空炮的冷战形态。",
-      "tooltip": "这是防空炮的冷战形态。",
+      "description": "防空炮T3",
+      "tooltip": "防空炮T3",
       "prerequisites": [
         "weapon_014_ww2",
         "tech_land_radar_air_defense_1950"
@@ -960,8 +961,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是防空炮的现代形态。",
-      "tooltip": "这是防空炮的现代形态。",
+      "description": "防空炮T4",
+      "tooltip": "防空炮T4",
       "prerequisites": [
         "weapon_014_coldWar"
       ],
@@ -980,8 +981,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是防空自行火炮的二战形态。",
-      "tooltip": "这是防空自行火炮的二战形态。",
+      "description": "防空自行火炮T2",
+      "tooltip": "防空自行火炮T2",
       "prerequisites": [],
       "time": 1943
     },
@@ -998,8 +999,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是防空自行火炮的冷战形态。",
-      "tooltip": "这是防空自行火炮的冷战形态。",
+      "description": "防空自行火炮T3",
+      "tooltip": "防空自行火炮T3",
       "prerequisites": [
         "weapon_015_ww2",
         "tech_land_radar_air_defense_1950"
@@ -1019,8 +1020,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是防空自行火炮的现代形态。",
-      "tooltip": "这是防空自行火炮的现代形态。",
+      "description": "防空自行火炮T4",
+      "tooltip": "防空自行火炮T4",
       "prerequisites": [
         "weapon_015_coldWar"
       ],
@@ -1039,8 +1040,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是近程防空导弹的冷战形态。",
-      "tooltip": "这是近程防空导弹的冷战形态。",
+      "description": "近程防空导弹T3",
+      "tooltip": "近程防空导弹T3",
       "prerequisites": [
         "tech_land_light_guided_weapon_1961"
       ],
@@ -1059,8 +1060,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是近程防空导弹的现代形态。",
-      "tooltip": "这是近程防空导弹的现代形态。",
+      "description": "近程防空导弹T4",
+      "tooltip": "近程防空导弹T4",
       "prerequisites": [
         "weapon_016_coldWar"
       ],
@@ -1079,8 +1080,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是中程防空导弹的冷战形态。",
-      "tooltip": "这是中程防空导弹的冷战形态。",
+      "description": "中程防空导弹T3",
+      "tooltip": "中程防空导弹T3",
       "prerequisites": [
         "tech_land_radar_air_defense_1950"
       ],
@@ -1099,8 +1100,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是中程防空导弹的现代形态。",
-      "tooltip": "这是中程防空导弹的现代形态。",
+      "description": "中程防空导弹T4",
+      "tooltip": "中程防空导弹T4",
       "prerequisites": [
         "weapon_017_coldWar"
       ],
@@ -1119,8 +1120,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是远程防空导弹的冷战形态。",
-      "tooltip": "这是远程防空导弹的冷战形态。",
+      "description": "远程防空导弹T3",
+      "tooltip": "远程防空导弹T3",
       "prerequisites": [
         "tech_land_radar_air_defense_1950"
       ],
@@ -1139,8 +1140,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是远程防空导弹的现代形态。",
-      "tooltip": "这是远程防空导弹的现代形态。",
+      "description": "远程防空导弹T4",
+      "tooltip": "远程防空导弹T4",
       "prerequisites": [
         "weapon_018_coldWar"
       ],
@@ -1159,8 +1160,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是单兵反装甲火力的一战形态。",
-      "tooltip": "这是单兵反装甲火力的一战形态。",
+      "description": "单兵反装甲火力T1",
+      "tooltip": "单兵反装甲火力T1",
       "prerequisites": [],
       "time": 1918
     },
@@ -1177,8 +1178,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是单兵反装甲火力的二战形态。",
-      "tooltip": "这是单兵反装甲火力的二战形态。",
+      "description": "单兵反装甲火力T2",
+      "tooltip": "单兵反装甲火力T2",
       "prerequisites": [
         "weapon_019_ww1"
       ],
@@ -1197,8 +1198,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是单兵反装甲火力的冷战形态。",
-      "tooltip": "这是单兵反装甲火力的冷战形态。",
+      "description": "单兵反装甲火力T3",
+      "tooltip": "单兵反装甲火力T3",
       "prerequisites": [
         "weapon_019_ww2",
         "tech_land_light_guided_weapon_1961"
@@ -1218,8 +1219,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是单兵反装甲火力的现代形态。",
-      "tooltip": "这是单兵反装甲火力的现代形态。",
+      "description": "单兵反装甲火力T4",
+      "tooltip": "单兵反装甲火力T4",
       "prerequisites": [
         "weapon_019_coldWar"
       ],
@@ -1238,8 +1239,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是反坦克炮的一战形态。",
-      "tooltip": "这是反坦克炮的一战形态。",
+      "description": "反坦克炮T1",
+      "tooltip": "反坦克炮T1",
       "prerequisites": [],
       "time": 1918
     },
@@ -1256,8 +1257,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是反坦克炮的二战形态。",
-      "tooltip": "这是反坦克炮的二战形态。",
+      "description": "反坦克炮T2",
+      "tooltip": "反坦克炮T2",
       "prerequisites": [
         "weapon_020_ww1"
       ],
@@ -1276,8 +1277,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是反坦克炮的冷战形态。",
-      "tooltip": "这是反坦克炮的冷战形态。",
+      "description": "反坦克炮T3",
+      "tooltip": "反坦克炮T3",
       "prerequisites": [
         "weapon_020_ww2"
       ],
@@ -1296,8 +1297,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是武装直升机的冷战形态。",
-      "tooltip": "这是武装直升机的冷战形态。",
+      "description": "武装直升机T3",
+      "tooltip": "武装直升机T3",
       "prerequisites": [
         "tech_land_turboshaft_helicopter_1959"
       ],
@@ -1316,8 +1317,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是武装直升机的现代形态。",
-      "tooltip": "这是武装直升机的现代形态。",
+      "description": "武装直升机T4",
+      "tooltip": "武装直升机T4",
       "prerequisites": [
         "weapon_021_coldWar"
       ],
@@ -1336,8 +1337,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是自行反坦克炮的二战形态。",
-      "tooltip": "这是自行反坦克炮的二战形态。",
+      "description": "自行反坦克炮T2",
+      "tooltip": "自行反坦克炮T2",
       "prerequisites": [
         "tech_land_armored_chassis_welding_1935"
       ],
@@ -1356,8 +1357,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是自行反坦克炮的冷战形态。",
-      "tooltip": "这是自行反坦克炮的冷战形态。",
+      "description": "自行反坦克炮T3",
+      "tooltip": "自行反坦克炮T3",
       "prerequisites": [
         "weapon_022_ww2"
       ],
@@ -1376,8 +1377,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是自行反坦克导弹的现代形态。",
-      "tooltip": "这是自行反坦克导弹的现代形态。",
+      "description": "自行反坦克导弹T4",
+      "tooltip": "自行反坦克导弹T4",
       "prerequisites": [
         "tech_land_light_guided_weapon_1961"
       ],
@@ -1396,8 +1397,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是自行迫击炮的现代形态。",
-      "tooltip": "这是自行迫击炮的现代形态。",
+      "description": "自行迫击炮T4",
+      "tooltip": "自行迫击炮T4",
       "prerequisites": [
         "tech_land_mobile_artillery_chassis_1942"
       ],
@@ -1416,8 +1417,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是装甲车的一战形态。",
-      "tooltip": "这是装甲车的一战形态。",
+      "description": "装甲车T1",
+      "tooltip": "装甲车T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -1434,8 +1435,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是装甲车的二战形态。",
-      "tooltip": "这是装甲车的二战形态。",
+      "description": "装甲车T2",
+      "tooltip": "装甲车T2",
       "prerequisites": [
         "weapon_025_ww1",
         "tech_land_armored_chassis_welding_1935"
@@ -1455,8 +1456,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是装甲车的冷战形态。",
-      "tooltip": "这是装甲车的冷战形态。",
+      "description": "装甲车T3",
+      "tooltip": "装甲车T3",
       "prerequisites": [
         "weapon_025_ww2"
       ],
@@ -1475,8 +1476,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是装甲车的现代形态。",
-      "tooltip": "这是装甲车的现代形态。",
+      "description": "装甲车T4",
+      "tooltip": "装甲车T4",
       "prerequisites": [
         "weapon_025_coldWar"
       ],
@@ -1495,8 +1496,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是步兵战车的冷战形态。",
-      "tooltip": "这是步兵战车的冷战形态。",
+      "description": "步兵战车T3",
+      "tooltip": "步兵战车T3",
       "prerequisites": [
         "tech_land_stabilized_composite_armor_1963"
       ],
@@ -1515,8 +1516,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是步兵战车的现代形态。",
-      "tooltip": "这是步兵战车的现代形态。",
+      "description": "步兵战车T4",
+      "tooltip": "步兵战车T4",
       "prerequisites": [
         "weapon_026_coldWar"
       ],
@@ -1535,8 +1536,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是轻型坦克的一战形态。",
-      "tooltip": "这是轻型坦克的一战形态。",
+      "description": "轻型坦克T1",
+      "tooltip": "轻型坦克T1",
       "prerequisites": [],
       "time": 1917
     },
@@ -1553,8 +1554,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是轻型坦克的二战形态。",
-      "tooltip": "这是轻型坦克的二战形态。",
+      "description": "轻型坦克T2",
+      "tooltip": "轻型坦克T2",
       "prerequisites": [
         "weapon_027_ww1",
         "tech_land_armored_chassis_welding_1935"
@@ -1574,8 +1575,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是轻型坦克的冷战形态。",
-      "tooltip": "这是轻型坦克的冷战形态。",
+      "description": "轻型坦克T3",
+      "tooltip": "轻型坦克T3",
       "prerequisites": [
         "weapon_027_ww2"
       ],
@@ -1594,8 +1595,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是中型坦克的二战形态。",
-      "tooltip": "这是中型坦克的二战形态。",
+      "description": "中型坦克T2",
+      "tooltip": "中型坦克T2",
       "prerequisites": [
         "tech_land_armored_chassis_welding_1935"
       ],
@@ -1614,8 +1615,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是中型坦克的冷战形态。",
-      "tooltip": "这是中型坦克的冷战形态。",
+      "description": "中型坦克T3",
+      "tooltip": "中型坦克T3",
       "prerequisites": [
         "weapon_028_ww2"
       ],
@@ -1634,8 +1635,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是重型坦克的二战形态。",
-      "tooltip": "这是重型坦克的二战形态。",
+      "description": "重型坦克T2",
+      "tooltip": "重型坦克T2",
       "prerequisites": [],
       "time": 1942
     },
@@ -1652,8 +1653,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是重型坦克的冷战形态。",
-      "tooltip": "这是重型坦克的冷战形态。",
+      "description": "重型坦克T3",
+      "tooltip": "重型坦克T3",
       "prerequisites": [
         "weapon_029_ww2"
       ],
@@ -1672,8 +1673,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是主战坦克的冷战形态。",
-      "tooltip": "这是主战坦克的冷战形态。",
+      "description": "主战坦克T3",
+      "tooltip": "主战坦克T3",
       "prerequisites": [
         "tech_land_stabilized_composite_armor_1963"
       ],
@@ -1692,8 +1693,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是主战坦克的现代形态。",
-      "tooltip": "这是主战坦克的现代形态。",
+      "description": "主战坦克T4",
+      "tooltip": "主战坦克T4",
       "prerequisites": [
         "weapon_030_coldWar"
       ],
@@ -1712,8 +1713,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是初代战斗机的二战形态。",
-      "tooltip": "这是初代战斗机的二战形态。",
+      "description": "初代战斗机T2",
+      "tooltip": "初代战斗机T2",
       "prerequisites": [],
       "time": 1936
     },
@@ -1730,8 +1731,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是涡喷战斗机的二战形态。",
-      "tooltip": "这是涡喷战斗机的二战形态。",
+      "description": "涡喷战斗机T2",
+      "tooltip": "涡喷战斗机T2",
       "prerequisites": [
         "tech_air_turbojet_engine_1944"
       ],
@@ -1750,8 +1751,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是涡喷战斗机的冷战形态。",
-      "tooltip": "这是涡喷战斗机的冷战形态。",
+      "description": "涡喷战斗机T3",
+      "tooltip": "涡喷战斗机T3",
       "prerequisites": [
         "weapon_032_ww2"
       ],
@@ -1770,8 +1771,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是涡扇战斗机的冷战形态。",
-      "tooltip": "这是涡扇战斗机的冷战形态。",
+      "description": "涡扇战斗机T3",
+      "tooltip": "涡扇战斗机T3",
       "prerequisites": [
         "tech_air_aam_guidance_1956",
         "tech_air_turbofan_avionics_1964"
@@ -1791,8 +1792,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是涡扇战斗机的现代形态。",
-      "tooltip": "这是涡扇战斗机的现代形态。",
+      "description": "涡扇战斗机T4",
+      "tooltip": "涡扇战斗机T4",
       "prerequisites": [
         "weapon_033_coldWar"
       ],
@@ -1811,8 +1812,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是涡扇多用途战斗机的冷战形态。",
-      "tooltip": "这是涡扇多用途战斗机的冷战形态。",
+      "description": "涡扇多用途战斗机T3",
+      "tooltip": "涡扇多用途战斗机T3",
       "prerequisites": [
         "tech_air_turbofan_avionics_1964"
       ],
@@ -1831,8 +1832,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是涡扇多用途战斗机的现代形态。",
-      "tooltip": "这是涡扇多用途战斗机的现代形态。",
+      "description": "涡扇多用途战斗机T4",
+      "tooltip": "涡扇多用途战斗机T4",
       "prerequisites": [
         "weapon_034_coldWar"
       ],
@@ -1851,8 +1852,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是隐身多用途战斗机的现代形态。",
-      "tooltip": "这是隐身多用途战斗机的现代形态。",
+      "description": "隐身多用途战斗机T4",
+      "tooltip": "隐身多用途战斗机T4",
       "prerequisites": [
         "tech_air_stealth_sensor_fusion_1997"
       ],
@@ -1871,8 +1872,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是海军初代战斗机的二战形态。",
-      "tooltip": "这是海军初代战斗机的二战形态。",
+      "description": "海军初代战斗机T2",
+      "tooltip": "海军初代战斗机T2",
       "prerequisites": [],
       "time": 1939
     },
@@ -1889,8 +1890,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是海军涡喷战斗机的二战形态。",
-      "tooltip": "这是海军涡喷战斗机的二战形态。",
+      "description": "海军涡喷战斗机T2",
+      "tooltip": "海军涡喷战斗机T2",
       "prerequisites": [
         "tech_air_turbojet_engine_1944"
       ],
@@ -1909,8 +1910,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是海军涡喷战斗机的冷战形态。",
-      "tooltip": "这是海军涡喷战斗机的冷战形态。",
+      "description": "海军涡喷战斗机T3",
+      "tooltip": "海军涡喷战斗机T3",
       "prerequisites": [
         "weapon_037_ww2"
       ],
@@ -1929,8 +1930,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是海军涡扇多用途战斗机的冷战形态。",
-      "tooltip": "这是海军涡扇多用途战斗机的冷战形态。",
+      "description": "海军涡扇多用途战斗机T3",
+      "tooltip": "海军涡扇多用途战斗机T3",
       "prerequisites": [
         "tech_air_turbofan_avionics_1964"
       ],
@@ -1949,8 +1950,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是海军涡扇多用途战斗机的现代形态。",
-      "tooltip": "这是海军涡扇多用途战斗机的现代形态。",
+      "description": "海军涡扇多用途战斗机T4",
+      "tooltip": "海军涡扇多用途战斗机T4",
       "prerequisites": [
         "weapon_038_coldWar"
       ],
@@ -1969,8 +1970,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是海军隐身多用途战斗机的现代形态。",
-      "tooltip": "这是海军隐身多用途战斗机的现代形态。",
+      "description": "海军隐身多用途战斗机T4",
+      "tooltip": "海军隐身多用途战斗机T4",
       "prerequisites": [
         "tech_air_stealth_sensor_fusion_1997"
       ],
@@ -1989,8 +1990,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是强击机的二战形态。",
-      "tooltip": "这是强击机的二战形态。",
+      "description": "强击机T2",
+      "tooltip": "强击机T2",
       "prerequisites": [],
       "time": 1940
     },
@@ -2007,8 +2008,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是强击机的冷战形态。",
-      "tooltip": "这是强击机的冷战形态。",
+      "description": "强击机T3",
+      "tooltip": "强击机T3",
       "prerequisites": [
         "weapon_041_ww2",
         "tech_air_turbojet_engine_1944"
@@ -2028,8 +2029,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是战术轰炸机的二战形态。",
-      "tooltip": "这是战术轰炸机的二战形态。",
+      "description": "战术轰炸机T2",
+      "tooltip": "战术轰炸机T2",
       "prerequisites": [],
       "time": 1939
     },
@@ -2046,8 +2047,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是战术轰炸机的冷战形态。",
-      "tooltip": "这是战术轰炸机的冷战形态。",
+      "description": "战术轰炸机T3",
+      "tooltip": "战术轰炸机T3",
       "prerequisites": [
         "weapon_042_ww2"
       ],
@@ -2066,8 +2067,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是战术轰炸机的现代形态。",
-      "tooltip": "这是战术轰炸机的现代形态。",
+      "description": "战术轰炸机T4",
+      "tooltip": "战术轰炸机T4",
       "prerequisites": [
         "weapon_042_coldWar",
         "tech_air_turbofan_avionics_1964"
@@ -2087,8 +2088,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是战略轰炸机的二战形态。",
-      "tooltip": "这是战略轰炸机的二战形态。",
+      "description": "战略轰炸机T2",
+      "tooltip": "战略轰炸机T2",
       "prerequisites": [],
       "time": 1944
     },
@@ -2105,8 +2106,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是战略轰炸机的冷战形态。",
-      "tooltip": "这是战略轰炸机的冷战形态。",
+      "description": "战略轰炸机T3",
+      "tooltip": "战略轰炸机T3",
       "prerequisites": [
         "weapon_043_ww2",
         "tech_air_refuel_transport_1955"
@@ -2126,8 +2127,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是战略轰炸机的现代形态。",
-      "tooltip": "这是战略轰炸机的现代形态。",
+      "description": "战略轰炸机T4",
+      "tooltip": "战略轰炸机T4",
       "prerequisites": [
         "weapon_043_coldWar"
       ],
@@ -2146,8 +2147,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是侦察机的二战形态。",
-      "tooltip": "这是侦察机的二战形态。",
+      "description": "侦察机T2",
+      "tooltip": "侦察机T2",
       "prerequisites": [],
       "time": 1939
     },
@@ -2164,8 +2165,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是侦察机的冷战形态。",
-      "tooltip": "这是侦察机的冷战形态。",
+      "description": "侦察机T3",
+      "tooltip": "侦察机T3",
       "prerequisites": [
         "weapon_044_ww2",
         "tech_air_airborne_radar_command_1955"
@@ -2185,8 +2186,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是预警机的冷战形态。",
-      "tooltip": "这是预警机的冷战形态。",
+      "description": "预警机T3",
+      "tooltip": "预警机T3",
       "prerequisites": [
         "tech_air_airborne_radar_command_1955"
       ],
@@ -2205,8 +2206,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是预警机的现代形态。",
-      "tooltip": "这是预警机的现代形态。",
+      "description": "预警机T4",
+      "tooltip": "预警机T4",
       "prerequisites": [
         "weapon_045_coldWar"
       ],
@@ -2225,8 +2226,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是空中加油机的冷战形态。",
-      "tooltip": "这是空中加油机的冷战形态。",
+      "description": "空中加油机T3",
+      "tooltip": "空中加油机T3",
       "prerequisites": [
         "tech_air_refuel_transport_1955"
       ],
@@ -2245,8 +2246,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是空中加油机的现代形态。",
-      "tooltip": "这是空中加油机的现代形态。",
+      "description": "空中加油机T4",
+      "tooltip": "空中加油机T4",
       "prerequisites": [
         "weapon_046_coldWar"
       ],
@@ -2265,8 +2266,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是运输机的二战形态。",
-      "tooltip": "这是运输机的二战形态。",
+      "description": "运输机T2",
+      "tooltip": "运输机T2",
       "prerequisites": [],
       "time": 1942
     },
@@ -2283,8 +2284,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是运输机的冷战形态。",
-      "tooltip": "这是运输机的冷战形态。",
+      "description": "运输机T3",
+      "tooltip": "运输机T3",
       "prerequisites": [
         "weapon_047_ww2",
         "tech_air_refuel_transport_1955"
@@ -2304,8 +2305,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是运输机的现代形态。",
-      "tooltip": "这是运输机的现代形态。",
+      "description": "运输机T4",
+      "tooltip": "运输机T4",
       "prerequisites": [
         "weapon_047_coldWar"
       ],
@@ -2324,8 +2325,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是护卫舰的一战形态。",
-      "tooltip": "这是护卫舰的一战形态。",
+      "description": "护卫舰T1",
+      "tooltip": "护卫舰T1",
       "prerequisites": [],
       "time": 1915
     },
@@ -2342,8 +2343,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是护卫舰的二战形态。",
-      "tooltip": "这是护卫舰的二战形态。",
+      "description": "护卫舰T2",
+      "tooltip": "护卫舰T2",
       "prerequisites": [
         "weapon_048_ww1",
         "tech_sea_radar_sonar_1941"
@@ -2363,8 +2364,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是护卫舰的冷战形态。",
-      "tooltip": "这是护卫舰的冷战形态。",
+      "description": "护卫舰T3",
+      "tooltip": "护卫舰T3",
       "prerequisites": [
         "weapon_048_ww2"
       ],
@@ -2383,8 +2384,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是护卫舰的现代形态。",
-      "tooltip": "这是护卫舰的现代形态。",
+      "description": "护卫舰T4",
+      "tooltip": "护卫舰T4",
       "prerequisites": [
         "weapon_048_coldWar",
         "tech_sea_missile_vls_1988"
@@ -2404,8 +2405,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是驱逐舰的一战形态。",
-      "tooltip": "这是驱逐舰的一战形态。",
+      "description": "驱逐舰T1",
+      "tooltip": "驱逐舰T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -2422,8 +2423,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是驱逐舰的二战形态。",
-      "tooltip": "这是驱逐舰的二战形态。",
+      "description": "驱逐舰T2",
+      "tooltip": "驱逐舰T2",
       "prerequisites": [
         "weapon_049_ww1"
       ],
@@ -2442,8 +2443,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是驱逐舰的冷战形态。",
-      "tooltip": "这是驱逐舰的冷战形态。",
+      "description": "驱逐舰T3",
+      "tooltip": "驱逐舰T3",
       "prerequisites": [
         "weapon_049_ww2",
         "tech_sea_radar_sonar_1941"
@@ -2463,8 +2464,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是驱逐舰的现代形态。",
-      "tooltip": "这是驱逐舰的现代形态。",
+      "description": "驱逐舰T4",
+      "tooltip": "驱逐舰T4",
       "prerequisites": [
         "weapon_049_coldWar",
         "tech_sea_missile_vls_1988"
@@ -2484,8 +2485,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是轻型巡洋舰的一战形态。",
-      "tooltip": "这是轻型巡洋舰的一战形态。",
+      "description": "轻型巡洋舰T1",
+      "tooltip": "轻型巡洋舰T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -2502,8 +2503,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是轻型巡洋舰的二战形态。",
-      "tooltip": "这是轻型巡洋舰的二战形态。",
+      "description": "轻型巡洋舰T2",
+      "tooltip": "轻型巡洋舰T2",
       "prerequisites": [
         "weapon_050_ww1",
         "tech_sea_capital_fire_control_1935"
@@ -2523,8 +2524,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是重型巡洋舰的一战形态。",
-      "tooltip": "这是重型巡洋舰的一战形态。",
+      "description": "重型巡洋舰T1",
+      "tooltip": "重型巡洋舰T1",
       "prerequisites": [],
       "time": 1918
     },
@@ -2541,8 +2542,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是重型巡洋舰的二战形态。",
-      "tooltip": "这是重型巡洋舰的二战形态。",
+      "description": "重型巡洋舰T2",
+      "tooltip": "重型巡洋舰T2",
       "prerequisites": [
         "weapon_051_ww1",
         "tech_sea_capital_fire_control_1935"
@@ -2562,8 +2563,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是导弹巡洋舰的冷战形态。",
-      "tooltip": "这是导弹巡洋舰的冷战形态。",
+      "description": "导弹巡洋舰T3",
+      "tooltip": "导弹巡洋舰T3",
       "prerequisites": [],
       "time": 1959
     },
@@ -2580,8 +2581,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是导弹巡洋舰的现代形态。",
-      "tooltip": "这是导弹巡洋舰的现代形态。",
+      "description": "导弹巡洋舰T4",
+      "tooltip": "导弹巡洋舰T4",
       "prerequisites": [
         "weapon_052_coldWar",
         "tech_sea_missile_vls_1988"
@@ -2601,8 +2602,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是战列巡洋舰的一战形态。",
-      "tooltip": "这是战列巡洋舰的一战形态。",
+      "description": "战列巡洋舰T1",
+      "tooltip": "战列巡洋舰T1",
       "prerequisites": [],
       "time": 1911
     },
@@ -2619,8 +2620,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是战列巡洋舰的二战形态。",
-      "tooltip": "这是战列巡洋舰的二战形态。",
+      "description": "战列巡洋舰T2",
+      "tooltip": "战列巡洋舰T2",
       "prerequisites": [
         "weapon_053_ww1",
         "tech_sea_capital_fire_control_1935"
@@ -2640,8 +2641,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是战列舰的一战形态。",
-      "tooltip": "这是战列舰的一战形态。",
+      "description": "战列舰T1",
+      "tooltip": "战列舰T1",
       "prerequisites": [],
       "time": 1910
     },
@@ -2658,8 +2659,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是战列舰的二战形态。",
-      "tooltip": "这是战列舰的二战形态。",
+      "description": "战列舰T2",
+      "tooltip": "战列舰T2",
       "prerequisites": [
         "weapon_054_ww1",
         "tech_sea_capital_fire_control_1935"
@@ -2679,8 +2680,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是轻型航空母舰的二战形态。",
-      "tooltip": "这是轻型航空母舰的二战形态。",
+      "description": "轻型航空母舰T2",
+      "tooltip": "轻型航空母舰T2",
       "prerequisites": [],
       "time": 1943
     },
@@ -2697,8 +2698,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是轻型航空母舰的冷战形态。",
-      "tooltip": "这是轻型航空母舰的冷战形态。",
+      "description": "轻型航空母舰T3",
+      "tooltip": "轻型航空母舰T3",
       "prerequisites": [
         "weapon_055_ww2",
         "tech_sea_carrier_catapult_deck_1954"
@@ -2718,8 +2719,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是轻型航空母舰的现代形态。",
-      "tooltip": "这是轻型航空母舰的现代形态。",
+      "description": "轻型航空母舰T4",
+      "tooltip": "轻型航空母舰T4",
       "prerequisites": [
         "weapon_055_coldWar"
       ],
@@ -2738,8 +2739,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是重型航空母舰的二战形态。",
-      "tooltip": "这是重型航空母舰的二战形态。",
+      "description": "重型航空母舰T2",
+      "tooltip": "重型航空母舰T2",
       "prerequisites": [],
       "time": 1942
     },
@@ -2756,8 +2757,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是重型航空母舰的冷战形态。",
-      "tooltip": "这是重型航空母舰的冷战形态。",
+      "description": "重型航空母舰T3",
+      "tooltip": "重型航空母舰T3",
       "prerequisites": [
         "weapon_056_ww2",
         "tech_sea_carrier_catapult_deck_1954",
@@ -2778,8 +2779,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是重型航空母舰的现代形态。",
-      "tooltip": "这是重型航空母舰的现代形态。",
+      "description": "重型航空母舰T4",
+      "tooltip": "重型航空母舰T4",
       "prerequisites": [
         "weapon_056_coldWar"
       ],
@@ -2798,8 +2799,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是常规潜艇的一战形态。",
-      "tooltip": "这是常规潜艇的一战形态。",
+      "description": "常规潜艇T1",
+      "tooltip": "常规潜艇T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -2816,8 +2817,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是常规潜艇的二战形态。",
-      "tooltip": "这是常规潜艇的二战形态。",
+      "description": "常规潜艇T2",
+      "tooltip": "常规潜艇T2",
       "prerequisites": [
         "weapon_057_ww1",
         "tech_sea_radar_sonar_1941"
@@ -2837,8 +2838,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是常规潜艇的冷战形态。",
-      "tooltip": "这是常规潜艇的冷战形态。",
+      "description": "常规潜艇T3",
+      "tooltip": "常规潜艇T3",
       "prerequisites": [
         "weapon_057_ww2"
       ],
@@ -2857,8 +2858,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是常规潜艇的现代形态。",
-      "tooltip": "这是常规潜艇的现代形态。",
+      "description": "常规潜艇T4",
+      "tooltip": "常规潜艇T4",
       "prerequisites": [
         "weapon_057_coldWar",
         "tech_sea_sub_silencing_missile_1993"
@@ -2878,8 +2879,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是攻击核潜艇的冷战形态。",
-      "tooltip": "这是攻击核潜艇的冷战形态。",
+      "description": "攻击核潜艇T3",
+      "tooltip": "攻击核潜艇T3",
       "prerequisites": [
         "tech_sea_nuclear_propulsion_1954"
       ],
@@ -2898,8 +2899,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是攻击核潜艇的现代形态。",
-      "tooltip": "这是攻击核潜艇的现代形态。",
+      "description": "攻击核潜艇T4",
+      "tooltip": "攻击核潜艇T4",
       "prerequisites": [
         "weapon_058_coldWar",
         "tech_sea_sub_silencing_missile_1993"
@@ -2919,8 +2920,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是战略核潜艇的冷战形态。",
-      "tooltip": "这是战略核潜艇的冷战形态。",
+      "description": "战略核潜艇T3",
+      "tooltip": "战略核潜艇T3",
       "prerequisites": [
         "tech_sea_nuclear_propulsion_1954"
       ],
@@ -2939,8 +2940,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是战略核潜艇的现代形态。",
-      "tooltip": "这是战略核潜艇的现代形态。",
+      "description": "战略核潜艇T4",
+      "tooltip": "战略核潜艇T4",
       "prerequisites": [
         "weapon_059_coldWar",
         "tech_sea_sub_silencing_missile_1993"
@@ -2960,8 +2961,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是两栖攻击舰的冷战形态。",
-      "tooltip": "这是两栖攻击舰的冷战形态。",
+      "description": "两栖攻击舰T3",
+      "tooltip": "两栖攻击舰T3",
       "prerequisites": [
         "tech_sea_fleet_replenishment_1941",
         "tech_sea_amphibious_well_deck_1961"
@@ -2981,8 +2982,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是两栖攻击舰的现代形态。",
-      "tooltip": "这是两栖攻击舰的现代形态。",
+      "description": "两栖攻击舰T4",
+      "tooltip": "两栖攻击舰T4",
       "prerequisites": [
         "weapon_060_coldWar"
       ],
@@ -3001,8 +3002,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是支援器材的一战形态。",
-      "tooltip": "这是支援器材的一战形态。",
+      "description": "支援器材T1",
+      "tooltip": "支援器材T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -3019,8 +3020,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是支援器材的二战形态。",
-      "tooltip": "这是支援器材的二战形态。",
+      "description": "支援器材T2",
+      "tooltip": "支援器材T2",
       "prerequisites": [
         "weapon_061_ww1"
       ],
@@ -3039,8 +3040,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是支援器材的冷战形态。",
-      "tooltip": "这是支援器材的冷战形态。",
+      "description": "支援器材T3",
+      "tooltip": "支援器材T3",
       "prerequisites": [
         "weapon_061_ww2"
       ],
@@ -3059,8 +3060,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是支援器材的现代形态。",
-      "tooltip": "这是支援器材的现代形态。",
+      "description": "支援器材T4",
+      "tooltip": "支援器材T4",
       "prerequisites": [
         "weapon_061_coldWar"
       ],
@@ -3079,8 +3080,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是军用卡车的一战形态。",
-      "tooltip": "这是军用卡车的一战形态。",
+      "description": "军用卡车T1",
+      "tooltip": "军用卡车T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -3097,8 +3098,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是军用卡车的二战形态。",
-      "tooltip": "这是军用卡车的二战形态。",
+      "description": "军用卡车T2",
+      "tooltip": "军用卡车T2",
       "prerequisites": [
         "weapon_062_ww1"
       ],
@@ -3117,8 +3118,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是军用卡车的冷战形态。",
-      "tooltip": "这是军用卡车的冷战形态。",
+      "description": "军用卡车T3",
+      "tooltip": "军用卡车T3",
       "prerequisites": [
         "weapon_062_ww2"
       ],
@@ -3137,8 +3138,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是军用卡车的现代形态。",
-      "tooltip": "这是军用卡车的现代形态。",
+      "description": "军用卡车T4",
+      "tooltip": "军用卡车T4",
       "prerequisites": [
         "weapon_062_coldWar"
       ],
@@ -3157,8 +3158,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是单兵制服的一战形态。",
-      "tooltip": "这是单兵制服的一战形态。",
+      "description": "单兵制服T1",
+      "tooltip": "单兵制服T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -3175,8 +3176,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是单兵制服的二战形态。",
-      "tooltip": "这是单兵制服的二战形态。",
+      "description": "单兵制服T2",
+      "tooltip": "单兵制服T2",
       "prerequisites": [
         "weapon_063_ww1"
       ],
@@ -3195,8 +3196,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是单兵制服的冷战形态。",
-      "tooltip": "这是单兵制服的冷战形态。",
+      "description": "单兵制服T3",
+      "tooltip": "单兵制服T3",
       "prerequisites": [
         "weapon_063_ww2",
         "tech_land_personal_protection_materials_1965"
@@ -3216,8 +3217,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是单兵制服的现代形态。",
-      "tooltip": "这是单兵制服的现代形态。",
+      "description": "单兵制服T4",
+      "tooltip": "单兵制服T4",
       "prerequisites": [
         "weapon_063_coldWar"
       ],
@@ -3236,8 +3237,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是侦查无人机的冷战形态。",
-      "tooltip": "这是侦查无人机的冷战形态。",
+      "description": "侦查无人机T3",
+      "tooltip": "侦查无人机T3",
       "prerequisites": [
         "tech_air_unmanned_datalink_1964"
       ],
@@ -3256,8 +3257,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是侦查无人机的现代形态。",
-      "tooltip": "这是侦查无人机的现代形态。",
+      "description": "侦查无人机T4",
+      "tooltip": "侦查无人机T4",
       "prerequisites": [
         "weapon_064_coldWar"
       ],
@@ -3276,8 +3277,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是运输直升机的冷战形态。",
-      "tooltip": "这是运输直升机的冷战形态。",
+      "description": "运输直升机T3",
+      "tooltip": "运输直升机T3",
       "prerequisites": [
         "tech_land_turboshaft_helicopter_1959"
       ],
@@ -3296,8 +3297,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是运输直升机的现代形态。",
-      "tooltip": "这是运输直升机的现代形态。",
+      "description": "运输直升机T4",
+      "tooltip": "运输直升机T4",
       "prerequisites": [
         "weapon_065_coldWar"
       ],
@@ -3316,8 +3317,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是狙击枪的二战形态。",
-      "tooltip": "这是狙击枪的二战形态。",
+      "description": "狙击枪T2",
+      "tooltip": "狙击枪T2",
       "prerequisites": [],
       "time": 1939
     },
@@ -3334,8 +3335,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是狙击枪的冷战形态。",
-      "tooltip": "这是狙击枪的冷战形态。",
+      "description": "狙击枪T3",
+      "tooltip": "狙击枪T3",
       "prerequisites": [
         "weapon_066_ww2"
       ],
@@ -3354,8 +3355,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是激光引导器的冷战形态。",
-      "tooltip": "这是激光引导器的冷战形态。",
+      "description": "激光引导器T3",
+      "tooltip": "激光引导器T3",
       "prerequisites": [],
       "time": 1968
     },
@@ -3372,8 +3373,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是激光引导器的现代形态。",
-      "tooltip": "这是激光引导器的现代形态。",
+      "description": "激光引导器T4",
+      "tooltip": "激光引导器T4",
       "prerequisites": [
         "weapon_067_coldWar"
       ],
@@ -3392,8 +3393,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是火焰喷射器的二战形态。",
-      "tooltip": "这是火焰喷射器的二战形态。",
+      "description": "火焰喷射器T2",
+      "tooltip": "火焰喷射器T2",
       "prerequisites": [
         "tech_land_engineering_explosives_1940"
       ],
@@ -3412,8 +3413,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是火焰喷射器的冷战形态。",
-      "tooltip": "这是火焰喷射器的冷战形态。",
+      "description": "火焰喷射器T3",
+      "tooltip": "火焰喷射器T3",
       "prerequisites": [
         "weapon_068_ww2"
       ],
@@ -3432,8 +3433,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是地雷的一战形态。",
-      "tooltip": "这是地雷的一战形态。",
+      "description": "地雷T1",
+      "tooltip": "地雷T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -3450,8 +3451,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是地雷的二战形态。",
-      "tooltip": "这是地雷的二战形态。",
+      "description": "地雷T2",
+      "tooltip": "地雷T2",
       "prerequisites": [
         "weapon_069_ww1"
       ],
@@ -3470,8 +3471,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是地雷的冷战形态。",
-      "tooltip": "这是地雷的冷战形态。",
+      "description": "地雷T3",
+      "tooltip": "地雷T3",
       "prerequisites": [
         "weapon_069_ww2",
         "tech_land_engineering_explosives_1940"
@@ -3491,8 +3492,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是地雷的现代形态。",
-      "tooltip": "这是地雷的现代形态。",
+      "description": "地雷T4",
+      "tooltip": "地雷T4",
       "prerequisites": [
         "weapon_069_coldWar"
       ],
@@ -3511,8 +3512,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是手雷的一战形态。",
-      "tooltip": "这是手雷的一战形态。",
+      "description": "手雷T1",
+      "tooltip": "手雷T1",
       "prerequisites": [],
       "time": 1915
     },
@@ -3529,8 +3530,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是手雷的二战形态。",
-      "tooltip": "这是手雷的二战形态。",
+      "description": "手雷T2",
+      "tooltip": "手雷T2",
       "prerequisites": [
         "weapon_070_ww1"
       ],
@@ -3549,8 +3550,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是手雷的冷战形态。",
-      "tooltip": "这是手雷的冷战形态。",
+      "description": "手雷T3",
+      "tooltip": "手雷T3",
       "prerequisites": [
         "weapon_070_ww2",
         "tech_land_engineering_explosives_1940"
@@ -3570,8 +3571,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是手雷的现代形态。",
-      "tooltip": "这是手雷的现代形态。",
+      "description": "手雷T4",
+      "tooltip": "手雷T4",
       "prerequisites": [
         "weapon_070_coldWar"
       ],
@@ -3590,8 +3591,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是磁性手雷的冷战形态。",
-      "tooltip": "这是磁性手雷的冷战形态。",
+      "description": "磁性手雷T3",
+      "tooltip": "磁性手雷T3",
       "prerequisites": [
         "tech_land_engineering_explosives_1940"
       ],
@@ -3610,8 +3611,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是磁性手雷的现代形态。",
-      "tooltip": "这是磁性手雷的现代形态。",
+      "description": "磁性手雷T4",
+      "tooltip": "磁性手雷T4",
       "prerequisites": [
         "weapon_071_coldWar"
       ],
@@ -3630,8 +3631,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是防弹插板的冷战形态。",
-      "tooltip": "这是防弹插板的冷战形态。",
+      "description": "防弹插板T3",
+      "tooltip": "防弹插板T3",
       "prerequisites": [
         "tech_land_personal_protection_materials_1965"
       ],
@@ -3650,8 +3651,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是防弹插板的现代形态。",
-      "tooltip": "这是防弹插板的现代形态。",
+      "description": "防弹插板T4",
+      "tooltip": "防弹插板T4",
       "prerequisites": [
         "weapon_072_coldWar"
       ],
@@ -3670,8 +3671,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是头盔的一战形态。",
-      "tooltip": "这是头盔的一战形态。",
+      "description": "头盔T1",
+      "tooltip": "头盔T1",
       "prerequisites": [],
       "time": 1916
     },
@@ -3688,8 +3689,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是头盔的二战形态。",
-      "tooltip": "这是头盔的二战形态。",
+      "description": "头盔T2",
+      "tooltip": "头盔T2",
       "prerequisites": [
         "weapon_073_ww1"
       ],
@@ -3708,8 +3709,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是头盔的冷战形态。",
-      "tooltip": "这是头盔的冷战形态。",
+      "description": "头盔T3",
+      "tooltip": "头盔T3",
       "prerequisites": [
         "weapon_073_ww2",
         "tech_land_personal_protection_materials_1965"
@@ -3729,8 +3730,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是头盔的现代形态。",
-      "tooltip": "这是头盔的现代形态。",
+      "description": "头盔T4",
+      "tooltip": "头盔T4",
       "prerequisites": [
         "weapon_073_coldWar"
       ],
@@ -3749,8 +3750,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是爆破炸药的一战形态。",
-      "tooltip": "这是爆破炸药的一战形态。",
+      "description": "爆破炸药T1",
+      "tooltip": "爆破炸药T1",
       "prerequisites": [],
       "time": 1915
     },
@@ -3767,8 +3768,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是爆破炸药的二战形态。",
-      "tooltip": "这是爆破炸药的二战形态。",
+      "description": "爆破炸药T2",
+      "tooltip": "爆破炸药T2",
       "prerequisites": [
         "weapon_074_ww1",
         "tech_land_engineering_explosives_1940"
@@ -3788,8 +3789,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是爆破炸药的冷战形态。",
-      "tooltip": "这是爆破炸药的冷战形态。",
+      "description": "爆破炸药T3",
+      "tooltip": "爆破炸药T3",
       "prerequisites": [
         "weapon_074_ww2"
       ],
@@ -3808,8 +3809,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是爆破炸药的现代形态。",
-      "tooltip": "这是爆破炸药的现代形态。",
+      "description": "爆破炸药T4",
+      "tooltip": "爆破炸药T4",
       "prerequisites": [
         "weapon_074_coldWar"
       ],
@@ -3828,8 +3829,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是炮射导弹的冷战形态。",
-      "tooltip": "这是炮射导弹的冷战形态。",
+      "description": "炮射导弹T3",
+      "tooltip": "炮射导弹T3",
       "prerequisites": [
         "tech_land_light_guided_weapon_1961",
         "tech_land_stabilized_composite_armor_1963"
@@ -3849,8 +3850,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是炮射导弹的现代形态。",
-      "tooltip": "这是炮射导弹的现代形态。",
+      "description": "炮射导弹T4",
+      "tooltip": "炮射导弹T4",
       "prerequisites": [
         "weapon_075_coldWar"
       ],
@@ -3869,8 +3870,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是爆反装甲的冷战形态。",
-      "tooltip": "这是爆反装甲的冷战形态。",
+      "description": "爆反装甲T3",
+      "tooltip": "爆反装甲T3",
       "prerequisites": [
         "tech_land_stabilized_composite_armor_1963"
       ],
@@ -3889,8 +3890,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是爆反装甲的现代形态。",
-      "tooltip": "这是爆反装甲的现代形态。",
+      "description": "爆反装甲T4",
+      "tooltip": "爆反装甲T4",
       "prerequisites": [
         "weapon_076_coldWar"
       ],
@@ -3909,8 +3910,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是格栅装甲的现代形态。",
-      "tooltip": "这是格栅装甲的现代形态。",
+      "description": "格栅装甲T4",
+      "tooltip": "格栅装甲T4",
       "prerequisites": [],
       "time": 2003
     },
@@ -3927,8 +3928,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是增程发射药的现代形态。",
-      "tooltip": "这是增程发射药的现代形态。",
+      "description": "增程发射药T4",
+      "tooltip": "增程发射药T4",
       "prerequisites": [],
       "time": 1998
     },
@@ -3945,8 +3946,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是炮兵雷达的冷战形态。",
-      "tooltip": "这是炮兵雷达的冷战形态。",
+      "description": "炮兵雷达T3",
+      "tooltip": "炮兵雷达T3",
       "prerequisites": [],
       "time": 1965
     },
@@ -3963,8 +3964,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是炮兵雷达的现代形态。",
-      "tooltip": "这是炮兵雷达的现代形态。",
+      "description": "炮兵雷达T4",
+      "tooltip": "炮兵雷达T4",
       "prerequisites": [
         "weapon_079_coldWar"
       ],
@@ -3983,8 +3984,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是电子战吊舱的冷战形态。",
-      "tooltip": "这是电子战吊舱的冷战形态。",
+      "description": "电子战吊舱T3",
+      "tooltip": "电子战吊舱T3",
       "prerequisites": [],
       "time": 1968
     },
@@ -4001,8 +4002,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是电子战吊舱的现代形态。",
-      "tooltip": "这是电子战吊舱的现代形态。",
+      "description": "电子战吊舱T4",
+      "tooltip": "电子战吊舱T4",
       "prerequisites": [
         "weapon_080_coldWar"
       ],
@@ -4021,8 +4022,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是外挂油箱的冷战形态。",
-      "tooltip": "这是外挂油箱的冷战形态。",
+      "description": "外挂油箱T3",
+      "tooltip": "外挂油箱T3",
       "prerequisites": [],
       "time": 1950
     },
@@ -4039,8 +4040,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是外挂油箱的现代形态。",
-      "tooltip": "这是外挂油箱的现代形态。",
+      "description": "外挂油箱T4",
+      "tooltip": "外挂油箱T4",
       "prerequisites": [
         "weapon_081_coldWar"
       ],
@@ -4059,8 +4060,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是固定翼无人机的冷战形态。",
-      "tooltip": "这是固定翼无人机的冷战形态。",
+      "description": "固定翼无人机T3",
+      "tooltip": "固定翼无人机T3",
       "prerequisites": [
         "tech_air_unmanned_datalink_1964"
       ],
@@ -4079,8 +4080,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是固定翼无人机的现代形态。",
-      "tooltip": "这是固定翼无人机的现代形态。",
+      "description": "固定翼无人机T4",
+      "tooltip": "固定翼无人机T4",
       "prerequisites": [
         "weapon_082_coldWar"
       ],
@@ -4099,8 +4100,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是空中侦查设备的冷战形态。",
-      "tooltip": "这是空中侦查设备的冷战形态。",
+      "description": "空中侦查设备T3",
+      "tooltip": "空中侦查设备T3",
       "prerequisites": [
         "tech_air_airborne_radar_command_1955"
       ],
@@ -4119,8 +4120,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是空中侦查设备的现代形态。",
-      "tooltip": "这是空中侦查设备的现代形态。",
+      "description": "空中侦查设备T4",
+      "tooltip": "空中侦查设备T4",
       "prerequisites": [
         "weapon_083_coldWar"
       ],
@@ -4139,8 +4140,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是电子战飞机的冷战形态。",
-      "tooltip": "这是电子战飞机的冷战形态。",
+      "description": "电子战飞机T3",
+      "tooltip": "电子战飞机T3",
       "prerequisites": [
         "tech_air_airborne_radar_command_1955"
       ],
@@ -4159,8 +4160,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是电子战飞机的现代形态。",
-      "tooltip": "这是电子战飞机的现代形态。",
+      "description": "电子战飞机T4",
+      "tooltip": "电子战飞机T4",
       "prerequisites": [
         "weapon_084_coldWar",
         "tech_air_stealth_sensor_fusion_1997"
@@ -4180,8 +4181,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是无制导炸弹的二战形态。",
-      "tooltip": "这是无制导炸弹的二战形态。",
+      "description": "无制导炸弹T2",
+      "tooltip": "无制导炸弹T2",
       "prerequisites": [],
       "time": 1939
     },
@@ -4198,8 +4199,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是无制导炸弹的冷战形态。",
-      "tooltip": "这是无制导炸弹的冷战形态。",
+      "description": "无制导炸弹T3",
+      "tooltip": "无制导炸弹T3",
       "prerequisites": [
         "weapon_085_ww2"
       ],
@@ -4218,8 +4219,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是无制导鱼雷的二战形态。",
-      "tooltip": "这是无制导鱼雷的二战形态。",
+      "description": "无制导鱼雷T2",
+      "tooltip": "无制导鱼雷T2",
       "prerequisites": [],
       "time": 1941
     },
@@ -4236,8 +4237,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是无制导鱼雷的冷战形态。",
-      "tooltip": "这是无制导鱼雷的冷战形态。",
+      "description": "无制导鱼雷T3",
+      "tooltip": "无制导鱼雷T3",
       "prerequisites": [
         "weapon_086_ww2",
         "tech_air_airborne_asw_1950"
@@ -4257,8 +4258,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是钻地弹的冷战形态。",
-      "tooltip": "这是钻地弹的冷战形态。",
+      "description": "钻地弹T3",
+      "tooltip": "钻地弹T3",
       "prerequisites": [],
       "time": 1985
     },
@@ -4275,8 +4276,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是钻地弹的现代形态。",
-      "tooltip": "这是钻地弹的现代形态。",
+      "description": "钻地弹T4",
+      "tooltip": "钻地弹T4",
       "prerequisites": [
         "weapon_087_coldWar",
         "tech_air_guided_strike_1965"
@@ -4296,8 +4297,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是反辐射导弹的冷战形态。",
-      "tooltip": "这是反辐射导弹的冷战形态。",
+      "description": "反辐射导弹T3",
+      "tooltip": "反辐射导弹T3",
       "prerequisites": [
         "tech_air_guided_strike_1965"
       ],
@@ -4316,8 +4317,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是反辐射导弹的现代形态。",
-      "tooltip": "这是反辐射导弹的现代形态。",
+      "description": "反辐射导弹T4",
+      "tooltip": "反辐射导弹T4",
       "prerequisites": [
         "weapon_088_coldWar"
       ],
@@ -4336,8 +4337,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是中远程空对空导弹的冷战形态。",
-      "tooltip": "这是中远程空对空导弹的冷战形态。",
+      "description": "中远程空对空导弹T3",
+      "tooltip": "中远程空对空导弹T3",
       "prerequisites": [
         "tech_air_aam_guidance_1956"
       ],
@@ -4356,8 +4357,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是中远程空对空导弹的现代形态。",
-      "tooltip": "这是中远程空对空导弹的现代形态。",
+      "description": "中远程空对空导弹T4",
+      "tooltip": "中远程空对空导弹T4",
       "prerequisites": [
         "weapon_089_coldWar"
       ],
@@ -4376,8 +4377,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是近距离格斗弹的冷战形态。",
-      "tooltip": "这是近距离格斗弹的冷战形态。",
+      "description": "近距离格斗弹T3",
+      "tooltip": "近距离格斗弹T3",
       "prerequisites": [
         "tech_air_aam_guidance_1956"
       ],
@@ -4396,8 +4397,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是近距离格斗弹的现代形态。",
-      "tooltip": "这是近距离格斗弹的现代形态。",
+      "description": "近距离格斗弹T4",
+      "tooltip": "近距离格斗弹T4",
       "prerequisites": [
         "weapon_090_coldWar"
       ],
@@ -4416,8 +4417,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是空对地导弹的冷战形态。",
-      "tooltip": "这是空对地导弹的冷战形态。",
+      "description": "空对地导弹T3",
+      "tooltip": "空对地导弹T3",
       "prerequisites": [
         "tech_air_guided_strike_1965"
       ],
@@ -4436,8 +4437,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是空对地导弹的现代形态。",
-      "tooltip": "这是空对地导弹的现代形态。",
+      "description": "空对地导弹T4",
+      "tooltip": "空对地导弹T4",
       "prerequisites": [
         "weapon_091_coldWar"
       ],
@@ -4456,8 +4457,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是空射巡航导弹的冷战形态。",
-      "tooltip": "这是空射巡航导弹的冷战形态。",
+      "description": "空射巡航导弹T3",
+      "tooltip": "空射巡航导弹T3",
       "prerequisites": [],
       "time": 1982
     },
@@ -4474,8 +4475,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是空射巡航导弹的现代形态。",
-      "tooltip": "这是空射巡航导弹的现代形态。",
+      "description": "空射巡航导弹T4",
+      "tooltip": "空射巡航导弹T4",
       "prerequisites": [
         "weapon_092_coldWar"
       ],
@@ -4494,8 +4495,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是空射弹道导弹的冷战形态。",
-      "tooltip": "这是空射弹道导弹的冷战形态。",
+      "description": "空射弹道导弹T3",
+      "tooltip": "空射弹道导弹T3",
       "prerequisites": [],
       "time": 1962
     },
@@ -4512,8 +4513,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是空射弹道导弹的现代形态。",
-      "tooltip": "这是空射弹道导弹的现代形态。",
+      "description": "空射弹道导弹T4",
+      "tooltip": "空射弹道导弹T4",
       "prerequisites": [
         "weapon_093_coldWar"
       ],
@@ -4532,8 +4533,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是空射反舰导弹的冷战形态。",
-      "tooltip": "这是空射反舰导弹的冷战形态。",
+      "description": "空射反舰导弹T3",
+      "tooltip": "空射反舰导弹T3",
       "prerequisites": [],
       "time": 1977
     },
@@ -4550,8 +4551,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是空射反舰导弹的现代形态。",
-      "tooltip": "这是空射反舰导弹的现代形态。",
+      "description": "空射反舰导弹T4",
+      "tooltip": "空射反舰导弹T4",
       "prerequisites": [
         "weapon_094_coldWar"
       ],
@@ -4570,8 +4571,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是空射反潜导弹的冷战形态。",
-      "tooltip": "这是空射反潜导弹的冷战形态。",
+      "description": "空射反潜导弹T3",
+      "tooltip": "空射反潜导弹T3",
       "prerequisites": [
         "tech_air_airborne_asw_1950"
       ],
@@ -4590,8 +4591,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是空射反潜导弹的现代形态。",
-      "tooltip": "这是空射反潜导弹的现代形态。",
+      "description": "空射反潜导弹T4",
+      "tooltip": "空射反潜导弹T4",
       "prerequisites": [
         "weapon_095_coldWar"
       ],
@@ -4610,8 +4611,8 @@
       "era": "ww1",
       "eraName": "一战",
       "type": "Weapon",
-      "description": "这是运输船的一战形态。",
-      "tooltip": "这是运输船的一战形态。",
+      "description": "运输船T1",
+      "tooltip": "运输船T1",
       "prerequisites": [],
       "time": 1914
     },
@@ -4628,8 +4629,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是运输船的二战形态。",
-      "tooltip": "这是运输船的二战形态。",
+      "description": "运输船T2",
+      "tooltip": "运输船T2",
       "prerequisites": [
         "weapon_096_ww1",
         "tech_sea_fleet_replenishment_1941"
@@ -4649,8 +4650,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是运输船的冷战形态。",
-      "tooltip": "这是运输船的冷战形态。",
+      "description": "运输船T3",
+      "tooltip": "运输船T3",
       "prerequisites": [
         "weapon_096_ww2"
       ],
@@ -4669,8 +4670,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是补给舰的二战形态。",
-      "tooltip": "这是补给舰的二战形态。",
+      "description": "补给舰T2",
+      "tooltip": "补给舰T2",
       "prerequisites": [
         "tech_sea_fleet_replenishment_1941"
       ],
@@ -4689,8 +4690,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是补给舰的冷战形态。",
-      "tooltip": "这是补给舰的冷战形态。",
+      "description": "补给舰T3",
+      "tooltip": "补给舰T3",
       "prerequisites": [
         "weapon_097_ww2"
       ],
@@ -4709,8 +4710,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是补给舰的现代形态。",
-      "tooltip": "这是补给舰的现代形态。",
+      "description": "补给舰T4",
+      "tooltip": "补给舰T4",
       "prerequisites": [
         "weapon_097_coldWar"
       ],
@@ -4729,8 +4730,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是两栖登陆舰的现代形态。",
-      "tooltip": "这是两栖登陆舰的现代形态。",
+      "description": "两栖登陆舰T4",
+      "tooltip": "两栖登陆舰T4",
       "prerequisites": [
         "tech_sea_amphibious_well_deck_1961"
       ],
@@ -4749,8 +4750,8 @@
       "era": "ww2",
       "eraName": "二战",
       "type": "Weapon",
-      "description": "这是反潜巡逻机的二战形态。",
-      "tooltip": "这是反潜巡逻机的二战形态。",
+      "description": "反潜巡逻机T2",
+      "tooltip": "反潜巡逻机T2",
       "prerequisites": [],
       "time": 1942
     },
@@ -4767,8 +4768,8 @@
       "era": "coldWar",
       "eraName": "冷战",
       "type": "Weapon",
-      "description": "这是反潜巡逻机的冷战形态。",
-      "tooltip": "这是反潜巡逻机的冷战形态。",
+      "description": "反潜巡逻机T3",
+      "tooltip": "反潜巡逻机T3",
       "prerequisites": [
         "weapon_099_ww2",
         "tech_air_airborne_asw_1950"
@@ -4788,8 +4789,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是反潜巡逻机的现代形态。",
-      "tooltip": "这是反潜巡逻机的现代形态。",
+      "description": "反潜巡逻机T4",
+      "tooltip": "反潜巡逻机T4",
       "prerequisites": [
         "weapon_099_coldWar"
       ],
@@ -4808,8 +4809,8 @@
       "era": "modern",
       "eraName": "现代",
       "type": "Weapon",
-      "description": "这是无人轰炸机的现代形态。",
-      "tooltip": "这是无人轰炸机的现代形态。",
+      "description": "无人轰炸机T4",
+      "tooltip": "无人轰炸机T4",
       "prerequisites": [
         "tech_air_unmanned_datalink_1964",
         "tech_air_stealth_sensor_fusion_1997"
@@ -4830,12 +4831,16 @@
       "type": "Technology",
       "description": "冲压、铆接与流水线军工生产成熟后，制式步枪和冲锋枪开始共享自动武器量产经验。",
       "tooltip": "冲压、铆接与流水线军工生产成熟后，制式步枪和冲锋枪开始共享自动武器量产经验。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_001_ww1",
+        "weapon_000_ww2"
+      ],
       "relatedWeapons": [
         "步枪",
         "冲锋枪"
       ],
-      "time": 1939
+      "time": 1939,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_modular_weapon_interfaces_1993",
@@ -4851,12 +4856,16 @@
       "type": "Technology",
       "description": "导轨、通用安装位与小型火控附件标准化，使步枪和机枪进入模块化武器系统阶段。",
       "tooltip": "导轨、通用安装位与小型火控附件标准化，使步枪和机枪进入模块化武器系统阶段。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_000_coldWar",
+        "weapon_002_coldWar"
+      ],
       "relatedWeapons": [
         "步枪",
         "机枪"
       ],
-      "time": 1993
+      "time": 1993,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_observed_indirect_fire_1916",
@@ -4872,14 +4881,20 @@
       "type": "Technology",
       "description": "前沿观察、地图测地和电话校射在一战成熟，支撑迫击炮、步兵炮与身管火炮的间接火力体系。",
       "tooltip": "前沿观察、地图测地和电话校射在一战成熟，支撑迫击炮、步兵炮与身管火炮的间接火力体系。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_003_ww1",
+        "weapon_005_ww1",
+        "weapon_006_ww1",
+        "weapon_009_ww1"
+      ],
       "relatedWeapons": [
         "迫击炮",
         "步兵炮",
         "野战火炮",
         "重型火炮"
       ],
-      "time": 1916
+      "time": 1916,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_mobile_artillery_chassis_1942",
@@ -4895,13 +4910,18 @@
       "type": "Technology",
       "description": "装甲底盘、轮式平台和车载稳定结构让传统火炮转向机动化平台。",
       "tooltip": "装甲底盘、轮式平台和车载稳定结构让传统火炮转向机动化平台。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_006_ww2",
+        "weapon_062_ww2",
+        "weapon_025_ww2"
+      ],
       "relatedWeapons": [
         "自行火炮",
         "卡车炮",
         "自行迫击炮"
       ],
-      "time": 1942
+      "time": 1942,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_precision_rocket_guidance_1990",
@@ -4917,14 +4937,19 @@
       "type": "Technology",
       "description": "惯导、卫星定位和小型数据链结合后，火箭炮、战术导弹与一次性无人打击平台形成共同技术基础。",
       "tooltip": "惯导、卫星定位和小型数据链结合后，火箭炮、战术导弹与一次性无人打击平台形成共同技术基础。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_010_coldWar",
+        "weapon_079_coldWar",
+        "weapon_067_coldWar"
+      ],
       "relatedWeapons": [
         "火箭炮",
         "战术导弹",
         "巡飞弹",
         "自杀式无人机"
       ],
-      "time": 1990
+      "time": 1990,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_radar_air_defense_1950",
@@ -4940,14 +4965,18 @@
       "type": "Technology",
       "description": "雷达探测、指挥所和射击诸元计算把高炮和地空导弹接入同一套防空链路。",
       "tooltip": "雷达探测、指挥所和射击诸元计算把高炮和地空导弹接入同一套防空链路。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_014_ww2",
+        "weapon_015_ww2"
+      ],
       "relatedWeapons": [
         "防空炮",
         "防空自行火炮",
         "中程防空导弹",
         "远程防空导弹"
       ],
-      "time": 1950
+      "time": 1950,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_light_guided_weapon_1961",
@@ -4963,7 +4992,11 @@
       "type": "Technology",
       "description": "红外、线导和半主动制导小型化后，单兵与车载反装甲、防空武器开始共享导引技术。",
       "tooltip": "红外、线导和半主动制导小型化后，单兵与车载反装甲、防空武器开始共享导引技术。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_019_ww2",
+        "weapon_014_coldWar",
+        "weapon_020_coldWar"
+      ],
       "relatedWeapons": [
         "单兵反装甲火力",
         "单兵防空火力",
@@ -4971,7 +5004,8 @@
         "炮射导弹",
         "自行反坦克导弹"
       ],
-      "time": 1961
+      "time": 1961,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_armored_chassis_welding_1935",
@@ -4982,19 +5016,23 @@
       "category": "陆军",
       "categoryKey": "Land",
       "subcategory": "装甲车 / 轻型坦克 / 中型坦克 / 自行反坦克炮",
-      "era": "ww1",
-      "eraName": "一战",
+      "era": "ww2",
+      "eraName": "二战",
       "type": "Technology",
       "description": "焊接装甲、扭杆/克里斯蒂式悬挂和车体工业化，为装甲车、坦克和自行反坦克平台提供共同底盘能力。",
       "tooltip": "焊接装甲、扭杆/克里斯蒂式悬挂和车体工业化，为装甲车、坦克和自行反坦克平台提供共同底盘能力。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_025_ww1",
+        "weapon_027_ww1"
+      ],
       "relatedWeapons": [
         "装甲车",
         "轻型坦克",
         "中型坦克",
         "自行反坦克炮"
       ],
-      "time": 1935
+      "time": 1935,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_stabilized_composite_armor_1963",
@@ -5010,14 +5048,19 @@
       "type": "Technology",
       "description": "双向稳定、测距火控与复合防护推动战后装甲平台进入主战坦克和步兵战车体系。",
       "tooltip": "双向稳定、测距火控与复合防护推动战后装甲平台进入主战坦克和步兵战车体系。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_025_coldWar",
+        "weapon_028_coldWar",
+        "weapon_029_coldWar"
+      ],
       "relatedWeapons": [
         "主战坦克",
         "步兵战车",
         "爆反装甲",
         "炮射导弹"
       ],
-      "time": 1963
+      "time": 1963,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_turboshaft_helicopter_1959",
@@ -5033,12 +5076,15 @@
       "type": "Technology",
       "description": "涡轴发动机和可靠旋翼平台成熟后，运输直升机与武装直升机形成共同航空平台基础。",
       "tooltip": "涡轴发动机和可靠旋翼平台成熟后，运输直升机与武装直升机形成共同航空平台基础。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_047_ww2"
+      ],
       "relatedWeapons": [
         "运输直升机",
         "武装直升机"
       ],
-      "time": 1959
+      "time": 1959,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_personal_protection_materials_1965",
@@ -5054,13 +5100,17 @@
       "type": "Technology",
       "description": "尼龙、芳纶和复合陶瓷材料推动单兵服装、防弹插板与头盔进入现代防护体系。",
       "tooltip": "尼龙、芳纶和复合陶瓷材料推动单兵服装、防弹插板与头盔进入现代防护体系。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_063_ww2",
+        "weapon_073_ww2"
+      ],
       "relatedWeapons": [
         "单兵制服",
         "防弹插板",
         "头盔"
       ],
-      "time": 1965
+      "time": 1965,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_land_engineering_explosives_1940",
@@ -5076,7 +5126,11 @@
       "type": "Technology",
       "description": "制式装药、引信和工兵爆破流程成熟后，地雷、手雷、爆破炸药与特种近战弹药共享生产和使用规范。",
       "tooltip": "制式装药、引信和工兵爆破流程成熟后，地雷、手雷、爆破炸药与特种近战弹药共享生产和使用规范。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_069_ww2",
+        "weapon_070_ww2",
+        "weapon_074_ww1"
+      ],
       "relatedWeapons": [
         "地雷",
         "手雷",
@@ -5084,7 +5138,8 @@
         "火焰喷射器",
         "磁性手雷"
       ],
-      "time": 1940
+      "time": 1940,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_turbojet_engine_1944",
@@ -5100,13 +5155,17 @@
       "type": "Technology",
       "description": "轴流/离心式涡喷和高温材料在二战后期可用，开启陆基与舰载喷气战斗机时代。",
       "tooltip": "轴流/离心式涡喷和高温材料在二战后期可用，开启陆基与舰载喷气战斗机时代。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_031_ww2",
+        "weapon_043_ww2"
+      ],
       "relatedWeapons": [
         "涡喷战斗机",
         "海军涡喷战斗机",
         "强击机"
       ],
-      "time": 1944
+      "time": 1944,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_turbofan_avionics_1964",
@@ -5122,14 +5181,19 @@
       "type": "Technology",
       "description": "低涵道涡扇、机载雷达和综合航电成熟后，战斗机与战术打击平台转向多用途化。",
       "tooltip": "低涵道涡扇、机载雷达和综合航电成熟后，战斗机与战术打击平台转向多用途化。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_032_coldWar",
+        "weapon_037_coldWar",
+        "weapon_042_coldWar"
+      ],
       "relatedWeapons": [
         "涡扇战斗机",
         "涡扇多用途战斗机",
         "海军涡扇多用途战斗机",
         "战术轰炸机"
       ],
-      "time": 1964
+      "time": 1964,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_stealth_sensor_fusion_1997",
@@ -5145,14 +5209,19 @@
       "type": "Technology",
       "description": "低可探测外形、吸波材料和多源传感器融合构成现代隐身有人/无人作战飞机的共同基础。",
       "tooltip": "低可探测外形、吸波材料和多源传感器融合构成现代隐身有人/无人作战飞机的共同基础。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_034_coldWar",
+        "weapon_084_coldWar",
+        "weapon_080_coldWar"
+      ],
       "relatedWeapons": [
         "隐身多用途战斗机",
         "海军隐身多用途战斗机",
         "电子战飞机",
         "无人轰炸机"
       ],
-      "time": 1997
+      "time": 1997,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_airborne_radar_command_1955",
@@ -5168,14 +5237,18 @@
       "type": "Technology",
       "description": "机载搜索雷达、电子侦察和空中指挥链路，使侦察、预警与电子战平台拥有共同的信息化前置。",
       "tooltip": "机载搜索雷达、电子侦察和空中指挥链路，使侦察、预警与电子战平台拥有共同的信息化前置。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_044_ww2",
+        "weapon_031_ww2"
+      ],
       "relatedWeapons": [
         "侦察机",
         "预警机",
         "空中侦查设备",
         "电子战飞机"
       ],
-      "time": 1955
+      "time": 1955,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_aam_guidance_1956",
@@ -5191,13 +5264,17 @@
       "type": "Technology",
       "description": "半主动雷达和红外导引让空战从机炮缠斗扩展到导弹拦截，并反向塑造喷气战斗机航电。",
       "tooltip": "半主动雷达和红外导引让空战从机炮缠斗扩展到导弹拦截，并反向塑造喷气战斗机航电。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_032_coldWar",
+        "weapon_037_coldWar"
+      ],
       "relatedWeapons": [
         "中远程空对空导弹",
         "近距离格斗弹",
         "涡扇战斗机"
       ],
-      "time": 1956
+      "time": 1956,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_guided_strike_1965",
@@ -5213,13 +5290,17 @@
       "type": "Technology",
       "description": "电视、激光和被动雷达导引成熟后，空地导弹、反辐射导弹和专用穿透弹形成共同精确打击前置。",
       "tooltip": "电视、激光和被动雷达导引成熟后，空地导弹、反辐射导弹和专用穿透弹形成共同精确打击前置。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_085_coldWar",
+        "weapon_042_coldWar"
+      ],
       "relatedWeapons": [
         "空对地导弹",
         "反辐射导弹",
         "钻地弹"
       ],
-      "time": 1965
+      "time": 1965,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_refuel_transport_1955",
@@ -5235,13 +5316,17 @@
       "type": "Technology",
       "description": "硬管/软管加油、远程导航和大型运输机平台，使战略轰炸、空中加油与远程投送互相支撑。",
       "tooltip": "硬管/软管加油、远程导航和大型运输机平台，使战略轰炸、空中加油与远程投送互相支撑。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_043_ww2",
+        "weapon_047_ww2"
+      ],
       "relatedWeapons": [
         "空中加油机",
         "运输机",
         "战略轰炸机"
       ],
-      "time": 1955
+      "time": 1955,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_unmanned_datalink_1964",
@@ -5257,14 +5342,18 @@
       "type": "Technology",
       "description": "无线电遥控、自动驾驶和战术数据链让侦察无人机、固定翼无人机与后来的无人打击平台接上同一条脉络。",
       "tooltip": "无线电遥控、自动驾驶和战术数据链让侦察无人机、固定翼无人机与后来的无人打击平台接上同一条脉络。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_044_coldWar",
+        "weapon_083_coldWar"
+      ],
       "relatedWeapons": [
         "固定翼无人机",
         "侦查无人机",
         "无人轰炸机",
         "自杀式无人机"
       ],
-      "time": 1964
+      "time": 1964,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_air_airborne_asw_1950",
@@ -5280,13 +5369,17 @@
       "type": "Technology",
       "description": "声呐浮标、磁异常探测和空投反潜武器体系化后，反潜巡逻机与空射反潜弹药连接到同一条技术线。",
       "tooltip": "声呐浮标、磁异常探测和空投反潜武器体系化后，反潜巡逻机与空射反潜弹药连接到同一条技术线。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_086_ww2",
+        "weapon_099_ww2"
+      ],
       "relatedWeapons": [
         "反潜巡逻机",
         "空射反潜导弹",
         "无制导鱼雷"
       ],
-      "time": 1950
+      "time": 1950,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_sea_radar_sonar_1941",
@@ -5302,13 +5395,18 @@
       "type": "Technology",
       "description": "舰载搜索雷达、主动/被动声呐和反潜指挥流程在二战成熟，护卫舰、驱逐舰和潜艇因此进入电子探测时代。",
       "tooltip": "舰载搜索雷达、主动/被动声呐和反潜指挥流程在二战成熟，护卫舰、驱逐舰和潜艇因此进入电子探测时代。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_048_ww1",
+        "weapon_049_ww1",
+        "weapon_057_ww1"
+      ],
       "relatedWeapons": [
         "护卫舰",
         "驱逐舰",
         "常规潜艇"
       ],
-      "time": 1941
+      "time": 1941,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_sea_carrier_catapult_deck_1954",
@@ -5324,12 +5422,17 @@
       "type": "Technology",
       "description": "斜角甲板、蒸汽弹射和镜面助降系统让航空母舰可以持续运作喷气舰载机。",
       "tooltip": "斜角甲板、蒸汽弹射和镜面助降系统让航空母舰可以持续运作喷气舰载机。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_055_ww2",
+        "weapon_056_ww2",
+        "weapon_036_ww2"
+      ],
       "relatedWeapons": [
         "轻型航空母舰",
         "重型航空母舰"
       ],
-      "time": 1954
+      "time": 1954,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_sea_missile_vls_1988",
@@ -5345,13 +5448,17 @@
       "type": "Technology",
       "description": "通用垂直发射单元、舰载相控阵和作战管理系统让现代水面舰转向区域防空与多任务导弹作战。",
       "tooltip": "通用垂直发射单元、舰载相控阵和作战管理系统让现代水面舰转向区域防空与多任务导弹作战。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_049_coldWar",
+        "weapon_052_coldWar"
+      ],
       "relatedWeapons": [
         "护卫舰",
         "驱逐舰",
         "导弹巡洋舰"
       ],
-      "time": 1988
+      "time": 1988,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_sea_nuclear_propulsion_1954",
@@ -5367,13 +5474,17 @@
       "type": "Technology",
       "description": "压水堆小型化和舰艇核动力工程，使核潜艇与核动力大型航母共享能源技术根基。",
       "tooltip": "压水堆小型化和舰艇核动力工程，使核潜艇与核动力大型航母共享能源技术根基。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_057_ww2",
+        "weapon_056_ww2"
+      ],
       "relatedWeapons": [
         "攻击核潜艇",
         "战略核潜艇",
         "重型航空母舰"
       ],
-      "time": 1954
+      "time": 1954,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_sea_amphibious_well_deck_1961",
@@ -5389,12 +5500,16 @@
       "type": "Technology",
       "description": "坞舱、直升机甲板和登陆艇协同，让两栖攻击舰与现代两栖登陆舰形成共同登陆平台逻辑。",
       "tooltip": "坞舱、直升机甲板和登陆艇协同，让两栖攻击舰与现代两栖登陆舰形成共同登陆平台逻辑。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_096_ww2",
+        "weapon_097_ww2"
+      ],
       "relatedWeapons": [
         "两栖攻击舰",
         "两栖登陆舰"
       ],
-      "time": 1961
+      "time": 1961,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_sea_fleet_replenishment_1941",
@@ -5410,13 +5525,17 @@
       "type": "Technology",
       "description": "远洋运输、横向补给和舰队油弹补给组织成熟后，运输船、补给舰与后续两栖平台拥有共同后勤基础。",
       "tooltip": "远洋运输、横向补给和舰队油弹补给组织成熟后，运输船、补给舰与后续两栖平台拥有共同后勤基础。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_096_ww1",
+        "weapon_048_ww1"
+      ],
       "relatedWeapons": [
         "运输船",
         "补给舰",
         "两栖攻击舰"
       ],
-      "time": 1941
+      "time": 1941,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_sea_capital_fire_control_1935",
@@ -5427,19 +5546,25 @@
       "category": "海军",
       "categoryKey": "Sea",
       "subcategory": "轻型巡洋舰 / 重型巡洋舰 / 战列巡洋舰 / 战列舰",
-      "era": "ww1",
-      "eraName": "一战",
+      "era": "ww2",
+      "eraName": "二战",
       "type": "Technology",
       "description": "光学测距、机械弹道计算机和集中射击指挥，让巡洋舰与主力舰的二战形态共享舰炮火控前置。",
       "tooltip": "光学测距、机械弹道计算机和集中射击指挥，让巡洋舰与主力舰的二战形态共享舰炮火控前置。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_050_ww1",
+        "weapon_051_ww1",
+        "weapon_053_ww1",
+        "weapon_054_ww1"
+      ],
       "relatedWeapons": [
         "轻型巡洋舰",
         "重型巡洋舰",
         "战列巡洋舰",
         "战列舰"
       ],
-      "time": 1935
+      "time": 1935,
+      "prerequisiteMode": "any"
     },
     {
       "id": "tech_sea_sub_silencing_missile_1993",
@@ -5455,13 +5580,18 @@
       "type": "Technology",
       "description": "消声瓦、泵喷推进和潜射导弹系统成熟后，常规潜艇与核潜艇在现代化方向上产生共同前置。",
       "tooltip": "消声瓦、泵喷推进和潜射导弹系统成熟后，常规潜艇与核潜艇在现代化方向上产生共同前置。",
-      "prerequisites": [],
+      "prerequisites": [
+        "weapon_057_coldWar",
+        "weapon_058_coldWar",
+        "weapon_059_coldWar"
+      ],
       "relatedWeapons": [
         "常规潜艇",
         "攻击核潜艇",
         "战略核潜艇"
       ],
-      "time": 1993
+      "time": 1993,
+      "prerequisiteMode": "any"
     }
   ]
 }

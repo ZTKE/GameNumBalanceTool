@@ -358,7 +358,7 @@
         <div class="detail-era" id="detailEra"></div>
         <div class="detail-meta" id="detailMeta"></div>
         <div class="detail-desc" id="detailDesc"></div>
-        <div class="detail-prereq-title">前置节点</div>
+        <div class="detail-prereq-title" id="detailPrereqTitle">前置节点</div>
         <div class="detail-prereq-list" id="detailPrereq"></div>
         <div class="detail-prereq-title">解锁后续</div>
         <div class="detail-prereq-list" id="detailUnlocks"></div>
@@ -531,6 +531,7 @@
                     baseName: base,
                     originName: raw.originName || base,
                     relatedWeapons: Array.isArray(raw.relatedWeapons) ? raw.relatedWeapons.map(x => String(x).trim()).filter(Boolean) : [],
+                    prerequisiteMode: raw.prerequisiteMode || raw.prerequisiteLogic || '',
                     cat: normalizeCategory(raw.category),
                     subcat: sub,
                     era: normalizeEra(raw.era),
@@ -1205,6 +1206,12 @@
             }
             document.getElementById('detailMeta').textContent = `${categoryLabel(n.cat)} | ${identity} | ${typeLabel} | ${nodeTime(n)}年`;
             document.getElementById('detailDesc').textContent = n.desc;
+
+            const preTitle = document.getElementById('detailPrereqTitle');
+            if (preTitle) {
+                const isAnyMode = n.prerequisiteMode === 'any' && n.pre && n.pre.length > 1;
+                preTitle.textContent = isAnyMode ? '前置节点（任一）' : '前置节点';
+            }
 
             const preList = document.getElementById('detailPrereq');
             preList.innerHTML = '';

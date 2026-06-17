@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>科技树 - 自动布局与依赖优化</title>
+    <link rel="icon" href="data:,">
+    <title>武器节点清单</title>
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -185,12 +186,12 @@
 
         .link-main {
             stroke: rgba(255,255,255,0.7);
-            stroke-width: 3px;
+            stroke-width: 2.4px;
             fill: none;
         }
         .link-module {
             stroke: rgba(255,255,255,0.4);
-            stroke-width: 1px;
+            stroke-width: 1.8px;
             fill: none;
         }
         .link-cross {
@@ -201,10 +202,13 @@
         }
         .link-tech {
             stroke: rgba(255,193,7,0.6);
-            stroke-width: 2px;
+            stroke-width: 2.2px;
             stroke-dasharray: 8,4;
             fill: none;
             animation: techPulse 2s infinite;
+        }
+        .link {
+            marker-end: url(#arrow-default);
         }
         @keyframes techPulse {
             0%, 100% { stroke-opacity: 0.6; }
@@ -213,6 +217,7 @@
         .link.highlighted {
             stroke: #e94560;
             stroke-width: 3px;
+            marker-end: url(#arrow-highlight);
         }
 
         /* 核心技术节点特殊样式 */
@@ -225,8 +230,9 @@
         }
 
         .node {
-            width: 55px;
-            padding: 4px 2px;
+            width: 88px;
+            min-height: 42px;
+            padding: 4px 3px;
             border-radius: 3px;
             text-align: center;
             cursor: grab;
@@ -261,12 +267,15 @@
             border: 1px solid rgba(0,0,0,0.3);
         }
         .node.Unit .node-type-dot { background: #fff; }
+        .node.Weapon .node-type-dot { background: #fff; }
+        .node.Technology .node-type-dot { background: #ffc107; }
         .node.Module .node-type-dot { background: #888; }
         .node.Upgrade .node-type-dot { background: #e94560; }
 
         .node-name {
             font-weight: bold;
             line-height: 1.1;
+            word-break: break-all;
         }
         .node-year {
             font-size: 7px;
@@ -279,7 +288,7 @@
             border: 1px solid rgba(255,255,255,0.2);
             border-radius: 6px;
             padding: 8px;
-            max-width: 220px;
+            max-width: 260px;
             z-index: 2000;
             box-shadow: 0 2px 15px rgba(0,0,0,0.5);
             display: none;
@@ -322,7 +331,7 @@
 </head>
 <body>
     <div class="header">
-        <h1>武器科技树</h1>
+        <h1>武器节点清单</h1>
         <div class="header-info" id="nodeCount">节点: 0 | 连线: 0</div>
         <div id="jsonLoadHint"></div>
         <input type="file" id="techJsonFile" accept=".json,application/json" style="display:none" />
@@ -349,14 +358,16 @@
         <div class="detail-era" id="detailEra"></div>
         <div class="detail-meta" id="detailMeta"></div>
         <div class="detail-desc" id="detailDesc"></div>
-        <div class="detail-prereq-title">前置科技（全部）</div>
+        <div class="detail-prereq-title">前置节点</div>
         <div class="detail-prereq-list" id="detailPrereq"></div>
+        <div class="detail-prereq-title">解锁后续</div>
+        <div class="detail-prereq-list" id="detailUnlocks"></div>
     </div>
 
-    <div class="hint">本地双击打开时请点「打开 JSON」加载数据 | 悬停查看详情 | 点击高亮路径 | 拖拽调整位置</div>
+    <div class="hint">箭头方向：前置节点 → 解锁节点 | 悬停查看前置与后续 | 点击高亮路径</div>
 
     <div class="legend">
-        <div><span style="border-bottom:1.5px solid rgba(255,255,255,0.5)">实线</span> = 同类别</div>
+        <div><span style="border-bottom:1.5px solid rgba(255,255,255,0.5)">箭头</span> = 前置 → 后续</div>
         <div><span style="border-bottom:1px dashed rgba(233,69,96,0.3)">虚线</span> = 跨类别</div>
     </div>
 
@@ -401,66 +412,25 @@
         }
 
         const MODULAR_JSON_FILE = '海陆空武器模块化科技树.json';
-        const WEAPON_KINDS_CSV_FILE = '../战争/weapons_first2_columns_merged.csv';
-
-        /** CSV 首列「武器种类」首次出现顺序（fetch 失败时使用，与 weapons_first2_columns_merged.csv 一致） */
-        const FALLBACK_WEAPON_KINDS = [
-            '栓动步枪', '突击步枪', '冲锋枪', '机枪', '反坦克步枪', '反坦克炮', '反坦克歼击车', '单兵反坦克导弹',
-            '迫击炮', '步兵炮', '无后坐力炮', '自行突击炮', '野战火炮', '重型火炮', '自行火炮', '火箭炮',
-            '防空炮', '防空自行火炮', '便携式防空导弹', '轮式装甲车', '履带式步兵战车', '无人机', '陆军直升机',
-            '轻型坦克', '中型坦克', '重型坦克', '主战坦克', '支援器材', '通用军车', '轻型战斗机', '重型战斗机',
-            '早期喷气机', '多用途战斗机', '对海轰炸机', '对海战斗机', '强击机', '海军直升机', '战术轰炸机',
-            '战略轰炸机', '侦察机', '预警机', '空中加油机', '电子战飞机', '运输机', '地对地导弹', '地对空导弹',
-            '护卫舰', '驱逐舰', '轻型巡洋舰', '重型巡洋舰', '导弹巡洋舰', '战列巡洋舰', '战列舰',
-            '轻型航空母舰', '重型航空母舰', '常规潜艇', '攻击核潜艇', '战略核潜艇', '补给舰', '两栖攻击舰',
-            '运输船', '两栖登陆舰', '单兵制服'
-        ];
-
-        function parseWeaponKindCsvText(text) {
-            const lines = String(text).trim().split(/\r?\n/);
-            const kinds = [];
-            const seen = new Set();
-            for (let i = 1; i < lines.length; i++) {
-                const line = lines[i].trim();
-                if (!line) continue;
-                const kind = line.split(',')[0].trim();
-                if (!kind || seen.has(kind)) continue;
-                seen.add(kind);
-                kinds.push(kind);
-            }
-            return kinds;
-        }
-
-        async function loadWeaponKindOrder() {
-            try {
-                const res = await fetch(WEAPON_KINDS_CSV_FILE, { cache: 'no-store' });
-                if (!res.ok) throw new Error('HTTP ' + res.status);
-                const parsed = parseWeaponKindCsvText(await res.text());
-                if (parsed.length) return parsed;
-            } catch (e) {
-                console.warn('无法加载武器种类 CSV，使用内置列表：', e);
-            }
-            return [...FALLBACK_WEAPON_KINDS];
-        }
+        let metaWeaponKindOrder = [];
 
         /** 从 Unit 的 description 解析「武器种类:时代」片段，仅保留 CSV 中出现的种类名 */
         function kindsFromUnitDescription(desc, csvSet) {
             const out = new Set();
-            if (!desc || !String(desc).trim() || !csvSet.size) return out;
+            if (!desc || !String(desc).trim()) return out;
             String(desc).split('=').forEach(part => {
                 const seg = part.trim();
                 if (!seg) return;
                 const idx = seg.lastIndexOf(':');
                 const kind = (idx >= 0 ? seg.slice(0, idx) : seg).trim();
-                if (csvSet.has(kind)) out.add(kind);
+                if (!csvSet.size || csvSet.has(kind)) out.add(kind);
             });
             return out;
         }
 
         /**
          * 为每个节点写入 weaponKinds:Set<string>
-         * 1) 从 Unit 描述解析种类，沿 prerequisites 向上传播到祖先
-         * 2) 再沿前置关系向下合并，使模块/升级继承关联单位线的种类
+         * 新 JSON 直接使用 baseName/originName；旧 JSON 仍可从 Unit 描述兜底解析。
          */
         function assignWeaponKindsToTechData(list, csvKinds) {
             const csvSet = new Set(csvKinds);
@@ -471,8 +441,24 @@
             });
             list.forEach(n => { n.weaponKinds = new Set(); });
 
+            let hasExplicitWeaponKind = false;
             list.forEach(n => {
-                if (n.type !== 'Unit') return;
+                const explicitKinds = [];
+                if (n.baseName) explicitKinds.push(n.baseName);
+                if (n.originName) explicitKinds.push(n.originName);
+                if (n.weaponKind) explicitKinds.push(n.weaponKind);
+                if (Array.isArray(n.relatedWeapons)) explicitKinds.push(...n.relatedWeapons);
+                explicitKinds.forEach(kind => {
+                    const k = String(kind).trim();
+                    if (!k) return;
+                    hasExplicitWeaponKind = true;
+                    n.weaponKinds.add(k);
+                });
+            });
+            if (hasExplicitWeaponKind) return;
+
+            list.forEach(n => {
+                if (n.type !== 'Unit' && n.type !== 'Weapon') return;
                 const ku = kindsFromUnitDescription(n.desc, csvSet);
                 if (!ku.size) return;
                 const st = [n];
@@ -507,6 +493,20 @@
             }
         }
 
+        function deriveWeaponKindOrder(list, preferredOrder) {
+            const order = [];
+            const seen = new Set();
+            const add = kind => {
+                const k = kind != null ? String(kind).trim() : '';
+                if (!k || seen.has(k)) return;
+                seen.add(k);
+                order.push(k);
+            };
+            (preferredOrder || []).forEach(add);
+            list.forEach(n => (n.weaponKinds || new Set()).forEach(add));
+            return order;
+        }
+
         function stripJsonComments(str) {
             return str.replace(/^\s*\/\/.*$/gm, '');
         }
@@ -517,21 +517,29 @@
             return rawNodes.map(raw => {
                 const ty = raw.type || 'Unit';
                 const tim = raw.time != null ? Number(raw.time) : 0;
+                const display = raw.displayName || raw.name || raw.baseName || raw.originName || raw.id;
+                const base = raw.baseName || raw.originName || raw.weaponKind || '';
                 const sub =
                     (raw.subcategory != null && String(raw.subcategory).trim()) ||
                     (raw.subcat != null && String(raw.subcat).trim()) ||
-                    (ty === 'Unit' ? '装备' : '组件');
+                    (base && String(base).trim()) ||
+                    (ty === 'Weapon' || ty === 'Unit' ? '装备' : '组件');
                 return {
                     id: raw.id,
-                    name: raw.name,
+                    weaponId: raw.weaponId,
+                    name: display,
+                    baseName: base,
+                    originName: raw.originName || base,
+                    relatedWeapons: Array.isArray(raw.relatedWeapons) ? raw.relatedWeapons.map(x => String(x).trim()).filter(Boolean) : [],
                     cat: normalizeCategory(raw.category),
                     subcat: sub,
                     era: normalizeEra(raw.era),
+                    eraName: raw.eraName,
                     time: tim,
                     year: tim,
                     type: ty,
-                    tier: ty === 'Unit' ? 'main' : 'module',
-                    desc: raw.description || '',
+                    tier: (ty === 'Module' || ty === 'Upgrade') ? 'module' : 'main',
+                    desc: raw.tooltip || raw.description || '',
                     pre: Array.isArray(raw.prerequisites) ? [...raw.prerequisites] : []
                 };
             });
@@ -555,6 +563,9 @@
                     if (label) typeNames[key] = String(label);
                 });
             }
+            metaWeaponKindOrder = Array.isArray(meta.weaponOrder)
+                ? meta.weaponOrder.map(x => String(x).trim()).filter(Boolean)
+                : [];
             document.querySelectorAll('.era-btn[data-era]').forEach(btn => {
                 const key = btn.dataset.era;
                 if (key && key !== 'all' && eraNames[key]) btn.textContent = eraNames[key];
@@ -575,22 +586,23 @@
         // ========== 配置常量 ==========
         let eraNames = { ww1: '一战', ww2: '二战', coldWar: '冷战', modern: '现代' };
         const eraColors = { ww1: '#8b4513', ww2: '#f39c12', coldWar: '#3498db', modern: '#1abc9c' };
-        let typeNames = { Unit: '单位', Module: '模块', Upgrade: '升级' };
+        let typeNames = { Unit: '单位', Weapon: '武器节点', Technology: '关键技术', Module: '模块', Upgrade: '升级' };
 
-        // 时间轴配置（2年间隔，从1900开始，扩展到2030）
+        // 时间轴配置（2年间隔，覆盖武器节点估算年份 1910-2010）
         const yearStep = 2;
         const timelineYears = [];
-        for (let y = 1900; y <= 2030; y += yearStep) timelineYears.push(y);
+        for (let y = 1910; y <= 2010; y += yearStep) timelineYears.push(y);
 
         const columnWidth = 60;
-        const rowHeight = 130;  // 增大行高，容纳主节点+上下组件（各偏移55px）
-        const nodeWidth = 55;
-        const nodeHeight = 30;
+        const rowHeight = 82;
+        const nodeWidth = 88;
+        const nodeHeight = 46;
 
         let currentEra = 'all';
         let currentWeaponKind = 'all';
-        let weaponKindOrder = [...FALLBACK_WEAPON_KINDS];
+        let weaponKindOrder = [];
         let nodePositions = {};
+        let layoutRows = [];
         let techData = [];
         let techById = new Map();
 
@@ -620,111 +632,228 @@
             return Array.from(subcats.values());
         }
 
+        function isTechNode(node) {
+            return node.type === 'Technology' || node.subcat === '核心技术';
+        }
+
+        function rowY(rowIndex) {
+            return rowIndex * rowHeight + rowHeight / 2 + 20;
+        }
+
+        function stackOffset(index, gap) {
+            if (index === 0) return 0;
+            const sign = index % 2 === 1 ? -1 : 1;
+            return sign * Math.ceil(index / 2) * gap;
+        }
+
+        function computeLinkedIds(nodes) {
+            const visibleById = new Map(nodes.map(n => [String(n.id), n]));
+            const linkedIds = new Set();
+            nodes.forEach(n => {
+                (n.pre || []).forEach(pid => {
+                    if (visibleById.has(String(pid))) {
+                        linkedIds.add(String(n.id));
+                        linkedIds.add(String(pid));
+                    }
+                });
+            });
+            return linkedIds;
+        }
+
+        function buildLayoutRows(nodes) {
+            const rows = [];
+            const used = new Set();
+
+            const orderIndex = new Map(weaponKindOrder.map((k, i) => [k, i]));
+            const categoryRank = { Land: 0, Air: 1, Sea: 2 };
+            const categoryOrder = ['Land', 'Air', 'Sea'];
+
+            const subcatInfo = new Map();
+            nodes.forEach(n => {
+                if (isTechNode(n)) return;
+                const key = n.subcat != null ? String(n.subcat).trim() : '';
+                if (!key || key === '核心技术') return;
+                const info = subcatInfo.get(key) || {
+                    id: key,
+                    cat: n.cat,
+                    minTime: Infinity,
+                    order: orderIndex.has(key) ? orderIndex.get(key) : 9999
+                };
+                info.cat = info.cat || n.cat;
+                info.minTime = Math.min(info.minTime, nodeTime(n));
+                subcatInfo.set(key, info);
+            });
+
+            const addRow = (subcat, reason = 'normal', group = '', rowCat = '') => {
+                const key = subcat != null ? String(subcat).trim() : '';
+                if (!key || key === '核心技术' || used.has(key)) return;
+                used.add(key);
+                const info = subcatInfo.get(key);
+                rows.push({
+                    id: key,
+                    name: key,
+                    reason,
+                    group,
+                    cat: rowCat || info?.cat || 'Land',
+                    primaryCat: info?.cat || rowCat || 'Land'
+                });
+            };
+
+            const sortKinds = kinds => Array.from(new Set(kinds))
+                .filter(k => subcatInfo.has(k))
+                .sort((a, b) => {
+                    const ia = subcatInfo.get(a);
+                    const ib = subcatInfo.get(b);
+                    if ((ia.order ?? 9999) !== (ib.order ?? 9999)) return (ia.order ?? 9999) - (ib.order ?? 9999);
+                    return (ia.minTime ?? 0) - (ib.minTime ?? 0) || String(a).localeCompare(String(b), 'zh-Hans-CN');
+                });
+
+            const techGroups = nodes
+                .filter(isTechNode)
+                .map(tech => {
+                    const kinds = sortKinds(tech.relatedWeapons || []);
+                    if (kinds.length < 2) return null;
+                    const catScores = new Map();
+                    kinds.forEach(k => {
+                        const cat = subcatInfo.get(k)?.cat || tech.cat || 'Land';
+                        catScores.set(cat, (catScores.get(cat) || 0) + 1);
+                    });
+                    const dominantCat = Array.from(catScores.entries())
+                        .sort((a, b) => b[1] - a[1] || (categoryRank[a[0]] ?? 9) - (categoryRank[b[0]] ?? 9))[0]?.[0] || tech.cat || 'Land';
+                    const groupCat = tech.cat || dominantCat;
+                    const firstInfo = kinds.map(k => subcatInfo.get(k)).sort((a, b) => {
+                        if ((a.order ?? 9999) !== (b.order ?? 9999)) return (a.order ?? 9999) - (b.order ?? 9999);
+                        return (a.minTime ?? 0) - (b.minTime ?? 0);
+                    })[0];
+                    return {
+                        tech,
+                        kinds,
+                        groupCat,
+                        minOrder: firstInfo?.order ?? 9999,
+                        minTime: Math.min(nodeTime(tech), firstInfo?.minTime ?? nodeTime(tech))
+                    };
+                })
+                .filter(Boolean)
+                .sort((a, b) => {
+                    const ca = categoryRank[a.groupCat] ?? 9;
+                    const cb = categoryRank[b.groupCat] ?? 9;
+                    if (ca !== cb) return ca - cb;
+                    if (a.minOrder !== b.minOrder) return a.minOrder - b.minOrder;
+                    return a.minTime - b.minTime || String(a.tech.id).localeCompare(String(b.tech.id));
+                });
+
+            categoryOrder.forEach(cat => {
+                techGroups
+                    .filter(g => g.groupCat === cat)
+                    .forEach(g => {
+                        g.kinds.forEach(kind => addRow(kind, 'linked', g.tech.name, cat));
+                    });
+
+                Array.from(subcatInfo.values())
+                    .filter(info => info.cat === cat && !used.has(info.id))
+                    .sort((a, b) => {
+                        if ((a.order ?? 9999) !== (b.order ?? 9999)) return (a.order ?? 9999) - (b.order ?? 9999);
+                        return (a.minTime ?? 0) - (b.minTime ?? 0) || String(a.id).localeCompare(String(b.id), 'zh-Hans-CN');
+                    })
+                    .forEach(info => addRow(info.id, 'normal', '', cat));
+            });
+
+            techGroups
+                .filter(g => !categoryOrder.includes(g.groupCat))
+                .forEach(g => g.kinds.forEach(kind => addRow(kind, 'linked', g.tech.name, g.groupCat)));
+
+            Array.from(subcatInfo.values())
+                .filter(info => !used.has(info.id))
+                .sort((a, b) => {
+                    const ca = categoryRank[a.cat] ?? 9;
+                    const cb = categoryRank[b.cat] ?? 9;
+                    if (ca !== cb) return ca - cb;
+                    if ((a.order ?? 9999) !== (b.order ?? 9999)) return (a.order ?? 9999) - (b.order ?? 9999);
+                    return (a.minTime ?? 0) - (b.minTime ?? 0) || String(a.id).localeCompare(String(b.id), 'zh-Hans-CN');
+                })
+                .forEach(info => addRow(info.id, 'normal', '', info.cat));
+
+            if (!rows.length) rows.push({ id: '默认', name: '默认', reason: 'fallback' });
+            return rows;
+        }
+
         function calculateLayout(nodes) {
             const positions = {};
+            const visibleById = new Map(nodes.map(n => [String(n.id), n]));
+            layoutRows = buildLayoutRows(nodes);
 
-            // 获取子类别列表并排序（按数量降序）
-            const allSubcats = getAllSubcategories(nodes);
+            const rowIndexBySubcat = new Map();
+            layoutRows.forEach((row, idx) => rowIndexBySubcat.set(row.id, idx));
 
-            // 跨域/综合类子类排到行末
-            const subcatTail = new Set(['导弹', '核心技术', '坦克技术', '舰船技术', '航空技术', '支援']);
-            allSubcats.sort((a, b) => {
-                const ta = subcatTail.has(a.id) ? 1 : 0;
-                const tb = subcatTail.has(b.id) ? 1 : 0;
-                if (ta !== tb) return ta - tb;
-                return b.count - a.count;
-            });
+            const occupiedSlots = new Map();
+            const weaponNodes = nodes
+                .filter(n => !isTechNode(n))
+                .sort((a, b) => {
+                    const ra = rowIndexBySubcat.get(a.subcat) ?? 0;
+                    const rb = rowIndexBySubcat.get(b.subcat) ?? 0;
+                    return ra - rb || nodeTime(a) - nodeTime(b) || String(a.id).localeCompare(String(b.id));
+                });
 
-            // 为每个子类别分配行号
-            const subcatRows = new Map();
-            allSubcats.forEach((sub, idx) => {
-                subcatRows.set(sub.id, idx);
-            });
-
-            // 按子类别分组
-            const bySubcat = new Map();
-            nodes.forEach(n => {
-                if (!bySubcat.has(n.subcat)) bySubcat.set(n.subcat, []);
-                bySubcat.get(n.subcat).push(n);
-            });
-
-            // 每组内按年份排序
-            bySubcat.forEach((list, subcat) => {
-                list.sort((a, b) => nodeTime(a) - nodeTime(b));
-            });
-
-            // 先处理主干节点，分配基础位置
-            const mainNodes = nodes.filter(n => n.tier === 'main' || !n.tier);
-            const moduleNodes = nodes.filter(n => n.tier === 'module');
-
-            // 记录每个位置已占用的节点数量（用于避免重叠）
-            const occupiedSlots = new Map(); // key: "row-year", value: count
-
-            // 主干节点位置
-            mainNodes.forEach(node => {
-                const rowIndex = subcatRows.get(node.subcat) || 0;
-                const baseX = calculateBaseX(nodeTime(node));
-                const baseY = rowIndex * rowHeight + rowHeight / 2 + 20;
-
-                // 检查同年同行的占用情况
+            weaponNodes.forEach(node => {
+                const rowIndex = rowIndexBySubcat.get(node.subcat) ?? 0;
                 const slotKey = `${rowIndex}-${nodeTime(node)}`;
                 const slotCount = occupiedSlots.get(slotKey) || 0;
                 occupiedSlots.set(slotKey, slotCount + 1);
 
-                // 水平偏移：每个节点增加更大的间距
-                const offsetX = slotCount * (nodeWidth + 20);
-
                 positions[node.id] = {
-                    x: baseX + offsetX,
-                    y: baseY,
-                    node: node
+                    x: calculateBaseX(nodeTime(node)) + slotCount * (nodeWidth + 14),
+                    y: rowY(rowIndex),
+                    node
                 };
             });
 
-            // 组件节点位置：在主干节点上方/下方偏移（根据position属性）
-            moduleNodes.forEach(node => {
-                const rowIndex = subcatRows.get(node.subcat) || 0;
-                const baseX = calculateBaseX(nodeTime(node));
-                const baseY = rowIndex * rowHeight + rowHeight / 2 + 20;
+            const childrenByPre = new Map();
+            nodes.forEach(n => {
+                (n.pre || []).forEach(pid => {
+                    const key = String(pid);
+                    if (!visibleById.has(key)) return;
+                    if (!childrenByPre.has(key)) childrenByPre.set(key, []);
+                    childrenByPre.get(key).push(n);
+                });
+            });
 
-                // 如果有parent字段，挂在父节点上方/下方
-                if (node.parent) {
-                    const parentPos = positions[node.parent];
-                    if (parentPos) {
-                        // 根据position属性决定上方还是下方
-                        // 增大垂直间距到50px
-                        let offsetY;
-                        if (node.position === 'up') {
-                            offsetY = -55;
-                        } else if (node.position === 'down') {
-                            offsetY = 55;
-                        } else {
-                            // 无position属性时，交替上下排列
-                            const siblingModules = moduleNodes.filter(m =>
-                                m.parent === node.parent && positions[m.id]
-                            );
-                            const offsetDir = siblingModules.length % 2 === 0 ? -1 : 1;
-                            offsetY = 50 * offsetDir;
-                        }
+            const techSlotMap = new Map();
+            const techNodes = nodes
+                .filter(isTechNode)
+                .sort((a, b) => nodeTime(a) - nodeTime(b) || String(a.id).localeCompare(String(b.id)));
 
-                        positions[node.id] = {
-                            x: parentPos.x,
-                            y: parentPos.y + offsetY,
-                            node: node
-                        };
-                        return;
-                    }
-                }
+            techNodes.forEach(node => {
+                const ySamples = [];
 
-                // 无parent的组件节点（如核心技术），检查同位置占用
-                const slotKey = `${rowIndex}-${nodeTime(node)}-module`;
-                const slotCount = occupiedSlots.get(slotKey) || 0;
-                occupiedSlots.set(slotKey, slotCount + 1);
+                (node.pre || []).forEach(pid => {
+                    const p = positions[pid];
+                    if (p) ySamples.push(p.y);
+                });
+
+                (childrenByPre.get(String(node.id)) || []).forEach(child => {
+                    const p = positions[child.id];
+                    if (p) ySamples.push(p.y);
+                });
+
+                (node.relatedWeapons || []).forEach(kind => {
+                    const rowIndex = rowIndexBySubcat.get(kind);
+                    if (rowIndex !== undefined) ySamples.push(rowY(rowIndex));
+                });
+
+                let y = ySamples.length
+                    ? (Math.min(...ySamples) + Math.max(...ySamples)) / 2
+                    : rowY(Math.min(layoutRows.length - 1, 0));
+
+                const x = calculateBaseX(nodeTime(node));
+                const yBucket = Math.round(y / (nodeHeight + 12));
+                const slotKey = `${nodeTime(node)}-${yBucket}`;
+                const slotCount = techSlotMap.get(slotKey) || 0;
+                techSlotMap.set(slotKey, slotCount + 1);
 
                 positions[node.id] = {
-                    x: baseX + slotCount * (nodeWidth + 15),
-                    y: baseY - 40,
-                    node: node
+                    x: x + stackOffset(slotCount, nodeWidth + 18),
+                    y: y + stackOffset(slotCount, nodeHeight + 10),
+                    node
                 };
             });
 
@@ -797,7 +926,7 @@
             section.className = 'category-section';
             const title = document.createElement('div');
             title.className = 'category-section-title';
-            title.innerHTML = `<span style="color:${accent}">●</span> 武器种类（CSV）`;
+            title.innerHTML = `<span style="color:${accent}">●</span> 本源武器`;
             section.appendChild(title);
 
             weaponKindOrder.forEach(kind => {
@@ -840,7 +969,9 @@
             // - 前向：只从「种子」出发，若某节点的任一前置已在「前向集」内则纳入（避免共享祖先把兄弟武器线整支并入）
             if (currentWeaponKind !== 'all') {
                 const K = currentWeaponKind;
-                const seeds = techData.filter(n => n.weaponKinds && n.weaponKinds.has(K));
+                const belongsToKind = n => n.weaponKinds && n.weaponKinds.has(K);
+                const shouldShowForKind = n => belongsToKind(n) || isTechNode(n);
+                const seeds = techData.filter(belongsToKind);
                 const backward = new Set();
                 const stack = [...seeds];
                 while (stack.length) {
@@ -849,7 +980,7 @@
                     backward.add(n.id);
                     (n.pre || []).forEach(pid => {
                         const p = techById.get(pid) || techById.get(String(pid));
-                        if (p) stack.push(p);
+                        if (p && shouldShowForKind(p)) stack.push(p);
                     });
                 }
                 const forward = new Set(seeds.map(n => n.id));
@@ -858,6 +989,7 @@
                     grow = false;
                     techData.forEach(n => {
                         if (forward.has(n.id)) return;
+                        if (!shouldShowForKind(n)) return;
                         if (!n.pre || !n.pre.length) return;
                         if (n.pre.some(pid => forward.has(pid))) {
                             forward.add(n.id);
@@ -880,24 +1012,36 @@
             canvas.style.width = size.width + 'px';
             canvas.style.height = size.height + 'px';
 
-            // 绘制行背景线（与 calculateLayout 行顺序一致）
-            const allSubcats = getAllSubcategories(nodes);
-            const subcatTailRows = new Set(['核心技术', '坦克技术', '舰船技术', '航空技术', '导弹', '支援']);
-            allSubcats.sort((a, b) => {
-                const ta = subcatTailRows.has(a.id) ? 1 : 0;
-                const tb = subcatTailRows.has(b.id) ? 1 : 0;
-                if (ta !== tb) return ta - tb;
-                return b.count - a.count;
-            });
-            allSubcats.forEach((sub, idx) => {
+            // 绘制行背景线（与 calculateLayout 的聚类行顺序一致）
+            layoutRows.forEach((sub, idx) => {
+                const isCategoryStart = idx === 0 || sub.cat !== layoutRows[idx - 1].cat;
                 const rowLine = document.createElement('div');
                 rowLine.style.position = 'absolute';
-                rowLine.style.top = (idx * rowHeight + rowHeight / 2 + 20) + 'px';
+                rowLine.style.top = rowY(idx) + 'px';
                 rowLine.style.left = '20px';
                 rowLine.style.width = size.width + 'px';
-                rowLine.style.height = '1px';
-                rowLine.style.background = 'rgba(255,255,255,0.1)';
+                rowLine.style.height = isCategoryStart ? '2px' : '1px';
+                rowLine.style.background = isCategoryStart
+                    ? 'rgba(255,255,255,0.28)'
+                    : (sub.reason === 'linked' ? 'rgba(255,255,255,0.14)' : 'rgba(255,255,255,0.07)');
                 canvas.appendChild(rowLine);
+
+                if (isCategoryStart) {
+                    const label = document.createElement('div');
+                    label.style.position = 'absolute';
+                    label.style.left = '8px';
+                    label.style.top = (rowY(idx) - 50) + 'px';
+                    label.style.padding = '2px 6px';
+                    label.style.borderRadius = '3px';
+                    label.style.background = 'rgba(255,255,255,0.1)';
+                    label.style.border = '1px solid rgba(255,255,255,0.16)';
+                    label.style.color = '#fff';
+                    label.style.fontSize = '10px';
+                    label.style.fontWeight = '700';
+                    label.style.pointerEvents = 'none';
+                    label.textContent = categoryLabel(sub.cat);
+                    canvas.appendChild(label);
+                }
             });
 
             // SVG连线层
@@ -905,6 +1049,7 @@
             svgLayer.setAttribute('class', 'svg-layer');
             svgLayer.style.width = size.width + 'px';
             svgLayer.style.height = size.height + 'px';
+            appendArrowMarkers(svgLayer);
             canvas.appendChild(svgLayer);
 
             // 节点
@@ -928,7 +1073,7 @@
 
                 const name = document.createElement('div');
                 name.className = 'node-name';
-                name.textContent = node.name.length > 6 ? node.name.slice(0,5)+'..' : node.name;
+                name.textContent = node.name;
                 el.appendChild(name);
 
                 const yr = document.createElement('div');
@@ -953,6 +1098,7 @@
 
         function drawLinks(nodes, positions, svgLayer) {
             while (svgLayer.firstChild) svgLayer.removeChild(svgLayer.firstChild);
+            appendArrowMarkers(svgLayer);
 
             nodes.forEach(node => {
                 if (!node.pre || node.pre.length === 0) return;
@@ -980,12 +1126,16 @@
                     let linkClass = 'link ';
                     if (isTechLink) {
                         linkClass += 'link-tech';
+                        path.setAttribute('marker-end', 'url(#arrow-tech)');
                     } else if (!isSameCategory) {
                         linkClass += 'link-cross';
+                        path.setAttribute('marker-end', 'url(#arrow-cross)');
                     } else if (isMainLink) {
                         linkClass += 'link-main';
+                        path.setAttribute('marker-end', 'url(#arrow-default)');
                     } else {
                         linkClass += 'link-module';
+                        path.setAttribute('marker-end', 'url(#arrow-default)');
                     }
                     path.setAttribute('class', linkClass);
                     path.setAttribute('data-from', preId);
@@ -995,15 +1145,38 @@
             });
         }
 
+        function appendArrowMarkers(svgLayer) {
+            const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+            defs.innerHTML = `
+                <marker id="arrow-default" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L9,3.5 L0,7 z" fill="rgba(255,255,255,0.75)"></path>
+                </marker>
+                <marker id="arrow-tech" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L9,3.5 L0,7 z" fill="rgba(255,193,7,0.85)"></path>
+                </marker>
+                <marker id="arrow-cross" markerWidth="9" markerHeight="7" refX="8" refY="3.5" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L9,3.5 L0,7 z" fill="rgba(233,69,96,0.8)"></path>
+                </marker>
+                <marker id="arrow-highlight" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto" markerUnits="strokeWidth">
+                    <path d="M0,0 L10,4 L0,8 z" fill="#e94560"></path>
+                </marker>
+            `;
+            svgLayer.appendChild(defs);
+        }
+
         // 生成直角路径（水平→垂直→水平）
         function generateOrthogonalPath(x1, y1, x2, y2) {
+            const dir = x2 >= x1 ? 1 : -1;
+            const startX = x1 + dir * (nodeWidth / 2 + 5);
+            const endX = x2 - dir * (nodeWidth / 2 + 8);
+
             // 同一行：直接水平线
             if (Math.abs(y1 - y2) < 5) {
-                return `M${Math.round(x1)},${Math.round(y1)} L${Math.round(x2)},${Math.round(y2)}`;
+                return `M${Math.round(startX)},${Math.round(y1)} L${Math.round(endX)},${Math.round(y2)}`;
             }
             // 不同行：先水平到中点，再垂直，再水平
-            const midX = Math.round((x1 + x2) / 2);
-            return `M${Math.round(x1)},${Math.round(y1)} H${midX} V${Math.round(y2)} H${Math.round(x2)}`;
+            const midX = Math.round((startX + endX) / 2);
+            return `M${Math.round(startX)},${Math.round(y1)} H${midX} V${Math.round(y2)} H${Math.round(endX)}`;
         }
 
         // ========== 交互功能 ==========
@@ -1022,7 +1195,15 @@
             eraBadge.textContent = eraNames[er] || er;
             eraBadge.style.background = eraColors[er] || '#666';
 
-            document.getElementById('detailMeta').textContent = `${categoryLabel(n.cat)} | ${typeNames[n.type] || n.type} | ${nodeTime(n)}年`;
+            const typeLabel = typeNames[n.type] || n.type;
+            let identity = '';
+            if (n.type === 'Technology') {
+                const rel = Array.isArray(n.relatedWeapons) && n.relatedWeapons.length ? n.relatedWeapons.join(' / ') : '未指定';
+                identity = `关联：${rel}`;
+            } else {
+                identity = `本源：${n.baseName || n.originName || '未知'}`;
+            }
+            document.getElementById('detailMeta').textContent = `${categoryLabel(n.cat)} | ${identity} | ${typeLabel} | ${nodeTime(n)}年`;
             document.getElementById('detailDesc').textContent = n.desc;
 
             const preList = document.getElementById('detailPrereq');
@@ -1046,6 +1227,25 @@
                 });
             } else {
                 preList.innerHTML = '<span class="detail-prereq-item">无前置</span>';
+            }
+
+            const unlockList = document.getElementById('detailUnlocks');
+            unlockList.innerHTML = '';
+            const unlocked = techData.filter(t => (t.pre || []).some(pid => sameTechId(pid, n.id)));
+            if (unlocked.length > 0) {
+                unlocked
+                    .sort((a, b) => nodeTime(a) - nodeTime(b) || String(a.name).localeCompare(String(b.name), 'zh-Hans-CN'))
+                    .forEach(child => {
+                        const item = document.createElement('span');
+                        item.className = 'detail-prereq-item';
+                        const isCross = child.cat !== n.cat;
+                        if (isCross) item.classList.add('cross');
+                        item.textContent = child.name + (isCross ? ' [跨]' : '');
+                        item.onclick = () => focusNode(child.id);
+                        unlockList.appendChild(item);
+                    });
+            } else {
+                unlockList.innerHTML = '<span class="detail-prereq-item">无后续</span>';
             }
 
             const rect = this.getBoundingClientRect();
@@ -1157,7 +1357,11 @@
                 techById.set(t.id, t);
                 techById.set(String(t.id), t);
             });
-            assignWeaponKindsToTechData(techData, weaponKindOrder);
+            assignWeaponKindsToTechData(techData, metaWeaponKindOrder);
+            weaponKindOrder = deriveWeaponKindOrder(techData, metaWeaponKindOrder);
+            if (currentWeaponKind !== 'all' && !weaponKindOrder.includes(currentWeaponKind)) {
+                currentWeaponKind = 'all';
+            }
             console.log('已加载节点数:', techData.length);
             renderCategorySidebar();
             renderTree();
@@ -1203,7 +1407,6 @@
 
         async function init() {
             bindJsonFilePicker();
-            weaponKindOrder = await loadWeaponKindOrder();
             renderTimelineHeader();
 
             try {
